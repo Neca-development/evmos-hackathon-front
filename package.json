@@ -23,6 +23,9 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@mui/material": "^5.10.2",
     "@reduxjs/toolkit": "^1.8.3",
     "async-mutex": "^0.3.2",
     "classnames": "^2.3.1",
