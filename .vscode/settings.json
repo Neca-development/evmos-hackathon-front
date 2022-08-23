@@ -1,0 +1,53 @@
+{
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "search.exclude": {
+    "package-lock.json": true
+  },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": [
+    "source.addMissingImports",
+    "source.fixAll.eslint"
+  ],
+  // Multiple language settings for json and jsonc files
+  "[json][jsonc]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "[css][scss]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "vsicons.associations.folders": [
+    { "icon": "redux", "extensions": ["store"] },
+    { "icon": "route", "extensions": ["routing"] },
+    { "icon": "bloc", "extensions": ["blockchain"] },
+    { "icon": "route", "extensions": ["constants"] }
+  ],
+
+  "javascript.inlayHints.enumMemberValues.enabled": true,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "javascript.inlayHints.parameterNames.enabled": "all",
+  "javascript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.enumMemberValues.enabled": true,
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+
+  // Превью предложения
+  "editor.suggest.preview": true,
+
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "package.json": "package-lock.json, yarn.lock, .stylelintrc, .stylelintignore",
+    ".eslintrc": ".eslintignore, .prettierrc",
+    "jest.config.js": "jest.setup.js",
+    "styles.ts": "variants.ts, keyframes.ts",
+    "index.tsx": "data.ts, utils.ts, data.tsx",
+    "index.ts": "data.ts, utils.ts, data.tsx, interfaces.ts"
+  }
+}

@@ -1,0 +1,181 @@
+{
+  // Configuration for JavaScript files
+  "extends": [
+    "next",
+    "next/core-web-vitals",
+    "airbnb-base",
+    "plugin:sonarjs/recommended",
+    "plugin:unicorn/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "warn",
+      {
+        "singleQuote": true,
+        "endOfLine": "auto",
+        "semi": false,
+        "printWidth": 90,
+        "spaceBrackets": true
+      },
+      {
+        "usePrettierrc": false
+      }
+    ]
+  },
+  "overrides": [
+    // Configuration for TypeScript files
+
+    {
+      "files": ["**/*.ts", "**/*.tsx", "**/*.jsx"],
+      "plugins": [
+        "@typescript-eslint",
+        "unused-imports",
+        "sonarjs",
+        "simple-import-sort"
+      ],
+      "extends": ["airbnb-typescript", "plugin:prettier/recommended"],
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      },
+      "rules": {
+        //  Prettier rules
+
+        "prettier/prettier": [
+          "warn",
+          {
+            "singleQuote": true,
+            "endOfLine": "auto",
+            "semi": false,
+            "printWidth": 90,
+            "spaceBrackets": true
+          },
+          {
+            "usePrettierrc": false
+          }
+        ],
+
+        // React, NextJS rules
+
+        "jsx-a11y/no-static-element-interactions": "off",
+        "react/jsx-indent-props": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "react/prop-types": "off",
+        "react/destructuring-assignment": "off",
+        "jsx-a11y/anchor-is-valid": "off",
+        "react/require-default-props": "off",
+        "react/jsx-props-no-spreading": "off",
+
+        "react/jsx-indent": "off",
+
+        "@next/next/no-img-element": "off",
+        "react/jsx-curly-spacing": [
+          "warn",
+          {
+            "when": "never"
+          }
+        ],
+        "react-hooks/rules-of-hooks": "warn",
+        "react-hooks/exhaustive-deps": "warn",
+        // @typescript-eslint rules
+
+        "@typescript-eslint/comma-dangle": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/no-invalid-void-type": "off",
+        "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/restrict-template-expressions": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+
+        "@typescript-eslint/restrict-plus-operands": "warn",
+        "@typescript-eslint/no-unused-vars": "warn",
+        "@typescript-eslint/type-annotation-spacing": "warn",
+        "@typescript-eslint/require-array-sort-compare": [
+          "warn",
+          {
+            "ignoreStringArrays": true
+          }
+        ],
+        "@typescript-eslint/consistent-type-imports": "warn",
+
+        // ESlint, TS rules
+
+        "no-param-reassign": "off",
+        "eqeqeq": "off",
+        "react/react-in-jsx-scope": "off",
+        "consistent-return": "off",
+        "class-methods-use-this": "off",
+        "no-console": "off",
+        "no-empty-pattern": "off",
+        "no-empty": "off",
+        "import/no-named-as-default": "off",
+        "no-unused-vars": "off",
+        "no-bitwise": "off",
+
+        "import/prefer-default-export": "off",
+        "no-return-assign": "off",
+        "no-plusplus": "off",
+        "no-multi-assign": "off",
+        "no-useless-escape": "off",
+        "no-restricted-syntax": "off",
+        "no-underscore-dangle": "off",
+        "indent": ["off", 2],
+
+        "no-multiple-empty-lines": "warn",
+        "eol-last": ["warn", "always"],
+        "object-curly-spacing": ["warn", "always"],
+        "array-bracket-spacing": ["warn", "never"],
+        "default-case": "warn",
+
+        "no-unused-expressions": [
+          "error",
+          {
+            "allowShortCircuit": true,
+            "allowTernary": true
+          }
+        ],
+
+        // Unicorn rules
+
+        "unicorn/no-array-for-each": "off",
+        "unicorn/no-null": "off",
+        "unicorn/no-array-reduce": "off",
+        "unicorn/prefer-spread": "off",
+        "unicorn/no-array-callback-reference": "off",
+
+        "unicorn/consistent-function-scoping": "warn",
+        "unicorn/prevent-abbreviations": [
+          "warn",
+          {
+            "checkFilenames": false,
+            "allowList": {
+              "e": true,
+              "err": true,
+              "props": true,
+              "i": true,
+              "prop": true,
+              "res": true,
+              "req": true,
+              "el": true,
+              "lib": true,
+              "rest": true,
+              "args": true,
+              "arg": true
+            }
+          }
+        ],
+
+        // SonarJS rules
+
+        "sonarjs/no-duplicate-string": "warn",
+
+        // Imports rules
+        // TODO setup this rule
+        "simple-import-sort/imports": "warn",
+        "simple-import-sort/exports": "warn",
+        "unused-imports/no-unused-imports": "warn",
+        "unused-imports/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+      }
+    }
+  ]
+}

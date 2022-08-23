@@ -1,0 +1,55 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
+
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "allowUnreachableCode": false,
+    "noFallthroughCasesInSwitch": true,
+
+    "target": "es5",
+    "outDir": "build",
+    "sourceMap": true,
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": false,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "isolatedModules": true,
+    "incremental": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@assets/*": ["src/public/assets/*"],
+      "@pages/*": ["src/pages/*"],
+      "@hooks/*": ["src/common/hooks/*"],
+      "@hoc/*": ["src/common/hoc/*"],
+      "@constants/*": ["src/common/constants/*"],
+      "@configs/*": ["src/common/configs/*"],
+      "@utils/*": ["src/common/utils/*"],
+      "@type/*": ["src/common/types/*"],
+      "@enums/*": ["src/commom/enums/*"],
+      "@api/*": ["src/api/*"],
+      "@styles/*": ["src/styles/*"],
+      "@blockchain/*": ["src/blockchain/*"],
+      "@store/*": ["src/store/*"],
+      "@templates/*": ["src/templates/*"]
+    }
+  },
+  "exclude": ["./build/**/*", "./node_modules/**/*", "**/*.cy.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+}

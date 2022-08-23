@@ -1,0 +1,8 @@
+config-overrides.js
+webpack.config.js
+declarations.d.ts
+.eslintrc.js
+template
+prepublish.js
+node_modules/
+*.config.js

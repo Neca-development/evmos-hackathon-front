@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "mikestead.dotenv",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "streetsidesoftware.code-spell-checker",
+    "syler.sass-indented",
+    "infeng.vscode-react-typescript",
+    "vscode-icons-team.vscode-icons",
+    "dsznajder.es7-react-js-snippets",
+    "aaron-bond.better-comments",
+    "steoates.autoimport",
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-rename-tag"
+  ]
+}
