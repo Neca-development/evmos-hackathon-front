@@ -1,6 +1,6 @@
-import '../styles/global.css'
+import '@shared/styles/global.scss'
 
-import { store } from '@store/store'
+import { store } from '@shared/store'
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
 

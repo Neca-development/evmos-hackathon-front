@@ -1,0 +1,28 @@
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  opacity: 1;
+  transition: 0.4s;
+  background-color: #21212139;
+  z-index: 100;
+}
+
+.modalContent {
+  z-index: 2;
+  width: 95%;
+  max-width: 600px;
+  max-height: 80vh;
+  transition: 0.4s;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  overflow-y: scroll;
+  scrollbar-color: var(--dark-color) #e4e4e4;
+  scrollbar-width: thin;
+}

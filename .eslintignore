@@ -4,5 +4,8 @@ declarations.d.ts
 .eslintrc.js
 template
 prepublish.js
-node_modules/
+node_modules
 *.config.js
+public
+.vscode
+.husky
