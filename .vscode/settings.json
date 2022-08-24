@@ -53,6 +53,8 @@
   "exportall.config.folderListener": [
     "/src/shared/ui/typography",
     "/src/shared/ui",
-    "/src/shared/ui/main"
+    "/src/shared/ui/main",
+    "/src/blockchain",
+    "/src/blockchain/abi"
   ]
 }
