@@ -1,18 +1,18 @@
-import { Container, TextField } from '@mui/material'
-import { Header } from '@shared/ui'
-import { Footer } from '@shared/ui/footer'
+import { Box } from '@mui/material'
+import { Footer, Header, HeadingOne, MainContainer } from '@shared/ui'
 
 export default function HomePage() {
   return (
     <>
-      <Header>Header</Header>
+      <Box className="h-screen flex flex-col">
+        <Header />
 
-      <Container>
-        <TextField label="DAO name" variant="outlined" />
-        <TextField multiline label="DAO description" variant="outlined" />
-      </Container>
+        <MainContainer className="flex-grow flex justify-center items-center">
+          <HeadingOne>Evmos Hackathon</HeadingOne>
+        </MainContainer>
 
-      <Footer>Footer</Footer>
+        <Footer />
+      </Box>
     </>
   )
 }
