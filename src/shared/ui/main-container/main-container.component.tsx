@@ -10,7 +10,10 @@ interface IMainContainerProperties {
 export function MainContainer(props: IMainContainerProperties) {
   const { className, children, ...otherProperties } = props
   return (
-    <main className={classNames('m-6', className)} {...otherProperties}>
+    <main
+      className={classNames('max-w-[1400px] mx-auto py-5', className)}
+      {...otherProperties}
+    >
       {children}
     </main>
   )
