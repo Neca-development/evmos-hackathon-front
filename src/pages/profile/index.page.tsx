@@ -35,7 +35,7 @@ const userDaosList = [
 export default function UserPage() {
   return (
     <>
-      <Header>Header</Header>
+      <Header />
 
       <MainContainer>
         <Box className="mb-10">
@@ -70,7 +70,7 @@ export default function UserPage() {
         </List>
       </MainContainer>
 
-      <Footer>Footer</Footer>
+      <Footer />
     </>
   )
 }
