@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "dev": "next dev",
+    "typechain": "typechain --target=ethers-v5 --out-dir src/blockchain/typechain src/blockchain/abi/*.abi.json",
     "build": "next build",
     "start": "next start",
     "build-stats": "cross-env ANALYZE=true npm run build",
@@ -27,6 +28,7 @@
     "@emotion/styled": "^11.10.0",
     "@mui/material": "^5.10.2",
     "@reduxjs/toolkit": "^1.8.3",
+    "@typechain/ethers-v5": "^10.1.0",
     "@usedapp/core": "^1.1.5",
     "async-mutex": "^0.3.2",
     "classnames": "^2.3.1",
@@ -79,6 +81,7 @@
     "rimraf": "^3.0.2",
     "start-server-and-test": "^1.14.0",
     "tailwindcss": "^3.1.8",
+    "typechain": "^8.1.0",
     "typescript": "^4.7.4"
   },
   "author": "Unistory"
