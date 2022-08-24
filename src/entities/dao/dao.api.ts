@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/dist/query'
 import { baseQuery } from '@shared/api'
 
 export const daoApi = createApi({
-  reducerPath: 'clientsApi',
+  reducerPath: 'daoApi',
   baseQuery,
   tagTypes: ['DAO'],
   endpoints: (builder) => ({
