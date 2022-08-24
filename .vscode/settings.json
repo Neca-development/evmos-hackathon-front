@@ -49,5 +49,10 @@
     "styles.ts": "variants.ts, keyframes.ts",
     "index.tsx": "data.ts, utils.ts, data.tsx",
     "index.ts": "data.ts, utils.ts, data.tsx, interfaces.ts"
-  }
+  },
+  "exportall.config.folderListener": [
+    "/src/shared/ui/typography",
+    "/src/shared/ui",
+    "/src/shared/ui/main"
+  ]
 }
