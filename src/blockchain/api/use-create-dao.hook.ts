@@ -1,27 +1,57 @@
 import { useEthers } from '@usedapp/core'
+import React from 'react'
 
-// import { DAO_FACTORY_ADDRESS } from '../constants'
-// import { DaoFactoryAbi__factory } from '../typechain/factories/DaoFactoryAbi__factory'
+import { DAO_FACTORY_ADDRESS } from '../constants'
+import type { TransactionStatus } from '../lib'
+import { DaoFactoryAbi__factory } from '../typechain/factories/DaoFactoryAbi__factory'
 
 export const useCreateDao = () => {
+  const [txStatus, setTxStatus] = React.useState<TransactionStatus>('none')
+  const [txMessage, setTxMessage] = React.useState('')
+
   const { library } = useEthers()
 
-  const createDao = () => {
-    console.log('commented function')
-    console.log('library:', library)
-    // if (!library) throw new Error('Wallet is not connected')
+  const createDao = async (
+    name: string,
+    symbol: string,
+    commonUri: string,
+    rareUri: string,
+    legendaryUri: string
+  ) => {
+    if (!library) {
+      setTxStatus('error')
+      setTxMessage('Wallet is not connected')
+      return
+    }
 
-    // const daoFactoryContract = DaoFactoryAbi__factory.connect(
-    //   DAO_FACTORY_ADDRESS,
-    //   library
-    // )
+    const daoFactoryContract = DaoFactoryAbi__factory.connect(
+      DAO_FACTORY_ADDRESS,
+      library
+    )
 
-    // try {
-    //   const createDaoTransaction = daoFactoryContract
-    // } catch (error) {
-    //   throw new Error(error)
-    // }
+    try {
+      setTxStatus('pending')
+      setTxMessage('Waiting for wallet confirmation...')
+
+      const createDaoTransaction = await daoFactoryContract.createDAO(
+        name,
+        symbol,
+        commonUri,
+        rareUri,
+        legendaryUri
+      )
+
+      setTxMessage('Waiting for voting creation...')
+
+      await createDaoTransaction.wait()
+
+      setTxStatus('success')
+      setTxMessage('You successfully created new voting')
+    } catch (error: any) {
+      setTxStatus('error')
+      setTxMessage(error.message)
+    }
   }
 
-  return { createDao }
+  return { txStatus, txMessage, createDao }
 }

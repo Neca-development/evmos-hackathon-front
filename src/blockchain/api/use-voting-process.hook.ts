@@ -1,21 +1,18 @@
-import { useEthers } from '@usedapp/core'
 import * as React from 'react'
 
-import { DAO_FACTORY_ADDRESS } from '../constants'
 import type { TransactionStatus } from '../lib'
-import { DaoAbi__factory } from '../typechain/factories/DaoAbi__factory'
+import type { DaoAbi } from '../typechain'
 
-export const useVotingProcess = () => {
+export const useVotingProcess = (daoContract: DaoAbi | null) => {
   const [txStatus, setTxStatus] = React.useState<TransactionStatus>('none')
   const [txMessage, setTxMessage] = React.useState('')
 
-  const { library } = useEthers()
-
   const votingProcess = async (votingId: number, voteType: boolean) => {
-    if (!library) throw new Error('Wallet is not connected')
-
-    const daoContract = DaoAbi__factory.connect(DAO_FACTORY_ADDRESS, library)
-
+    if (!daoContract) {
+      setTxStatus('error')
+      setTxMessage('Wallet is not connected')
+      return
+    }
     try {
       setTxStatus('pending')
       setTxMessage('Waiting for wallet confirmation...')
