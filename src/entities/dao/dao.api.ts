@@ -1,15 +1,17 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@shared/api'
 
+import type { IUploadNftsDto } from './model/dto/upload-nfts.dto'
+
 export const daoApi = createApi({
   reducerPath: 'daoApi',
   baseQuery,
   tagTypes: ['DAO'],
   endpoints: (builder) => ({
-    generateDaoInfoLink: builder.mutation<any, any>({
+    uploadNfts: builder.mutation<void, IUploadNftsDto>({
       query: (body) => {
         return {
-          url: '',
+          url: 'dao/upload-nfts',
           method: 'POST',
           body,
         }
@@ -23,7 +25,7 @@ export const daoApi = createApi({
     generateImageLinks: builder.mutation<any, any>({
       query: (body) => {
         return {
-          url: '',
+          url: 'dao/generate-link',
           method: 'POST',
           body,
         }
@@ -36,4 +38,4 @@ export const daoApi = createApi({
   }),
 })
 
-export const { useGenerateDaoInfoLinkMutation, useGenerateImageLinksMutation } = daoApi
+export const {} = daoApi
