@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 import { FileInput, HeadingTwo } from '@shared/ui'
 import * as React from 'react'
 
@@ -29,44 +29,35 @@ export function CreateDaoForm() {
   }
 
   const handleImageChange = (name: string, newImage: File | null | undefined) => {
-    switch (name) {
-      case 'daoImage':
-      case 'firstNftImage':
-      case 'secondNftImage':
-      case 'thirdNftImage':
-        setDaoForm((previous) => ({ ...previous, [name]: newImage }))
-        break
-      default:
-        break
-    }
+    setDaoForm((previous) => ({ ...previous, [name]: newImage }))
   }
 
   return (
-    <Box className="flex space-x-5">
+    <div className="space-x-5 flex justify-between">
       {/* Dao image */}
-      <Box>
+      <div>
         <FileInput
           size="large"
           inputName="daoImage"
           imgFile={daoForm.daoImage}
           onImageChange={handleImageChange}
         />
-      </Box>
+      </div>
       {/* /Dao image */}
 
       {/* Dao form */}
-      <Box className="flex flex-col justify-between space-y-3">
+      <div className="flex flex-col justify-between space-y-3">
         <TextField
-          InputLabelProps={{ className: 'text-xs' }}
-          InputProps={{ className: 'text-xs' }}
+          InputLabelProps={{ className: 'text-xs text-white' }}
+          InputProps={{ className: 'text-xs text-white' }}
           name="name"
           label="DAO Name"
           onChange={handleTextChange}
         />
 
         <TextField
-          InputLabelProps={{ className: 'text-xs' }}
-          InputProps={{ className: 'text-xs' }}
+          InputLabelProps={{ className: 'text-xs text-white' }}
+          InputProps={{ className: 'text-xs text-white' }}
           name="description"
           label="DAO Description"
           multiline
@@ -75,10 +66,10 @@ export function CreateDaoForm() {
         />
 
         {/* Tokens images */}
-        <Box>
+        <div>
           <HeadingTwo className="mb-1 text-base">Add tokens</HeadingTwo>
 
-          <Box className="flex space-x-5">
+          <div className="flex space-x-5">
             <FileInput
               inputName="firstNftImage"
               imgFile={daoForm.firstNftImage}
@@ -96,22 +87,24 @@ export function CreateDaoForm() {
               imgFile={daoForm.thirdNftImage}
               onImageChange={handleImageChange}
             />
-          </Box>
-        </Box>
+          </div>
+        </div>
         {/* /Tokens images */}
-      </Box>
+      </div>
       {/* /Dao form */}
 
       {/* Create button */}
-      <Box className="self-end">
+      <div className="self-end">
         <Button
           variant="contained"
-          className="text-[0.65rem] text-white bg-[#333333] hover:bg-[#4e4e4e]"
+          size="small"
+          className="text-[0.65rem] text-white bg-orange"
+          onClick={() => console.log('test')}
         >
           Create
         </Button>
-      </Box>
+      </div>
       {/* /Create button */}
-    </Box>
+    </div>
   )
 }
