@@ -96,8 +96,8 @@ pipeline {
                     docker-compose --env-file .development.env up -d
                 fi
               """
+              notify_slack.frontend("development")
             }
-            notify_slack.frontend("development")
             // notify_slack("Production deployment success")
           }
         }
