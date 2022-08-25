@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { DaoFactoryAbi__factory } from "./DaoFactoryAbi__factory";
+export { DaoAbi__factory } from "./DaoAbi__factory";

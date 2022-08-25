@@ -2,5 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { DaoFactoryAbi } from "./DaoFactoryAbi";
+export type { DaoAbi } from "./DaoAbi";
 export * as factories from "./factories";
 export { DaoFactoryAbi__factory } from "./factories/DaoFactoryAbi__factory";
+export { DaoAbi__factory } from "./factories/DaoAbi__factory";

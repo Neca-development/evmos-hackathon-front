@@ -3,7 +3,7 @@ import * as React from 'react'
 
 import { DAO_FACTORY_ADDRESS } from '../constants'
 import type { TransactionStatus } from '../lib'
-import { DaoFactoryAbi__factory } from '../typechain/factories/DaoFactoryAbi__factory'
+import { DaoAbi__factory } from '../typechain/factories/DaoAbi__factory'
 
 export const useVotingProcess = () => {
   const [txStatus, setTxStatus] = React.useState<TransactionStatus>('none')
@@ -14,7 +14,7 @@ export const useVotingProcess = () => {
   const votingProcess = async (votingId: number, voteType: boolean) => {
     if (!library) throw new Error('Wallet is not connected')
 
-    const daoContract = DaoFactoryAbi__factory.connect(DAO_FACTORY_ADDRESS, library)
+    const daoContract = DaoAbi__factory.connect(DAO_FACTORY_ADDRESS, library)
 
     try {
       setTxStatus('pending')
