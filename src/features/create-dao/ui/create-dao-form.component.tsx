@@ -1,8 +1,8 @@
-import { DaoApi } from '@entities/dao'
+// import { DaoApi } from '@entities/dao'
 import { Button, TextField } from '@mui/material'
 import { FileInput, HeadingTwo } from '@shared/ui'
 import * as React from 'react'
-import { useCreateDao } from 'src/blockchain'
+// import { useCreateDao } from 'src/blockchain'
 
 interface IDaoFormProperties {
   name: string
@@ -27,10 +27,10 @@ const daoFormInitialState: IDaoFormProperties = {
 export function CreateDaoForm() {
   const [daoForm, setDaoForm] = React.useState<IDaoFormProperties>(daoFormInitialState)
 
-  const [generateImageLinks] = DaoApi.useGenerateImageLinksMutation()
-  const [generateDaoInfoLink] = DaoApi.useGenerateDaoInfoLinkMutation()
+  // const [generateImageLinks] = DaoApi.useUploadNftsMutation()
+  // const [generateDaoInfoLink] = DaoApi.useGenerateDaoInfoLinkMutation()
 
-  const { createDao } = useCreateDao()
+  // const { createDao } = useCreateDao()
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -41,18 +41,18 @@ export function CreateDaoForm() {
     setDaoForm((previous) => ({ ...previous, [name]: newImage }))
   }
 
-  const handleClickOnCreateButton = async () => {
-    console.log('generate token img links')
-    const imageLinks = await generateImageLinks({ test: 'test' })
-    console.log('image links:', imageLinks)
+  // const handleClickOnCreateButton = async () => {
+  //   console.log('generate token img links')
+  //   const imageLinks = await generateImageLinks({ test: 'test' })
+  //   console.log('image links:', imageLinks)
 
-    console.log('generate dao info link')
-    const daoInfoLink = await generateDaoInfoLink({ test: 'test' })
-    console.log('dao info link:', daoInfoLink)
+  //   console.log('generate dao info link')
+  //   const daoInfoLink = await generateDaoInfoLink({ test: 'test' })
+  //   console.log('dao info link:', daoInfoLink)
 
-    console.log('create dao on sc')
-    await createDao(daoForm.name, daoForm.tokenSymbol, 'test', 'test', 'test')
-  }
+  //   console.log('create dao on sc')
+  //   await createDao(daoForm.name, daoForm.tokenSymbol, 'test', 'test', 'test')
+  // }
 
   return (
     <div className="space-x-5 flex justify-between">
@@ -121,7 +121,7 @@ export function CreateDaoForm() {
           variant="contained"
           size="small"
           className="text-[0.65rem] text-white bg-orange"
-          onClick={handleClickOnCreateButton}
+          // onClick={handleClickOnCreateButton}
         >
           Create
         </Button>

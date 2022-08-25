@@ -9,7 +9,7 @@ import type { RootState } from '@shared/store'
 import { Mutex } from 'async-mutex'
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: `http://localhost:3000/api/`,
+  baseUrl: `${process.env.NEXT_PUBLIC_SERVER_URL}/api/`,
   mode: 'cors',
   prepareHeaders: (headers, { getState }) => {
     const aToken = (getState() as RootState).auth?.accessToken
