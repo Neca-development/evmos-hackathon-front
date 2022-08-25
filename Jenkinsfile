@@ -52,7 +52,7 @@ pipeline {
               -t \${REGISTRY_HOST}/${GIT_REPO_NAME}-\${BRANCH_NAME} \
               -t \${REGISTRY_HOST}/${GIT_REPO_NAME}-\${BRANCH_NAME}:\${BUILD_NUMBER}
 
-            docker push -a \${REGISTRY_HOST}/${GIT_REPO_NAME}${prefix}.\${BRANCH_NAME}
+            docker push -a \${REGISTRY_HOST}/${GIT_REPO_NAME}.\${BRANCH_NAME}
           """
         }
       }
