@@ -1,2 +1,2 @@
-export * from './user.api';
-export * from './user.entity';
+export * from './user.api'
+export * from './user.entity'
