@@ -1,5 +1,7 @@
 import { List, ListItem } from '@mui/material'
 import { Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
+import { useRouter } from 'next/router'
+import * as React from 'react'
 
 import { DaoCard } from './ui/dao-card.component'
 import { ProfileHero } from './ui/profile-hero.component'
@@ -29,6 +31,14 @@ const userDaosList = [
 ]
 
 export default function UserPage() {
+  const router = useRouter()
+
+  React.useEffect(() => {
+    router.prefetch('/create-dao')
+  }, [])
+
+  const handleCreateButtonClick = () => router.push('/create-dao')
+
   return (
     <>
       <Header />
@@ -38,7 +48,7 @@ export default function UserPage() {
       <MainContainer>
         <div className="mb-5 flex justify-between items-center">
           <HeadingTwo>Your DAO&apos;s list</HeadingTwo>
-          <MButton>Create DAO</MButton>
+          <MButton onClick={handleCreateButtonClick}>Create DAO</MButton>
         </div>
 
         <List className="space-y-5">
