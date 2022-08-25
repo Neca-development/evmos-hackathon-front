@@ -12,7 +12,7 @@ export function Paragraph(props: IParagraphProperties) {
   const { className, children, ...otherProperties } = props
   return (
     <Typography
-      className={classNames('m-0 text-xs', className)}
+      className={classNames('m-0 text-[0.6rem]', className)}
       paragraph
       {...otherProperties}
     >
