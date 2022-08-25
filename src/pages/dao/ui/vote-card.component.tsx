@@ -13,7 +13,7 @@ interface IVoteCardProperties {
 
 export function VoteCard({ vote }: IVoteCardProperties) {
   return (
-    <MPaper className="p-5 space-y-3 text-white ring-1 ring-light-gray bg-transparent">
+    <MPaper className="space-y-3">
       <div className="flex justify-between items-center">
         <HeadingThree className="text-orange">{vote.question}</HeadingThree>
         <VoteStatus status={vote.status} />

@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       backgroundImage:{
         'dao-hero': 'linear-gradient(to bottom, #262747 0%, #262747 45%, #1C1D34 45%, #1C1D34 100%)',
+        'profile-hero': 'linear-gradient(to bottom, #262747 0%, #262747 56%, transparent 56%, transparent 100%)',
       },
       colors: {
         orange: '#D33D00',

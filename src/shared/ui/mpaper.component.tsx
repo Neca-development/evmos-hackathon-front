@@ -12,7 +12,7 @@ export function MPaper(props: IMPaperProperties) {
   return (
     <Paper
       className={classNames(
-        'p-5 space-y-3 text-white ring-1 ring-light-gray bg-transparent',
+        'p-5 text-white ring-1 ring-light-gray bg-transparent',
         className
       )}
       {...otherProperties}

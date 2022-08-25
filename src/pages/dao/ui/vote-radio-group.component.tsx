@@ -1,4 +1,5 @@
 import { FormControl, FormControlLabel, RadioGroup } from '@mui/material'
+import { MDivider } from '@shared/ui'
 
 import { VoteRadio } from './vote-radio.component'
 
@@ -12,7 +13,7 @@ export function VoteRadioGroup() {
           label="Yes"
           componentsProps={{ typography: { className: 'text-xs' } }}
         />
-        <div className="h-[2px] w-full bg-light-gray" />
+        <MDivider />
         <FormControlLabel
           value="no"
           control={<VoteRadio />}
