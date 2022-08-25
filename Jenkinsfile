@@ -35,24 +35,26 @@ pipeline {
       }
 
       steps {
-        build_image()
-        sh """
-          DOCKERFILE=Dockerfile
+        script {
+          def GIT_REPO_NAME = env.GIT_URL.replaceFirst(/^.*\/([^\/]+?).git$/, '$1').toLowerCase()
+          sh """
+            DOCKERFILE=Dockerfile
 
-          docker build . \
-            -f \${DOCKERFILE} \
-            --build-arg DOCKER_ENV=\${DOCKER_ENV} \
-            -t ${GIT_REPO_NAME}.\${BRANCH_NAME} \
-            -t ${GIT_REPO_NAME}.\${BRANCH_NAME}:\${BUILD_NUMBER} \
-            -t \${REGISTRY_HOST}/${GIT_REPO_NAME}.\${BRANCH_NAME} \
-            -t \${REGISTRY_HOST}/${GIT_REPO_NAME}.\${BRANCH_NAME}:\${BUILD_NUMBER} \
-            -t ${GIT_REPO_NAME}-\${BRANCH_NAME} \
-            -t ${GIT_REPO_NAME}-\${BRANCH_NAME}:\${BUILD_NUMBER} \
-            -t \${REGISTRY_HOST}/${GIT_REPO_NAME}-\${BRANCH_NAME} \
-            -t \${REGISTRY_HOST}/${GIT_REPO_NAME}-\${BRANCH_NAME}:\${BUILD_NUMBER}
+            docker build . \
+              -f \${DOCKERFILE} \
+              --build-arg DOCKER_ENV=\${DOCKER_ENV} \
+              -t ${GIT_REPO_NAME}.\${BRANCH_NAME} \
+              -t ${GIT_REPO_NAME}.\${BRANCH_NAME}:\${BUILD_NUMBER} \
+              -t \${REGISTRY_HOST}/${GIT_REPO_NAME}.\${BRANCH_NAME} \
+              -t \${REGISTRY_HOST}/${GIT_REPO_NAME}.\${BRANCH_NAME}:\${BUILD_NUMBER} \
+              -t ${GIT_REPO_NAME}-\${BRANCH_NAME} \
+              -t ${GIT_REPO_NAME}-\${BRANCH_NAME}:\${BUILD_NUMBER} \
+              -t \${REGISTRY_HOST}/${GIT_REPO_NAME}-\${BRANCH_NAME} \
+              -t \${REGISTRY_HOST}/${GIT_REPO_NAME}-\${BRANCH_NAME}:\${BUILD_NUMBER}
 
-          docker push -a \${REGISTRY_HOST}/${GIT_REPO_NAME}${prefix}.\${BRANCH_NAME}
-        """
+            docker push -a \${REGISTRY_HOST}/${GIT_REPO_NAME}${prefix}.\${BRANCH_NAME}
+          """
+        }
       }
     }
 
