@@ -1,10 +1,13 @@
+import { DaoApi } from '@entities/dao'
 import { Button, TextField } from '@mui/material'
 import { FileInput, HeadingTwo } from '@shared/ui'
 import * as React from 'react'
+import { useCreateDao } from 'src/blockchain'
 
 interface IDaoFormProperties {
   name: string
   description: string
+  tokenSymbol: string
   daoImage: File | null | undefined
   firstNftImage: File | null | undefined
   secondNftImage: File | null | undefined
@@ -14,6 +17,7 @@ interface IDaoFormProperties {
 const daoFormInitialState: IDaoFormProperties = {
   name: '',
   description: '',
+  tokenSymbol: '',
   daoImage: null,
   firstNftImage: null,
   secondNftImage: null,
@@ -23,6 +27,11 @@ const daoFormInitialState: IDaoFormProperties = {
 export function CreateDaoForm() {
   const [daoForm, setDaoForm] = React.useState<IDaoFormProperties>(daoFormInitialState)
 
+  const [generateImageLinks] = DaoApi.useGenerateImageLinksMutation()
+  const [generateDaoInfoLink] = DaoApi.useGenerateDaoInfoLinkMutation()
+
+  const { createDao } = useCreateDao()
+
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setDaoForm((previous) => ({ ...previous, [name]: value }))
@@ -30,6 +39,19 @@ export function CreateDaoForm() {
 
   const handleImageChange = (name: string, newImage: File | null | undefined) => {
     setDaoForm((previous) => ({ ...previous, [name]: newImage }))
+  }
+
+  const handleClickOnCreateButton = async () => {
+    console.log('generate token img links')
+    const imageLinks = await generateImageLinks({ test: 'test' })
+    console.log('image links:', imageLinks)
+
+    console.log('generate dao info link')
+    const daoInfoLink = await generateDaoInfoLink({ test: 'test' })
+    console.log('dao info link:', daoInfoLink)
+
+    console.log('create dao on sc')
+    await createDao(daoForm.name, daoForm.tokenSymbol, 'test', 'test', 'test')
   }
 
   return (
@@ -99,7 +121,7 @@ export function CreateDaoForm() {
           variant="contained"
           size="small"
           className="text-[0.65rem] text-white bg-orange"
-          onClick={() => console.log('test')}
+          onClick={handleClickOnCreateButton}
         >
           Create
         </Button>

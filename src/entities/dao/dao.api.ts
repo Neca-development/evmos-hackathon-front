@@ -1,4 +1,4 @@
-import { createApi } from '@reduxjs/toolkit/dist/query'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@shared/api'
 
 export const daoApi = createApi({
@@ -35,3 +35,5 @@ export const daoApi = createApi({
     }),
   }),
 })
+
+export const { useGenerateDaoInfoLinkMutation, useGenerateImageLinksMutation } = daoApi
