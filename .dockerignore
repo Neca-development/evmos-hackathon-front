@@ -1,0 +1,10 @@
+node_modules
+.git
+.vscode
+Jenkinsfile
+Dockerfile
+docker-compose.*
+
+dist
+build
+.next
