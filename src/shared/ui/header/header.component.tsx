@@ -13,15 +13,15 @@ export function Header() {
   )
 
   return (
-    <header className="h-10 px-3 space-x-5 flex justify-end items-center bg-[#EDEDED]">
+    <header className="h-10 px-3 space-x-5 flex justify-end items-center">
       {account ? (
         <>
           <Paragraph>{walletAddress}</Paragraph>
-          <Avatar className="h-6 w-6 text-[0.65rem] bg-[#333333]">U</Avatar>
+          <Avatar className="h-6 w-6 text-[0.65rem] text-gray bg-white">U</Avatar>
           <Button
             variant="contained"
             size="small"
-            className="text-[0.65rem] text-white bg-[#333333] hover:bg-[#4e4e4e]"
+            className="text-[0.65rem] text-white bg-orange"
             onClick={deactivate}
           >
             Disconnect
@@ -32,7 +32,7 @@ export function Header() {
           <Button
             variant="contained"
             size="small"
-            className="text-[0.65rem] text-white bg-[#333333] hover:bg-[#4e4e4e]"
+            className="text-[0.65rem] text-white bg-orange"
             onClick={activateBrowserWallet}
           >
             Connect

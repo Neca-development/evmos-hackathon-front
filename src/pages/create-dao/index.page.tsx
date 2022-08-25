@@ -1,12 +1,5 @@
 import { Box, Button, TextField } from '@mui/material'
-import {
-  FileInput,
-  Footer,
-  Header,
-  HeadingOne,
-  HeadingTwo,
-  MainContainer,
-} from '@shared/ui'
+import { FileInput, Header, HeadingOne, HeadingTwo, MainContainer } from '@shared/ui'
 import * as React from 'react'
 
 interface IDaoFormProperties {
@@ -127,7 +120,6 @@ export default function CreateDaoPage() {
           {/* /Create button */}
         </Box>
       </MainContainer>
-      <Footer />
     </>
   )
 }

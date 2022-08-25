@@ -1,6 +1,5 @@
 import { Avatar, Button, List, ListItem, Paper } from '@mui/material'
 import {
-  Footer,
   Header,
   HeadingOne,
   HeadingThree,
@@ -71,8 +70,6 @@ export default function UserPage() {
           ))}
         </List>
       </MainContainer>
-
-      <Footer />
     </>
   )
 }
