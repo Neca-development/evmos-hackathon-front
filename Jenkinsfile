@@ -104,7 +104,7 @@ pipeline {
               def REPO = "<$GITHUB_URL/tree/$env.BRANCH_NAME|$GIT_REPO_NAME/$env.BRANCH_NAME>"
 
               def IMAGE_EXPOSED_PORT = 80
-              def IMAGE_PREVIOUS_PORT = sh(returnStdout: true, script: "docker-compose port traefik $IMAGE_EXPOSED_PORT | egrep '[0-9]+\$' -o").trim()
+              def IMAGE_PREVIOUS_PORT = sh(returnStdout: true, script: "docker-compose --env-file .development.env port traefik $IMAGE_EXPOSED_PORT | egrep '[0-9]+\$' -o").trim()
               slackSend channel: env.SLACK_CHANNEL, color: "good", message: "Build for $REPO is successfull: http://${env.JENKINS_SERVER}:${IMAGE_PREVIOUS_PORT}."
             }
             // notify_slack("Production deployment success")
