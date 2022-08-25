@@ -12,7 +12,7 @@ export function HeadingOne(props: IHeadingOneProperties) {
   const { className, children, ...otherProperties } = props
   return (
     <Typography
-      className={classNames('text-4xl', className)}
+      className={classNames('text-xl', className)}
       component="h1"
       {...otherProperties}
     >

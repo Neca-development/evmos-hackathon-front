@@ -12,7 +12,7 @@ export function HeadingThree(props: IHeadingThreeProperties) {
   const { className, children, ...otherProperties } = props
   return (
     <Typography
-      className={classNames('text-xl', className)}
+      className={classNames('text-base', className)}
       component="h3"
       {...otherProperties}
     >

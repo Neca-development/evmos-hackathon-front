@@ -12,7 +12,7 @@ export function HeadingTwo(props: IHeadingTwoProperties) {
   const { className, children, ...otherProperties } = props
   return (
     <Typography
-      className={classNames('text-2xl', className)}
+      className={classNames('text-lg', className)}
       component="h2"
       {...otherProperties}
     >
