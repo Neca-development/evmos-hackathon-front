@@ -1,51 +1,70 @@
 import { createApi } from '@reduxjs/toolkit/dist/query'
 import { baseQuery } from '@shared/api'
+import type { IBaseResponse } from '@shared/types'
+
+import type {
+  IGenerateMintSignature,
+  IGetAllUserMintRequests,
+  IGetAllUserMintRequestsDto,
+  IPostMintRequest,
+  ISuccessMintRequest,
+} from './model'
 
 export const mintRequestApi = createApi({
   reducerPath: 'mintRequestApi',
   baseQuery,
   tagTypes: ['MINT_REQUEST'],
   endpoints: (builder) => ({
-    postMintRequestList: builder.mutation<any, any>({
-      query: (body) => {
+    getAllUserMintRequests: builder.query<
+      IGetAllUserMintRequestsDto,
+      IGetAllUserMintRequests
+    >({
+      query: (args) => {
         return {
-          url: '',
-          method: 'POST',
-          body,
+          url: `/mint-request/generate-list/${args.userAddress}`,
+          method: 'GET',
         }
       },
-      invalidatesTags: ['MINT_REQUEST'],
-      transformResponse: (res: any) => {
+      providesTags: ['MINT_REQUEST'],
+      transformResponse: (res: IBaseResponse<IGetAllUserMintRequestsDto>) => {
         return res.data
       },
     }),
 
-    generateMintSignature: builder.mutation<any, any>({
-      query: (body) => {
+    postMintRequestList: builder.mutation<void, IPostMintRequest>({
+      query: (args) => {
         return {
-          url: '',
+          url: `/mint-request/generate-list/${args.daoAddress}`,
           method: 'POST',
-          body,
+          body: { file: args.csvFile },
         }
       },
       invalidatesTags: ['MINT_REQUEST'],
-      transformResponse: (res: any) => {
+    }),
+
+    generateMintSignature: builder.mutation<string, IGenerateMintSignature>({
+      query: (args) => {
+        return {
+          url: `/mint-request/generate-signature/${args.mintRequestId}`,
+          method: 'POST',
+          body: { mintRequestId: args.mintRequestId },
+        }
+      },
+      invalidatesTags: ['MINT_REQUEST'],
+      transformResponse: (res: IBaseResponse<string>) => {
         return res.data
       },
     }),
 
-    deleteMintRequest: builder.mutation<any, any>({
-      query: (body) => {
+    successMintRequest: builder.mutation<void, ISuccessMintRequest>({
+      query: (args) => {
         return {
-          url: '',
+          url: `/mint-request/success/${args.mintRequestId}`,
           method: 'POST',
-          body,
+          body: {},
         }
       },
       invalidatesTags: ['MINT_REQUEST'],
-      transformResponse: (res: any) => {
-        return res.data
-      },
     }),
   }),
 })
