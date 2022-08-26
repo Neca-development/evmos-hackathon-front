@@ -1,6 +1,7 @@
 import { DaoApi } from '@entities/dao'
 import { Button, TextField } from '@mui/material'
 import { FileInput, HeadingTwo } from '@shared/ui'
+import { useEthers } from '@usedapp/core'
 import * as React from 'react'
 import { useCreateDao } from 'src/blockchain'
 
@@ -10,7 +11,6 @@ interface IDaoFormProperties {
   name: string
   description: string
   tokenSymbol: string
-  csv: File | null | undefined
   daoImage: File | null | undefined
   firstNftImage: File | null | undefined
   secondNftImage: File | null | undefined
@@ -21,7 +21,6 @@ const daoFormInitialState: IDaoFormProperties = {
   name: '',
   description: '',
   tokenSymbol: 'TEST',
-  csv: null,
   daoImage: null,
   firstNftImage: null,
   secondNftImage: null,
@@ -30,6 +29,8 @@ const daoFormInitialState: IDaoFormProperties = {
 
 export function CreateDaoForm() {
   const [daoForm, setDaoForm] = React.useState<IDaoFormProperties>(daoFormInitialState)
+
+  const { account } = useEthers()
 
   const [createDaoOnBackend] = DaoApi.useCreateDaoMutation()
 
@@ -77,12 +78,17 @@ export function CreateDaoForm() {
   }
 
   React.useEffect(() => {
-    if (daoInfoLink && daoContractAddress) {
+    if (account && daoInfoLink && daoContractAddress) {
       console.log('dao contract address:', daoContractAddress)
       console.log('dao info link:', daoInfoLink)
-      createDaoOnBackend({ contractAddress: daoContractAddress, ipfsUrl: daoInfoLink })
+      console.log('user wallet address:', daoContractAddress)
+      createDaoOnBackend({
+        contractAddress: daoContractAddress,
+        ipfsUrl: daoInfoLink,
+        userAddress: account,
+      })
     }
-  }, [daoInfoLink, daoContractAddress])
+  }, [account, daoInfoLink, daoContractAddress])
 
   return (
     <div className="space-x-5 flex justify-between">
@@ -157,23 +163,6 @@ export function CreateDaoForm() {
         </Button>
       </div>
       {/* /Create button */}
-
-      {/* CSV upload */}
-      <div>
-        <FileInput
-          inputName="csv"
-          imgFile={daoForm.csv}
-          onImageChange={handleImageChange}
-        />
-        <Button
-          variant="contained"
-          size="small"
-          className="text-[0.65rem] text-white bg-orange"
-        >
-          Upload CSV
-        </Button>
-      </div>
-      {/* /CSV upload */}
     </div>
   )
 }
