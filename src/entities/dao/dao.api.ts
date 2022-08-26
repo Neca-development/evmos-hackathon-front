@@ -79,9 +79,6 @@ export const daoApi = createApi({
         }
       },
       providesTags: ['DAO'],
-      transformResponse: (res: IBaseResponse<IGetInfoFromIpfsResponse>) => {
-        return res.data
-      },
     }),
   }),
 })

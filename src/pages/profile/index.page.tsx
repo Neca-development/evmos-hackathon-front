@@ -4,6 +4,7 @@ import { useEthers } from '@usedapp/core'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
+import { DaoList } from './ui/dao-list.component'
 import { ProfileHero } from './ui/profile-hero.component'
 
 // const userDaosList = [
@@ -34,7 +35,6 @@ export default function UserPage() {
   const { account } = useEthers()
 
   const { data } = UserApi.useGetUserQuery({ userAddress: account })
-  console.log(data)
 
   const router = useRouter()
 
@@ -55,6 +55,8 @@ export default function UserPage() {
           <HeadingTwo>Your DAO&apos;s list</HeadingTwo>
           <MButton onClick={handleCreateButtonClick}>Create DAO</MButton>
         </div>
+
+        {data ? <DaoList daos={data.daos} /> : <div>You have no DAO (sad)</div>}
 
         {/* <List className="space-y-5">
           {userDaosList.map((dao) => (
