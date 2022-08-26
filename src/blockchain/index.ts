@@ -1,4 +1,5 @@
 export * from './api'
 export * from './constants'
+export * from './contract'
 export * from './lib'
 export * from './typechain'
