@@ -1,6 +1,8 @@
 import classNames from 'classnames'
 import * as React from 'react'
 
+import { AddIcon } from './icons'
+
 export interface IFileInputProperties {
   size?: 'small' | 'large'
   inputName: string
@@ -23,9 +25,9 @@ export function FileInput(props: IFileInputProperties) {
   return (
     <label
       className={classNames(
-        'flex justify-center items-center bg-[#D9D9D9] cursor-pointer',
-        size === 'small' && 'h-[7rem] w-[7rem]',
-        size === 'large' && 'h-[20rem] w-[20rem]'
+        'flex justify-center items-center bg-[rgba(255, 255, 255, 0.08)] cursor-pointer',
+        size === 'small' && 'aspect-square w-1/2',
+        size === 'large' && 'aspect-square w-[70%]'
       )}
     >
       <input
@@ -39,7 +41,14 @@ export function FileInput(props: IFileInputProperties) {
       {imgFile ? (
         <img src={URL.createObjectURL(imgFile)} alt="" className="w-full" />
       ) : (
-        <img src="/assets/images/add.svg" alt="" className="h-1/6 w-1/6" />
+        <>
+          <img
+            src="/assets/images/image-placeholder.png"
+            alt="Upload image"
+            className="w-full"
+          />
+          <AddIcon className="h-1/6 w-1/6 hidden hover:block" />
+        </>
       )}
     </label>
   )
