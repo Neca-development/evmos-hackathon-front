@@ -1,15 +1,17 @@
-import { createApi } from '@reduxjs/toolkit/dist/query'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@shared/api'
+
+import type { IGetUserRequest } from './get-user.dto'
 
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery,
   tagTypes: ['USER'],
   endpoints: (builder) => ({
-    getAllUserDaos: builder.query<any, any>({
-      query: () => {
+    getUser: builder.query<any, IGetUserRequest>({
+      query: (args) => {
         return {
-          url: '',
+          url: `user/get-daos/${args.userAddress}`,
           method: 'GET',
         }
       },
@@ -20,3 +22,5 @@ export const userApi = createApi({
     }),
   }),
 })
+
+export const { useGetUserQuery } = userApi

@@ -1,6 +1,6 @@
 import { daoApi } from '@entities/dao/dao.api'
 import { mintRequestApi } from '@entities/mint-request/mint-request.api'
-import { userApi } from '@entities/user'
+import { userApi } from '@entities/user/user.api'
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query/react'
 import type { TypedUseSelectorHook } from 'react-redux'

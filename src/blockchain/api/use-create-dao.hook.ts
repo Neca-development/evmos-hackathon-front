@@ -12,13 +12,7 @@ export const useCreateDao = () => {
 
   const { library, account } = useEthers()
 
-  const createDao = async (
-    name: string,
-    symbol: string,
-    commonUri: string,
-    rareUri: string,
-    legendaryUri: string
-  ) => {
+  const createDao = async (name: string, symbol: string, infoUri: string) => {
     if (!library || !account) {
       setTxStatus('error')
       setTxMessage('Wallet is not connected')
@@ -38,9 +32,7 @@ export const useCreateDao = () => {
       const createDaoTransaction = await daoFactoryContract.createDAO(
         name,
         symbol,
-        commonUri,
-        rareUri,
-        legendaryUri
+        infoUri
       )
 
       setTxMessage('Waiting for DAO creation...')

@@ -65,13 +65,7 @@ export function CreateDaoForm() {
       }
       await getDaoInfoLink(daoInfo)
 
-      await createDao(
-        'test name',
-        'test symbol',
-        'common nft',
-        'rare nft',
-        'legendary nft'
-      )
+      await createDao(daoForm.name, daoForm.tokenSymbol, daoInfoLink)
     } catch (error: any) {
       console.error(error)
     }

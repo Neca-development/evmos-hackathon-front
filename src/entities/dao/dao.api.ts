@@ -8,6 +8,10 @@ import type {
   IGetAllDaoUsersDto,
   IGetAllDaoUsersRequest,
 } from './model/get-all-dao-users.dto'
+import type {
+  IGetInfoFromIpfsRequest,
+  IGetInfoFromIpfsResponse,
+} from './model/get-info-from-ipfs.dto'
 import type { IUploadNftsDto, IUploadNftsRequest } from './model/upload-nfts.dto'
 
 export const daoApi = createApi({
@@ -15,12 +19,11 @@ export const daoApi = createApi({
   baseQuery,
   tagTypes: ['DAO'],
   endpoints: (builder) => ({
-    getAllDaoUsers: builder.query<IGetAllDaoUsersDto, IGetAllDaoUsersRequest>({
+    getDao: builder.query<IGetAllDaoUsersDto, IGetAllDaoUsersRequest>({
       query: (args) => {
         return {
-          url: 'dao/create',
+          url: `dao/get-users/${args.daoAddress}`,
           method: 'GET',
-          body: { ...args },
         }
       },
       providesTags: ['DAO'],
@@ -67,12 +70,26 @@ export const daoApi = createApi({
         return res.data
       },
     }),
+
+    getInfoFromIpfs: builder.query<IGetInfoFromIpfsResponse, IGetInfoFromIpfsRequest>({
+      query: (args) => {
+        return {
+          url: `${args.ipfsUrl}`,
+          method: 'GET',
+        }
+      },
+      providesTags: ['DAO'],
+      transformResponse: (res: IBaseResponse<IGetInfoFromIpfsResponse>) => {
+        return res.data
+      },
+    }),
   }),
 })
 
 export const {
-  useGetAllDaoUsersQuery,
+  useGetDaoQuery,
   useCreateDaoMutation,
   useGenerateDaoInfoLinkMutation,
   useUploadNftsMutation,
+  useGetInfoFromIpfsQuery,
 } = daoApi
