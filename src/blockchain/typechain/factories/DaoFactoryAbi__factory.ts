@@ -56,17 +56,7 @@ const _abi = [
       },
       {
         internalType: "string",
-        name: "_commonURI",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_rareURI",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_legendaryURI",
+        name: "_tokenURI",
         type: "string",
       },
     ],

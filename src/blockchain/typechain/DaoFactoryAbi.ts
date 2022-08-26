@@ -28,7 +28,7 @@ import type {
 
 export interface DaoFactoryAbiInterface extends utils.Interface {
   functions: {
-    "createDAO(string,string,string,string,string)": FunctionFragment;
+    "createDAO(string,string,string)": FunctionFragment;
   };
 
   getFunction(nameOrSignatureOrTopic: "createDAO"): FunctionFragment;
@@ -36,8 +36,6 @@ export interface DaoFactoryAbiInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "createDAO",
     values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>
@@ -94,9 +92,7 @@ export interface DaoFactoryAbi extends BaseContract {
     createDAO(
       name: PromiseOrValue<string>,
       symbol: PromiseOrValue<string>,
-      _commonURI: PromiseOrValue<string>,
-      _rareURI: PromiseOrValue<string>,
-      _legendaryURI: PromiseOrValue<string>,
+      _tokenURI: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
@@ -104,9 +100,7 @@ export interface DaoFactoryAbi extends BaseContract {
   createDAO(
     name: PromiseOrValue<string>,
     symbol: PromiseOrValue<string>,
-    _commonURI: PromiseOrValue<string>,
-    _rareURI: PromiseOrValue<string>,
-    _legendaryURI: PromiseOrValue<string>,
+    _tokenURI: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -114,9 +108,7 @@ export interface DaoFactoryAbi extends BaseContract {
     createDAO(
       name: PromiseOrValue<string>,
       symbol: PromiseOrValue<string>,
-      _commonURI: PromiseOrValue<string>,
-      _rareURI: PromiseOrValue<string>,
-      _legendaryURI: PromiseOrValue<string>,
+      _tokenURI: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -133,9 +125,7 @@ export interface DaoFactoryAbi extends BaseContract {
     createDAO(
       name: PromiseOrValue<string>,
       symbol: PromiseOrValue<string>,
-      _commonURI: PromiseOrValue<string>,
-      _rareURI: PromiseOrValue<string>,
-      _legendaryURI: PromiseOrValue<string>,
+      _tokenURI: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -144,9 +134,7 @@ export interface DaoFactoryAbi extends BaseContract {
     createDAO(
       name: PromiseOrValue<string>,
       symbol: PromiseOrValue<string>,
-      _commonURI: PromiseOrValue<string>,
-      _rareURI: PromiseOrValue<string>,
-      _legendaryURI: PromiseOrValue<string>,
+      _tokenURI: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };
