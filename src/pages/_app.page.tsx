@@ -2,15 +2,23 @@ import '@shared/styles/global.scss'
 
 import { store } from '@shared/store'
 import type { Config } from '@usedapp/core'
-import { DAppProvider, Rinkeby } from '@usedapp/core'
-import { getDefaultProvider } from 'ethers'
+import { DAppProvider } from '@usedapp/core'
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
+import {
+  DAO_FACTORY_ADDRESS,
+  EVMOS_TESTNET_CHAINID,
+  EVMOS_TESTNET_RPC_URL,
+} from 'src/blockchain'
 
+/* Evmos Testnet */
 const config: Config = {
-  readOnlyChainId: Rinkeby.chainId,
+  readOnlyChainId: EVMOS_TESTNET_CHAINID,
   readOnlyUrls: {
-    [Rinkeby.chainId]: getDefaultProvider('rinkeby'),
+    [EVMOS_TESTNET_CHAINID]: EVMOS_TESTNET_RPC_URL,
+  },
+  multicallAddresses: {
+    [EVMOS_TESTNET_CHAINID]: DAO_FACTORY_ADDRESS,
   },
 }
 
