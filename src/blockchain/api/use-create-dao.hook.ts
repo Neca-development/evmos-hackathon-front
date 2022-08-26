@@ -8,8 +8,9 @@ import { DaoFactoryAbi__factory } from '../typechain/factories/DaoFactoryAbi__fa
 export const useCreateDao = () => {
   const [txStatus, setTxStatus] = React.useState<TransactionStatus>('none')
   const [txMessage, setTxMessage] = React.useState('')
+  const [daoContractAddress, setDaoContractAddress] = React.useState('')
 
-  const { library } = useEthers()
+  const { library, account } = useEthers()
 
   const createDao = async (
     name: string,
@@ -18,20 +19,21 @@ export const useCreateDao = () => {
     rareUri: string,
     legendaryUri: string
   ) => {
-    if (!library) {
+    if (!library || !account) {
       setTxStatus('error')
       setTxMessage('Wallet is not connected')
+      console.log('error: wallet is not connected')
       return
     }
 
-    const daoFactoryContract = DaoFactoryAbi__factory.connect(
-      DAO_FACTORY_ADDRESS,
-      library
-    )
+    const signer = library.getSigner()
+
+    const daoFactoryContract = DaoFactoryAbi__factory.connect(DAO_FACTORY_ADDRESS, signer)
 
     try {
       setTxStatus('pending')
       setTxMessage('Waiting for wallet confirmation...')
+      console.log('pending: waiting for wallet confirmation')
 
       const createDaoTransaction = await daoFactoryContract.createDAO(
         name,
@@ -41,17 +43,33 @@ export const useCreateDao = () => {
         legendaryUri
       )
 
-      setTxMessage('Waiting for voting creation...')
+      setTxMessage('Waiting for DAO creation...')
+      console.log('pending: waiting for dao creation')
+
+      daoFactoryContract.on(
+        'DAOCreated',
+        (contractAddress: string, creatorAddress: string) => {
+          console.log('contract address:', contractAddress)
+          console.log('creator address:', creatorAddress)
+          console.log('user address:', account)
+          if (account === creatorAddress) {
+            setDaoContractAddress(contractAddress)
+            daoFactoryContract.removeAllListeners('DAOCreated')
+          }
+        }
+      )
 
       await createDaoTransaction.wait()
 
       setTxStatus('success')
-      setTxMessage('You successfully created new voting')
+      setTxMessage('You successfully created new DAO')
+      console.log('success: you successfully created new dao')
     } catch (error: any) {
+      daoFactoryContract.removeAllListeners('DAOCreated')
       setTxStatus('error')
       setTxMessage(error.message)
+      console.log('error:', error.message)
     }
   }
-
-  return { txStatus, txMessage, createDao }
+  return { daoContractAddress, txStatus, txMessage, createDao }
 }

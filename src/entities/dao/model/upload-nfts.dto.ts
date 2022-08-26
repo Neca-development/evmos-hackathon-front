@@ -1,6 +1,5 @@
-export interface IUploadNftsDto {
-  ava: File
-  lowImg: File
-  mediumImg: File
-  highImg: File
+export interface IUploadNftsRequest {
+  formData: FormData
 }
+
+export type IUploadNftsDto = string[]

@@ -8,7 +8,7 @@ import type {
   IGetAllDaoUsersDto,
   IGetAllDaoUsersRequest,
 } from './model/get-all-dao-users.dto'
-import type { IUploadNftsDto } from './model/upload-nfts.dto'
+import type { IUploadNftsDto, IUploadNftsRequest } from './model/upload-nfts.dto'
 
 export const daoApi = createApi({
   reducerPath: 'daoApi',
@@ -16,11 +16,11 @@ export const daoApi = createApi({
   tagTypes: ['DAO'],
   endpoints: (builder) => ({
     getAllDaoUsers: builder.query<IGetAllDaoUsersDto, IGetAllDaoUsersRequest>({
-      query: (body) => {
+      query: (args) => {
         return {
           url: 'dao/create',
           method: 'GET',
-          body,
+          body: { ...args },
         }
       },
       providesTags: ['DAO'],
@@ -30,33 +30,36 @@ export const daoApi = createApi({
     }),
 
     createDao: builder.mutation<void, ICreateDaoRequest>({
-      query: (body) => {
+      query: (args) => {
         return {
           url: 'dao/create',
           method: 'POST',
-          body,
+          body: { ...args },
         }
       },
       invalidatesTags: ['DAO'],
     }),
 
-    uploadNfts: builder.mutation<void, IUploadNftsDto>({
-      query: (body) => {
+    uploadNfts: builder.mutation<IUploadNftsDto, IUploadNftsRequest>({
+      query: (args) => {
         return {
           url: 'dao/upload-nfts',
           method: 'POST',
-          body,
+          body: args.formData,
         }
       },
       invalidatesTags: ['DAO'],
+      transformResponse: (res: IBaseResponse<IUploadNftsDto>) => {
+        return res.data
+      },
     }),
 
     generateDaoInfoLink: builder.mutation<any, IGenerateDaoInfoLinkRequest>({
-      query: (body) => {
+      query: (args) => {
         return {
           url: 'dao/generate-link',
           method: 'POST',
-          body,
+          body: { ...args },
         }
       },
       invalidatesTags: ['DAO'],
