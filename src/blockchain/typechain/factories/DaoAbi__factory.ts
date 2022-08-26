@@ -31,17 +31,7 @@ const _abi = [
       },
       {
         internalType: "string",
-        name: "_commonURI",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_rareURI",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_legendaryURI",
+        name: "_tokenBaseURI",
         type: "string",
       },
     ],
@@ -233,9 +223,9 @@ const _abi = [
       },
       {
         indexed: false,
-        internalType: "bool",
-        name: "isPositiveVote",
-        type: "bool",
+        internalType: "enum DaoEvmos.VoteType",
+        name: "voteType",
+        type: "uint8",
       },
     ],
     name: "Voted",
@@ -312,6 +302,30 @@ const _abi = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "hasVote",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -580,14 +594,38 @@ const _abi = [
         type: "uint256",
       },
       {
-        internalType: "bool",
+        internalType: "enum DaoEvmos.VoteType",
         name: "voteType",
-        type: "bool",
+        type: "uint8",
       },
     ],
     name: "vote",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "voteTypes",
+    outputs: [
+      {
+        internalType: "enum DaoEvmos.VoteType",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {

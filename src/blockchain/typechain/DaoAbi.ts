@@ -34,6 +34,7 @@ export interface DaoAbiInterface extends utils.Interface {
     "closeVoting(uint256)": FunctionFragment;
     "createVoting()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "hasVote(address,uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mintNft(uint8,bytes)": FunctionFragment;
     "name()": FunctionFragment;
@@ -47,7 +48,8 @@ export interface DaoAbiInterface extends utils.Interface {
     "tokenForOwner(address)": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
-    "vote(uint256,bool)": FunctionFragment;
+    "vote(uint256,uint8)": FunctionFragment;
+    "voteTypes(address,uint256)": FunctionFragment;
     "votes(uint256)": FunctionFragment;
     "votesInfo(uint256)": FunctionFragment;
   };
@@ -59,6 +61,7 @@ export interface DaoAbiInterface extends utils.Interface {
       | "closeVoting"
       | "createVoting"
       | "getApproved"
+      | "hasVote"
       | "isApprovedForAll"
       | "mintNft"
       | "name"
@@ -73,6 +76,7 @@ export interface DaoAbiInterface extends utils.Interface {
       | "tokenURI"
       | "transferFrom"
       | "vote"
+      | "voteTypes"
       | "votes"
       | "votesInfo"
   ): FunctionFragment;
@@ -96,6 +100,10 @@ export interface DaoAbiInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "hasVote",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
@@ -158,7 +166,11 @@ export interface DaoAbiInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "vote",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<boolean>]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "voteTypes",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "votes",
@@ -183,6 +195,7 @@ export interface DaoAbiInterface extends utils.Interface {
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "hasVote", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
@@ -221,6 +234,7 @@ export interface DaoAbiInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "vote", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "voteTypes", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "votes", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "votesInfo", data: BytesLike): Result;
 
@@ -231,7 +245,7 @@ export interface DaoAbiInterface extends utils.Interface {
     "Transfer(address,address,uint256)": EventFragment;
     "VoteClosed(uint256,address,uint256)": EventFragment;
     "VoteCreated(uint256,address,uint256)": EventFragment;
-    "Voted(address,address,uint256,uint256,bool)": EventFragment;
+    "Voted(address,address,uint256,uint256,uint8)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
@@ -321,10 +335,10 @@ export interface VotedEventObject {
   dao: string;
   votingId: BigNumber;
   voteCount: BigNumber;
-  isPositiveVote: boolean;
+  voteType: number;
 }
 export type VotedEvent = TypedEvent<
-  [string, string, BigNumber, BigNumber, boolean],
+  [string, string, BigNumber, BigNumber, number],
   VotedEventObject
 >;
 
@@ -381,6 +395,12 @@ export interface DaoAbi extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    hasVote(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -453,9 +473,15 @@ export interface DaoAbi extends BaseContract {
 
     vote(
       votingId: PromiseOrValue<BigNumberish>,
-      voteType: PromiseOrValue<boolean>,
+      voteType: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    voteTypes(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[number]>;
 
     votes(
       arg0: PromiseOrValue<BigNumberish>,
@@ -504,6 +530,12 @@ export interface DaoAbi extends BaseContract {
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  hasVote(
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   isApprovedForAll(
     owner: PromiseOrValue<string>,
@@ -576,9 +608,15 @@ export interface DaoAbi extends BaseContract {
 
   vote(
     votingId: PromiseOrValue<BigNumberish>,
-    voteType: PromiseOrValue<boolean>,
+    voteType: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  voteTypes(
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<number>;
 
   votes(
     arg0: PromiseOrValue<BigNumberish>,
@@ -625,6 +663,12 @@ export interface DaoAbi extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    hasVote(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -697,9 +741,15 @@ export interface DaoAbi extends BaseContract {
 
     vote(
       votingId: PromiseOrValue<BigNumberish>,
-      voteType: PromiseOrValue<boolean>,
+      voteType: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    voteTypes(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<number>;
 
     votes(
       arg0: PromiseOrValue<BigNumberish>,
@@ -793,19 +843,19 @@ export interface DaoAbi extends BaseContract {
       startTimestamp?: null
     ): VoteCreatedEventFilter;
 
-    "Voted(address,address,uint256,uint256,bool)"(
+    "Voted(address,address,uint256,uint256,uint8)"(
       user?: null,
       dao?: null,
       votingId?: null,
       voteCount?: null,
-      isPositiveVote?: null
+      voteType?: null
     ): VotedEventFilter;
     Voted(
       user?: null,
       dao?: null,
       votingId?: null,
       voteCount?: null,
-      isPositiveVote?: null
+      voteType?: null
     ): VotedEventFilter;
   };
 
@@ -832,6 +882,12 @@ export interface DaoAbi extends BaseContract {
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    hasVote(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -906,8 +962,14 @@ export interface DaoAbi extends BaseContract {
 
     vote(
       votingId: PromiseOrValue<BigNumberish>,
-      voteType: PromiseOrValue<boolean>,
+      voteType: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    voteTypes(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     votes(
@@ -944,6 +1006,12 @@ export interface DaoAbi extends BaseContract {
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    hasVote(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1018,8 +1086,14 @@ export interface DaoAbi extends BaseContract {
 
     vote(
       votingId: PromiseOrValue<BigNumberish>,
-      voteType: PromiseOrValue<boolean>,
+      voteType: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    voteTypes(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     votes(
