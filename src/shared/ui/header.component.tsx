@@ -2,6 +2,7 @@ import { Avatar } from '@mui/material'
 import { useEthers } from '@usedapp/core'
 import * as React from 'react'
 
+import { MetamaskIcon } from './icons/metamask.icon'
 import { Paragraph } from './typography'
 
 export function Header() {
@@ -18,7 +19,7 @@ export function Header() {
         <>
           <Paragraph>{walletAddress}</Paragraph>
           <Avatar className="h-6 w-6 bg-white">
-            <img src="/assets/images/metamask.svg" alt="" className="w-2/3" />
+            <MetamaskIcon className="w-2/3" />
           </Avatar>
         </>
       )}
