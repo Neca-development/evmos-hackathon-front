@@ -8,7 +8,7 @@ export const MTextField = styled(TextField)({
   },
   '& .MuiFormLabel-root': {
     fontSize: '0.6rem',
-    color: 'white',
+    color: 'rgba(137, 129, 129)',
   },
   '& .MuiOutlinedInput-root': {
     fontSize: '0.6rem',
