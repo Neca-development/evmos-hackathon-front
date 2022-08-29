@@ -1,6 +1,6 @@
 import { DaoApi } from '@entities/dao'
-import { Button, TextField } from '@mui/material'
-import { FileInput, HeadingTwo } from '@shared/ui'
+import { TextField } from '@mui/material'
+import { FileInput, HeadingTwo, MButton, Paragraph } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
 import * as React from 'react'
 import { useCreateDao } from 'src/blockchain'
@@ -85,78 +85,81 @@ export function CreateDaoForm() {
   }, [account, daoInfoLink, daoContractAddress])
 
   return (
-    <div className="space-x-5 flex justify-between">
-      {/* Dao image */}
-      <div>
-        <FileInput
-          size="large"
-          inputName="daoImage"
-          imgFile={daoForm.daoImage}
-          onImageChange={handleImageChange}
-        />
-      </div>
-      {/* /Dao image */}
-
-      {/* Dao form */}
-      <div className="flex flex-col justify-between space-y-3">
-        <TextField
-          InputLabelProps={{ className: 'text-xs text-white' }}
-          InputProps={{ className: 'text-xs text-white' }}
-          name="name"
-          label="DAO Name"
-          onChange={handleTextChange}
-        />
-
-        <TextField
-          InputLabelProps={{ className: 'text-xs text-white' }}
-          InputProps={{ className: 'text-xs text-white' }}
-          name="description"
-          label="DAO Description"
-          multiline
-          minRows={6}
-          onChange={handleTextChange}
-        />
-
-        {/* Tokens images */}
-        <div>
-          <HeadingTwo className="mb-1 text-base">Add tokens</HeadingTwo>
-
-          <div className="flex space-x-5">
-            <FileInput
-              inputName="firstNftImage"
-              imgFile={daoForm.firstNftImage}
-              onImageChange={handleImageChange}
-            />
-
-            <FileInput
-              inputName="secondNftImage"
-              imgFile={daoForm.secondNftImage}
-              onImageChange={handleImageChange}
-            />
-
-            <FileInput
-              inputName="thirdNftImage"
-              imgFile={daoForm.thirdNftImage}
-              onImageChange={handleImageChange}
-            />
-          </div>
+    <>
+      <div className="mb-7 grid grid-cols-5 gap-x-10">
+        {/* Dao image */}
+        <div className="col-span-2">
+          <FileInput
+            inputName="daoImage"
+            imgFile={daoForm.daoImage}
+            onImageChange={handleImageChange}
+          />
         </div>
-        {/* /Tokens images */}
+        {/* /Dao image */}
+
+        {/* Dao form */}
+        <div className="col-span-3 w-[70%] flex flex-col justify-between space-y-4">
+          <TextField
+            InputLabelProps={{ className: 'text-xs text-white' }}
+            InputProps={{ className: 'text-xs text-white focus:border-orange' }}
+            name="name"
+            label="DAO Name"
+            onChange={handleTextChange}
+          />
+
+          <TextField
+            InputLabelProps={{ className: 'text-xs text-white' }}
+            InputProps={{ className: 'text-xs text-white' }}
+            name="description"
+            label="DAO Description"
+            multiline
+            minRows={6}
+            onChange={handleTextChange}
+          />
+
+          {/* Tokens images */}
+          <div>
+            <HeadingTwo className="mb-2 text-base">Add tokens</HeadingTwo>
+
+            <div className="grid grid-cols-5 gap-x-5">
+              <div className="space-y-1 flex flex-col justify-center items-center">
+                <FileInput
+                  inputName="firstNftImage"
+                  imgFile={daoForm.firstNftImage}
+                  onImageChange={handleImageChange}
+                />
+                <Paragraph>1 vote</Paragraph>
+              </div>
+
+              <div className="space-y-1 flex flex-col justify-center items-center">
+                <FileInput
+                  inputName="secondNftImage"
+                  imgFile={daoForm.secondNftImage}
+                  onImageChange={handleImageChange}
+                />
+                <Paragraph>2 vote</Paragraph>
+              </div>
+
+              <div className="space-y-1 flex flex-col justify-center items-center">
+                <FileInput
+                  inputName="thirdNftImage"
+                  imgFile={daoForm.thirdNftImage}
+                  onImageChange={handleImageChange}
+                />
+                <Paragraph>3 vote</Paragraph>
+              </div>
+            </div>
+          </div>
+          {/* /Tokens images */}
+        </div>
+        {/* /Dao form */}
       </div>
-      {/* /Dao form */}
 
       {/* Create button */}
-      <div className="self-end">
-        <Button
-          variant="contained"
-          size="small"
-          className="text-[0.65rem] text-white bg-orange"
-          onClick={handleClickOnCreateButton}
-        >
-          Create
-        </Button>
+      <div className="flex justify-center">
+        <MButton onClick={handleClickOnCreateButton}>Create</MButton>
       </div>
       {/* /Create button */}
-    </div>
+    </>
   )
 }

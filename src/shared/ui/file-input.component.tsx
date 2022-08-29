@@ -4,14 +4,13 @@ import * as React from 'react'
 import { AddIcon } from './icons'
 
 export interface IFileInputProperties {
-  size?: 'small' | 'large'
   inputName: string
   imgFile: File | null | undefined
   onImageChange: (name: string, newImage: File | null | undefined) => void
 }
 
 export function FileInput(props: IFileInputProperties) {
-  const { inputName, imgFile, size = 'small', onImageChange } = props
+  const { inputName, imgFile, onImageChange } = props
 
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = event.target
@@ -25,9 +24,10 @@ export function FileInput(props: IFileInputProperties) {
   return (
     <label
       className={classNames(
-        'flex justify-center items-center bg-[rgba(255, 255, 255, 0.08)] cursor-pointer',
-        size === 'small' && 'aspect-square w-1/2',
-        size === 'large' && 'aspect-square w-[70%]'
+        'aspect-square cursor-pointer',
+        'relative flex justify-center items-center',
+        'hover:ring-2 hover:ring-orange transition-all',
+        'rounded-md bg-[rgba(255, 255, 255, 0.08)]'
       )}
     >
       <input
@@ -45,11 +45,28 @@ export function FileInput(props: IFileInputProperties) {
           <img
             src="/assets/images/image-placeholder.png"
             alt="Upload image"
-            className="w-full"
+            className="w-full rounded-md"
           />
-          <AddIcon className="h-1/6 w-1/6 hidden hover:block" />
         </>
       )}
+
+      <div
+        className={classNames(
+          'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+          'h-full w-full',
+          'flex justify-center items-center',
+          'opacity-0 hover:opacity-100 transition-all',
+          'bg-[rgba(0,0,0,0.25)]'
+        )}
+      >
+        <AddIcon
+          className={classNames(
+            // 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+            // 'opacity-0 hover:opacity-100',
+            'h-1/5 w-1/5'
+          )}
+        />
+      </div>
     </label>
   )
 }
