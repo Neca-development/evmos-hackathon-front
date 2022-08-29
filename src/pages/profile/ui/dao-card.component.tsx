@@ -1,7 +1,7 @@
 import type { IDaoEntity } from '@entities/dao'
 import { DaoApi } from '@entities/dao'
 import {
-  // HeadingFour,
+  HeadingFour,
   HeadingThree,
   MButton,
   MDivider,
@@ -24,7 +24,7 @@ export function DaoCard({ dao }: IDaoCardProperties) {
     <MPaper className="w-full space-y-3">
       {/* DAO info */}
       <div className="space-x-5 flex">
-        <div className="h-[6rem] w-[6rem] bg-gray-400">
+        <div className="h-[6rem] w-[6rem] flex justify-center items-center bg-gray-400">
           <img src={data?.ava} alt="" className="w-full" />
         </div>
         <div className="flex flex-col justify-end">
@@ -37,17 +37,15 @@ export function DaoCard({ dao }: IDaoCardProperties) {
       <MDivider />
 
       {/* Token info */}
-      {/* <HeadingFour>
-        {dao.status === 'mint'
-          ? 'NFT with a 1 vote weight is available for mint'
-          : 'You have an NFT with a 1 vote weight in this DAO'}
-      </HeadingFour> */}
+      <HeadingFour>You have an NFT with a 1 vote weight in this DAO</HeadingFour>
       <div className="flex justify-between items-end">
-        <div className="h-14 w-14 bg-gray-400">
+        <div className="h-14 w-14 flex justify-center items-center bg-gray-400">
           <img src={data?.lowImg} alt="" className="w-full" />
         </div>
-        {/* <MButton>{dao.status === 'mint' ? 'Mint' : 'Enter'}</MButton> */}
-        <MButton onClick={() => router.push(`/dao/${dao.contractAddress}`)}>Mint</MButton>
+
+        <MButton onClick={() => router.push(`/dao/${dao.contractAddress}`)}>
+          Enter
+        </MButton>
       </div>
       {/* /Token info */}
     </MPaper>

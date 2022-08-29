@@ -16,7 +16,7 @@ export function MButton(props: IMButtonProperties) {
       variant="contained"
       className={classNames(
         'py-1 px-4 normal-case text-[0.7rem] text-white',
-        variant === 'primary' && 'bg-orange',
+        variant === 'primary' && 'bg-orange disabled:bg-dark-orange',
         variant === 'secondary' &&
           'bg-transparent hover:bg-transparent hover:ring-2 hover:ring-orange',
         className

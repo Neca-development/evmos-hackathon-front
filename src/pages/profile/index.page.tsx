@@ -6,22 +6,15 @@ import { useRouter } from 'next/router'
 import * as React from 'react'
 
 import { DaoList } from './ui/dao-list.component'
+import { MintRequestList } from './ui/mint-request-list.component'
 import { ProfileHero } from './ui/profile-hero.component'
 
 export default function UserPage() {
   const { account } = useEthers()
-  const { data: daosInvolvedIn } = UserApi.useGetUserQuery({ userAddress: account })
-  const { data: daosInvitedIn } = MintRequestApi.useGetMintRequestsForUserQuery({
+  const { data: user } = UserApi.useGetUserQuery({ userAddress: account })
+  const { data: mintRequests } = MintRequestApi.useGetMintRequestsForUserQuery({
     userAddress: account,
   })
-
-  const daos: any = []
-  if (daosInvolvedIn) {
-    daos.push(...daosInvolvedIn.daos)
-  }
-  if (daosInvitedIn) {
-    daos.push(...daosInvitedIn)
-  }
 
   const router = useRouter()
 
@@ -43,7 +36,8 @@ export default function UserPage() {
           <MButton onClick={handleCreateButtonClick}>Create DAO</MButton>
         </div>
 
-        {daos ? <DaoList daos={daos} /> : <div>You have no DAO (sad)</div>}
+        {user && <DaoList daos={user.daos} />}
+        {mintRequests && <MintRequestList mintRequests={mintRequests} />}
       </MainContainer>
     </>
   )
