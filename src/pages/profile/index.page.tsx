@@ -7,33 +7,8 @@ import * as React from 'react'
 import { DaoList } from './ui/dao-list.component'
 import { ProfileHero } from './ui/profile-hero.component'
 
-// const userDaosList = [
-//   {
-//     id: 0,
-//     name: 'DAO name',
-//     description:
-//       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac mi molestie, hendrerit metus sit amet, tincidunt neque. Nulla maximus ex et consectetur scelerisque. Vestibulum eget iaculis nisl.',
-//     status: 'mint',
-//   },
-//   {
-//     id: 1,
-//     name: 'DAO name',
-//     description:
-//       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac mi molestie, hendrerit metus sit amet, tincidunt neque. Nulla maximus ex et consectetur scelerisque. Vestibulum eget iaculis nisl.',
-//     status: 'mint',
-//   },
-//   {
-//     id: 2,
-//     name: 'DAO name',
-//     description:
-//       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac mi molestie, hendrerit metus sit amet, tincidunt neque. Nulla maximus ex et consectetur scelerisque. Vestibulum eget iaculis nisl.',
-//     status: 'enter',
-//   },
-// ]
-
 export default function UserPage() {
   const { account } = useEthers()
-
   const { data } = UserApi.useGetUserQuery({ userAddress: account })
 
   const router = useRouter()
@@ -57,14 +32,6 @@ export default function UserPage() {
         </div>
 
         {data ? <DaoList daos={data.daos} /> : <div>You have no DAO (sad)</div>}
-
-        {/* <List className="space-y-5">
-          {userDaosList.map((dao) => (
-            <ListItem key={dao.id} className="p-0">
-              <DaoCard dao={dao} />
-            </ListItem>
-          ))}
-        </List> */}
       </MainContainer>
     </>
   )
