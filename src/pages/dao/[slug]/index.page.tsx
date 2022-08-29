@@ -1,3 +1,4 @@
+import { MintRequestApi } from '@entities/mint-request'
 import { List, ListItem, Paper } from '@mui/material'
 import {
   Header,
@@ -7,8 +8,10 @@ import {
   MButton,
   Paragraph,
 } from '@shared/ui'
+import { useRouter } from 'next/router'
+import * as React from 'react'
 
-import { VoteCard } from './ui/vote-card.component'
+import { VoteCard } from '../ui/vote-card.component'
 
 const votesList = [
   {
@@ -35,6 +38,42 @@ const votesList = [
 ]
 
 export default function DaoPage() {
+  const router = useRouter()
+  const { slug } = router.query
+
+  React.useEffect(() => {
+    router.prefetch('/profile')
+  }, [])
+
+  React.useEffect(() => {
+    if (slug && typeof slug !== 'string') {
+      router.push('/profile')
+    }
+  }, [slug])
+
+  const [postMintRequestList] = MintRequestApi.usePostMintRequestListMutation()
+
+  const inviteUsers = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target
+    if (!files) {
+      return
+    }
+
+    const csvFile = files[0]
+    if (!csvFile) {
+      return
+    }
+
+    const csvFileFormData = new FormData()
+    csvFileFormData.append('file', csvFile)
+
+    if (!slug || typeof slug !== 'string') {
+      return
+    }
+
+    await postMintRequestList({ daoAddress: slug, csv: csvFileFormData })
+  }
+
   return (
     <>
       <Header />
@@ -49,7 +88,15 @@ export default function DaoPage() {
 
           {/* DAO info */}
           <div>
-            <HeadingOne className="mb-1">DAO Name</HeadingOne>
+            <div className="flex justify-between">
+              <HeadingOne className="mb-1">DAO Name</HeadingOne>
+              <MButton>
+                <label className="cursor-pointer">
+                  Invite users
+                  <input hidden type={'file'} onChange={inviteUsers} />
+                </label>
+              </MButton>
+            </div>
 
             <Paragraph className="mb-10 space-x-1 flex">
               <img src="/assets/images/web.svg" alt="" />

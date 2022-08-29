@@ -1,4 +1,4 @@
-export interface IPostMintRequest {
+export interface IPostMintRequestListRequest {
   daoAddress: string
-  csvFile: File
+  csv: FormData
 }

@@ -8,6 +8,7 @@ import {
   MPaper,
   Paragraph,
 } from '@shared/ui'
+import { useRouter } from 'next/router'
 import * as React from 'react'
 
 interface IDaoCardProperties {
@@ -17,16 +18,14 @@ interface IDaoCardProperties {
 export function DaoCard({ dao }: IDaoCardProperties) {
   const { data } = DaoApi.useGetInfoFromIpfsQuery({ ipfsUrl: dao.ipfsUrl })
 
-  React.useEffect(() => {
-    console.log('dao:', data)
-  }, [data])
+  const router = useRouter()
 
   return (
     <MPaper className="w-full space-y-3">
       {/* DAO info */}
       <div className="space-x-5 flex">
-        <div>
-          <img src={data?.ava} alt="" className="h-[6rem] w-[6rem] bg-gray-400" />
+        <div className="h-[6rem] w-[6rem] bg-gray-400">
+          <img src={data?.ava} alt="" className="w-full" />
         </div>
         <div className="flex flex-col justify-end">
           <HeadingThree className="mb-4 text-orange">{data?.name}</HeadingThree>
@@ -44,9 +43,11 @@ export function DaoCard({ dao }: IDaoCardProperties) {
           : 'You have an NFT with a 1 vote weight in this DAO'}
       </HeadingFour> */}
       <div className="flex justify-between items-end">
-        <img src={data?.lowImg} alt="" className="h-14 w-14 bg-gray-400" />
+        <div className="h-14 w-14 bg-gray-400">
+          <img src={data?.lowImg} alt="" className="w-full" />
+        </div>
         {/* <MButton>{dao.status === 'mint' ? 'Mint' : 'Enter'}</MButton> */}
-        <MButton>{'Mint'}</MButton>
+        <MButton onClick={() => router.push(`/dao/${dao.contractAddress}`)}>Mint</MButton>
       </div>
       {/* /Token info */}
     </MPaper>

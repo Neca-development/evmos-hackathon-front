@@ -1,12 +1,10 @@
-import { createApi } from '@reduxjs/toolkit/dist/query'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@shared/api'
 import type { IBaseResponse } from '@shared/types'
 
 import type {
   IGenerateMintSignature,
-  IGetAllUserMintRequests,
-  IGetAllUserMintRequestsDto,
-  IPostMintRequest,
+  IPostMintRequestListRequest,
   ISuccessMintRequest,
 } from './model'
 
@@ -15,28 +13,12 @@ export const mintRequestApi = createApi({
   baseQuery,
   tagTypes: ['MINT_REQUEST'],
   endpoints: (builder) => ({
-    getAllUserMintRequests: builder.query<
-      IGetAllUserMintRequestsDto,
-      IGetAllUserMintRequests
-    >({
-      query: (args) => {
-        return {
-          url: `/mint-request/generate-list/${args.userAddress}`,
-          method: 'GET',
-        }
-      },
-      providesTags: ['MINT_REQUEST'],
-      transformResponse: (res: IBaseResponse<IGetAllUserMintRequestsDto>) => {
-        return res.data
-      },
-    }),
-
-    postMintRequestList: builder.mutation<void, IPostMintRequest>({
+    postMintRequestList: builder.mutation<void, IPostMintRequestListRequest>({
       query: (args) => {
         return {
           url: `/mint-request/generate-list/${args.daoAddress}`,
           method: 'POST',
-          body: { file: args.csvFile },
+          body: { file: args.csv },
         }
       },
       invalidatesTags: ['MINT_REQUEST'],
@@ -68,3 +50,9 @@ export const mintRequestApi = createApi({
     }),
   }),
 })
+
+export const {
+  usePostMintRequestListMutation,
+  useGenerateMintSignatureMutation,
+  useSuccessMintRequestMutation,
+} = mintRequestApi
