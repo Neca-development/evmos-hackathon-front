@@ -1,6 +1,5 @@
 import { DaoApi } from '@entities/dao'
-import { TextField } from '@mui/material'
-import { FileInput, HeadingTwo, MButton, Paragraph } from '@shared/ui'
+import { FileInput, HeadingTwo, MButton, MTextField, Paragraph } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
 import * as React from 'react'
 import { useCreateDao } from 'src/blockchain'
@@ -99,17 +98,14 @@ export function CreateDaoForm() {
 
         {/* Dao form */}
         <div className="col-span-3 w-[70%] flex flex-col justify-between space-y-4">
-          <TextField
-            InputLabelProps={{ className: 'text-xs text-white' }}
-            InputProps={{ className: 'text-xs text-white focus:border-orange' }}
+          <MTextField
             name="name"
             label="DAO Name"
+            color="secondary"
             onChange={handleTextChange}
           />
 
-          <TextField
-            InputLabelProps={{ className: 'text-xs text-white' }}
-            InputProps={{ className: 'text-xs text-white' }}
+          <MTextField
             name="description"
             label="DAO Description"
             multiline
