@@ -2,12 +2,10 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@shared/api'
 import type { IBaseResponse } from '@shared/types'
 
+import type { IDaoEntity } from '.'
 import type { ICreateDaoRequest } from './model/create-dao.dto'
 import type { IGenerateDaoInfoLinkRequest } from './model/generate-dao-info-link.dto'
-import type {
-  IGetAllDaoUsersDto,
-  IGetAllDaoUsersRequest,
-} from './model/get-all-dao-users.dto'
+import type { IGetDaoRequest } from './model/get-dao.dto'
 import type {
   IGetInfoFromIpfsRequest,
   IGetInfoFromIpfsResponse,
@@ -19,15 +17,15 @@ export const daoApi = createApi({
   baseQuery,
   tagTypes: ['DAO'],
   endpoints: (builder) => ({
-    getDao: builder.query<IGetAllDaoUsersDto, IGetAllDaoUsersRequest>({
+    getDao: builder.query<IDaoEntity, IGetDaoRequest>({
       query: (args) => {
         return {
-          url: `dao/get-users/${args.daoAddress}`,
+          url: `dao/${args.daoAddress}`,
           method: 'GET',
         }
       },
       providesTags: ['DAO'],
-      transformResponse: (res: IBaseResponse<IGetAllDaoUsersDto>) => {
+      transformResponse: (res: IBaseResponse<IDaoEntity>) => {
         return res.data
       },
     }),

@@ -1,5 +1,5 @@
 export interface IGetInfoFromIpfsRequest {
-  ipfsUrl: string
+  ipfsUrl: string | undefined
 }
 
 export interface IGetInfoFromIpfsResponse {

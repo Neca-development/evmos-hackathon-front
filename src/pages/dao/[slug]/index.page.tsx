@@ -1,3 +1,4 @@
+import { DaoApi } from '@entities/dao'
 import { MintRequestApi } from '@entities/mint-request'
 import { List, ListItem, Paper } from '@mui/material'
 import {
@@ -41,6 +42,10 @@ const votesList = [
 export default function DaoPage() {
   const router = useRouter()
   const { slug } = router.query
+  const { data: dao, refetch: refetchDao } = DaoApi.useGetDaoQuery({ daoAddress: slug })
+  const { data: daoInfo, refetch: refetchDaoInfo } = DaoApi.useGetInfoFromIpfsQuery({
+    ipfsUrl: dao?.ipfsUrl,
+  })
 
   React.useEffect(() => {
     router.prefetch('/profile')
@@ -49,8 +54,16 @@ export default function DaoPage() {
   React.useEffect(() => {
     if (slug && typeof slug !== 'string') {
       router.push('/profile')
+    } else if (slug) {
+      refetchDao()
     }
   }, [slug])
+
+  React.useEffect(() => {
+    if (dao) {
+      refetchDaoInfo()
+    }
+  }, [dao])
 
   const [postMintRequestList] = MintRequestApi.usePostMintRequestListMutation()
 
@@ -83,14 +96,16 @@ export default function DaoPage() {
         <Paper className="mb-10 p-9 space-x-14 flex text-white bg-dao-hero">
           {/* DAO image */}
           <div>
-            <div className="h-[7rem] w-[7rem] bg-white" />
+            <div className="h-[7rem] w-[7rem] bg-white">
+              <img src={daoInfo?.ava} alt="" />
+            </div>
           </div>
           {/* /DAO image */}
 
           {/* DAO info */}
-          <div>
+          <div className="w-full">
             <div className="flex justify-between">
-              <HeadingOne className="mb-1">DAO Name</HeadingOne>
+              <HeadingOne className="mb-1">{daoInfo?.name}</HeadingOne>
               <MButton>
                 <label className="cursor-pointer">
                   Invite users
@@ -104,12 +119,7 @@ export default function DaoPage() {
               <span className="text-orange">SC address</span>
             </Paragraph>
 
-            <Paragraph>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat.
-            </Paragraph>
+            <Paragraph>{daoInfo?.descr}</Paragraph>
           </div>
           {/* /DAO info */}
         </Paper>
