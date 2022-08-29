@@ -1,3 +1,4 @@
+import { MintRequestApi } from '@entities/mint-request'
 import { UserApi } from '@entities/user'
 import { Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
@@ -9,7 +10,18 @@ import { ProfileHero } from './ui/profile-hero.component'
 
 export default function UserPage() {
   const { account } = useEthers()
-  const { data } = UserApi.useGetUserQuery({ userAddress: account })
+  const { data: daosInvolvedIn } = UserApi.useGetUserQuery({ userAddress: account })
+  const { data: daosInvitedIn } = MintRequestApi.useGetMintRequestsForUserQuery({
+    userAddress: account,
+  })
+
+  const daos: any = []
+  if (daosInvolvedIn) {
+    daos.push(...daosInvolvedIn.daos)
+  }
+  if (daosInvitedIn) {
+    daos.push(...daosInvitedIn)
+  }
 
   const router = useRouter()
 
@@ -31,7 +43,7 @@ export default function UserPage() {
           <MButton onClick={handleCreateButtonClick}>Create DAO</MButton>
         </div>
 
-        {data ? <DaoList daos={data.daos} /> : <div>You have no DAO (sad)</div>}
+        {daos ? <DaoList daos={daos} /> : <div>You have no DAO (sad)</div>}
       </MainContainer>
     </>
   )

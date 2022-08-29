@@ -4,6 +4,8 @@ import type { IBaseResponse } from '@shared/types'
 
 import type {
   IGenerateMintSignature,
+  IGetMintRequestsForUserRequest,
+  IGetMintRequestsForUserResponse,
   IPostMintRequestListRequest,
   ISuccessMintRequest,
 } from './model'
@@ -13,12 +15,28 @@ export const mintRequestApi = createApi({
   baseQuery,
   tagTypes: ['MINT_REQUEST'],
   endpoints: (builder) => ({
+    getMintRequestsForUser: builder.query<
+      IGetMintRequestsForUserResponse,
+      IGetMintRequestsForUserRequest
+    >({
+      query: (args) => {
+        return {
+          url: `/mint-request/${args.userAddress}`,
+          method: 'GET',
+        }
+      },
+      providesTags: ['MINT_REQUEST'],
+      transformResponse: (res: IBaseResponse<IGetMintRequestsForUserResponse>) => {
+        return res.data
+      },
+    }),
+
     postMintRequestList: builder.mutation<void, IPostMintRequestListRequest>({
       query: (args) => {
         return {
           url: `/mint-request/generate-list/${args.daoAddress}`,
           method: 'POST',
-          body: { file: args.csv },
+          body: args.csv,
         }
       },
       invalidatesTags: ['MINT_REQUEST'],
@@ -52,6 +70,7 @@ export const mintRequestApi = createApi({
 })
 
 export const {
+  useGetMintRequestsForUserQuery,
   usePostMintRequestListMutation,
   useGenerateMintSignatureMutation,
   useSuccessMintRequestMutation,

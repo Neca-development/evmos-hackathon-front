@@ -8,6 +8,7 @@ import {
   MButton,
   Paragraph,
 } from '@shared/ui'
+import { WebIcon } from '@shared/ui/icons/web.icon'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
@@ -98,8 +99,8 @@ export default function DaoPage() {
               </MButton>
             </div>
 
-            <Paragraph className="mb-10 space-x-1 flex">
-              <img src="/assets/images/web.svg" alt="" />
+            <Paragraph className="mb-10 space-x-1 flex items-center">
+              <WebIcon />
               <span className="text-orange">SC address</span>
             </Paragraph>
 
