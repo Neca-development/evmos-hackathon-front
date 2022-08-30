@@ -8,6 +8,7 @@ module.exports = {
         'profile-hero': 'linear-gradient(to bottom, #262747 0%, #262747 56%, transparent 56%, transparent 100%)',
       },
       colors: {
+        'grayish-blue': '#262747',
         orange: '#D33D00',
         'dark-orange': 'rgba(211, 61, 0, 0.6)',
         'light-gray': 'rgba(137, 129, 129, 0.3)',

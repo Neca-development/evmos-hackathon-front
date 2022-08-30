@@ -8,6 +8,7 @@ import {
   ProcessingModal,
 } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
+import { useRouter } from 'next/router'
 import * as React from 'react'
 import { useCreateDao } from 'src/blockchain'
 
@@ -35,15 +36,20 @@ const daoFormInitialState: IDaoFormProperties = {
 
 export function CreateDaoForm() {
   const [daoForm, setDaoForm] = React.useState<IDaoFormProperties>(daoFormInitialState)
+  const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const [modalText, setModalText] = React.useState('')
+  const [isRequestInProgress, setIsRequestInProgress] = React.useState(false)
+  const [isDaoCreated, setIsDaoCreated] = React.useState(false)
 
   const { account } = useEthers()
+  const router = useRouter()
 
   const [createDaoOnBackend] = DaoApi.useCreateDaoMutation()
 
   const { getImageLinks } = useUploadNfts()
   const { daoInfoLink, getDaoInfoLink } = useGenerateDaoInfoLink()
 
-  const { daoContractAddress, createDao } = useCreateDao()
+  const { txStatus, txMessage, daoContractAddress, createDao } = useCreateDao()
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -56,6 +62,10 @@ export function CreateDaoForm() {
 
   const handleClickOnCreateButton = async () => {
     try {
+      setIsModalOpen(true)
+      setIsRequestInProgress(true)
+      setModalText('Uploading DAO info to IPFS...')
+
       const imagesFiles = {
         daoImage: daoForm.daoImage,
         firstNftImage: daoForm.firstNftImage,
@@ -71,23 +81,34 @@ export function CreateDaoForm() {
       }
       await getDaoInfoLink(daoInfo)
 
+      setIsRequestInProgress(false)
+
       await createDao(daoForm.name, daoForm.tokenSymbol, daoInfoLink)
     } catch (error: any) {
       console.error(error)
     }
   }
 
-  React.useEffect(() => {
-    if (account && daoInfoLink && daoContractAddress) {
-      console.log('dao contract address:', daoContractAddress)
-      console.log('dao info link:', daoInfoLink)
-      console.log('user wallet address:', daoContractAddress)
-      createDaoOnBackend({
-        contractAddress: daoContractAddress,
-        ipfsUrl: daoInfoLink,
-        userAddress: account,
-      })
+  const handleModalClose = () => {
+    if (isDaoCreated) {
+      setIsRequestInProgress(true)
+      setModalText('Redirecting to DAO page...')
+      router.push(`/dao/${daoContractAddress}`)
     }
+  }
+
+  React.useEffect(() => {
+    async function finishDaoCreation() {
+      if (account && daoInfoLink && daoContractAddress) {
+        await createDaoOnBackend({
+          contractAddress: daoContractAddress,
+          ipfsUrl: daoInfoLink,
+          userAddress: account,
+        })
+        setIsDaoCreated(true)
+      }
+    }
+    finishDaoCreation()
   }, [account, daoInfoLink, daoContractAddress])
 
   const isCreateButtonDisabled =
@@ -98,22 +119,6 @@ export function CreateDaoForm() {
     !daoForm.firstNftImage ||
     !daoForm.secondNftImage ||
     !daoForm.thirdNftImage
-
-  const [isModalOpen, setIsModalOpen] = React.useState(false)
-  const [isLoading, setIsLoading] = React.useState(false)
-  const [isSuccess, setIsSuccess] = React.useState(false)
-
-  const openModal = () => {
-    setIsModalOpen(true)
-
-    setIsSuccess(false)
-    setIsLoading(true)
-
-    setTimeout(() => {
-      setIsSuccess(true)
-      setIsLoading(false)
-    }, 2000)
-  }
 
   return (
     <>
@@ -186,18 +191,14 @@ export function CreateDaoForm() {
       </div>
       {/* /Create button */}
 
-      {/* Modal test */}
-      <div className="flex justify-center">
-        <MButton onClick={openModal}>Open modal</MButton>
-      </div>
-      {/* /Modal test */}
-
       <ProcessingModal
         isOpen={isModalOpen}
-        isProcessing={isLoading}
-        isSuccess={isSuccess}
-        onClose={() => setIsModalOpen(false)}
-      />
+        isProcessing={isRequestInProgress || txStatus === 'pending'}
+        isSuccess={!isRequestInProgress && txStatus === 'success'}
+        onClose={handleModalClose}
+      >
+        {isRequestInProgress ? modalText : txMessage}
+      </ProcessingModal>
     </>
   )
 }
