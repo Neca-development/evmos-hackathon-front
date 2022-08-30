@@ -7,7 +7,7 @@ export const useVotingProcess = (daoContract: DaoAbi | null) => {
   const [txStatus, setTxStatus] = React.useState<TransactionStatus>('none')
   const [txMessage, setTxMessage] = React.useState('')
 
-  const votingProcess = async (votingId: number, voteType: boolean) => {
+  const votingProcess = async (votingId: number, voteType: number) => {
     if (!daoContract) {
       setTxStatus('error')
       setTxMessage('Wallet is not connected')
