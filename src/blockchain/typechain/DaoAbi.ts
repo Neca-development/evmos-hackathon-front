@@ -32,7 +32,7 @@ export interface DaoAbiInterface extends utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "closeVoting(uint256)": FunctionFragment;
-    "createVoting()": FunctionFragment;
+    "createVoting(string)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "hasVote(address,uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
@@ -95,7 +95,7 @@ export interface DaoAbiInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "createVoting",
-    values?: undefined
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
@@ -244,7 +244,7 @@ export interface DaoAbiInterface extends utils.Interface {
     "Minted(address,address,uint256,uint8)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
     "VoteClosed(uint256,address,uint256)": EventFragment;
-    "VoteCreated(uint256,address,uint256)": EventFragment;
+    "VoteCreated(uint256,address,uint256,string)": EventFragment;
     "Voted(address,address,uint256,uint256,uint8)": EventFragment;
   };
 
@@ -322,9 +322,10 @@ export interface VoteCreatedEventObject {
   votingId: BigNumber;
   dao: string;
   startTimestamp: BigNumber;
+  voteLink: string;
 }
 export type VoteCreatedEvent = TypedEvent<
-  [BigNumber, string, BigNumber],
+  [BigNumber, string, BigNumber, string],
   VoteCreatedEventObject
 >;
 
@@ -388,6 +389,7 @@ export interface DaoAbi extends BaseContract {
     ): Promise<ContractTransaction>;
 
     createVoting(
+      _voteLink: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -487,7 +489,8 @@ export interface DaoAbi extends BaseContract {
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, string, number] & {
+      [string, BigNumber, BigNumber, string, number] & {
+        voteLink: string;
         votingStart: BigNumber;
         votingEnd: BigNumber;
         ownerVoting: string;
@@ -523,6 +526,7 @@ export interface DaoAbi extends BaseContract {
   ): Promise<ContractTransaction>;
 
   createVoting(
+    _voteLink: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -622,7 +626,8 @@ export interface DaoAbi extends BaseContract {
     arg0: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber, string, number] & {
+    [string, BigNumber, BigNumber, string, number] & {
+      voteLink: string;
       votingStart: BigNumber;
       votingEnd: BigNumber;
       ownerVoting: string;
@@ -657,7 +662,10 @@ export interface DaoAbi extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    createVoting(overrides?: CallOverrides): Promise<void>;
+    createVoting(
+      _voteLink: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -755,7 +763,8 @@ export interface DaoAbi extends BaseContract {
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, string, number] & {
+      [string, BigNumber, BigNumber, string, number] & {
+        voteLink: string;
         votingStart: BigNumber;
         votingEnd: BigNumber;
         ownerVoting: string;
@@ -832,15 +841,17 @@ export interface DaoAbi extends BaseContract {
       closeTimestamp?: null
     ): VoteClosedEventFilter;
 
-    "VoteCreated(uint256,address,uint256)"(
+    "VoteCreated(uint256,address,uint256,string)"(
       votingId?: null,
       dao?: null,
-      startTimestamp?: null
+      startTimestamp?: null,
+      voteLink?: null
     ): VoteCreatedEventFilter;
     VoteCreated(
       votingId?: null,
       dao?: null,
-      startTimestamp?: null
+      startTimestamp?: null,
+      voteLink?: null
     ): VoteCreatedEventFilter;
 
     "Voted(address,address,uint256,uint256,uint8)"(
@@ -877,6 +888,7 @@ export interface DaoAbi extends BaseContract {
     ): Promise<BigNumber>;
 
     createVoting(
+      _voteLink: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1001,6 +1013,7 @@ export interface DaoAbi extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     createVoting(
+      _voteLink: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -181,6 +181,12 @@
         "internalType": "uint256",
         "name": "startTimestamp",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "voteLink",
+        "type": "string"
       }
     ],
     "name": "VoteCreated",
@@ -274,7 +280,13 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_voteLink",
+        "type": "string"
+      }
+    ],
     "name": "createVoting",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -630,6 +642,11 @@
     ],
     "name": "votes",
     "outputs": [
+      {
+        "internalType": "string",
+        "name": "voteLink",
+        "type": "string"
+      },
       {
         "internalType": "uint256",
         "name": "votingStart",
