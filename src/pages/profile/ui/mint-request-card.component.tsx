@@ -1,4 +1,5 @@
 import { DaoApi } from '@entities/dao'
+import { MintRequestApi } from '@entities/mint-request'
 import type { IMintRequestEntity } from '@entities/mint-request/mint-request.entity'
 import {
   HeadingFour,
@@ -9,6 +10,7 @@ import {
   Paragraph,
 } from '@shared/ui'
 import * as React from 'react'
+import { useMint } from 'src/blockchain'
 
 interface IMintRequestCardProperties {
   mintRequest: IMintRequestEntity
@@ -17,6 +19,24 @@ interface IMintRequestCardProperties {
 export function MintRequestCard({ mintRequest }: IMintRequestCardProperties) {
   const { data: dao } = DaoApi.useGetDaoQuery({ daoAddress: mintRequest.daoAddress })
   const { data: daoInfo } = DaoApi.useGetInfoFromIpfsQuery({ ipfsUrl: dao?.ipfsUrl })
+
+  const [generateMintSignature] = MintRequestApi.useGenerateMintSignatureMutation()
+  const [successMintRequest] = MintRequestApi.useSuccessMintRequestMutation()
+
+  const { mintNft } = useMint()
+
+  const handleClickOnMintButton = async () => {
+    try {
+      const signature = await generateMintSignature({
+        mintRequestId: mintRequest.id,
+      }).unwrap()
+      console.log('signature for mint:', signature)
+      await mintNft(mintRequest.tokenType, signature)
+      await successMintRequest({ mintRequestId: mintRequest.id })
+    } catch (error: any) {
+      console.error(error)
+    }
+  }
 
   return (
     <MPaper className="w-full space-y-3">
@@ -39,7 +59,7 @@ export function MintRequestCard({ mintRequest }: IMintRequestCardProperties) {
       <div className="flex justify-between items-end">
         <div className="h-14 w-14 flex justify-center items-center bg-gray-400" />
 
-        <MButton>Mint</MButton>
+        <MButton onClick={handleClickOnMintButton}>Mint</MButton>
       </div>
       {/* /Token info */}
     </MPaper>
