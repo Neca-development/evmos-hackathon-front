@@ -1,5 +1,12 @@
 import { DaoApi } from '@entities/dao'
-import { FileInput, HeadingTwo, MButton, MTextField, Paragraph } from '@shared/ui'
+import {
+  FileInput,
+  HeadingTwo,
+  MButton,
+  MTextField,
+  Paragraph,
+  ProcessingModal,
+} from '@shared/ui'
 import { useEthers } from '@usedapp/core'
 import * as React from 'react'
 import { useCreateDao } from 'src/blockchain'
@@ -83,6 +90,31 @@ export function CreateDaoForm() {
     }
   }, [account, daoInfoLink, daoContractAddress])
 
+  const isCreateButtonDisabled =
+    !daoForm.name ||
+    !daoForm.description ||
+    !daoForm.tokenSymbol ||
+    !daoForm.daoImage ||
+    !daoForm.firstNftImage ||
+    !daoForm.secondNftImage ||
+    !daoForm.thirdNftImage
+
+  const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [isSuccess, setIsSuccess] = React.useState(false)
+
+  const openModal = () => {
+    setIsModalOpen(true)
+
+    setIsSuccess(false)
+    setIsLoading(true)
+
+    setTimeout(() => {
+      setIsSuccess(true)
+      setIsLoading(false)
+    }, 2000)
+  }
+
   return (
     <>
       <div className="mb-7 grid grid-cols-5 gap-x-10">
@@ -98,12 +130,7 @@ export function CreateDaoForm() {
 
         {/* Dao form */}
         <div className="col-span-3 w-[70%] flex flex-col justify-between space-y-4">
-          <MTextField
-            name="name"
-            label="DAO Name"
-            color="secondary"
-            onChange={handleTextChange}
-          />
+          <MTextField name="name" label="DAO Name" onChange={handleTextChange} />
 
           <MTextField
             name="description"
@@ -153,9 +180,24 @@ export function CreateDaoForm() {
 
       {/* Create button */}
       <div className="flex justify-center">
-        <MButton onClick={handleClickOnCreateButton}>Create</MButton>
+        <MButton disabled={isCreateButtonDisabled} onClick={handleClickOnCreateButton}>
+          Create
+        </MButton>
       </div>
       {/* /Create button */}
+
+      {/* Modal test */}
+      <div className="flex justify-center">
+        <MButton onClick={openModal}>Open modal</MButton>
+      </div>
+      {/* /Modal test */}
+
+      <ProcessingModal
+        isOpen={isModalOpen}
+        isProcessing={isLoading}
+        isSuccess={isSuccess}
+        onClose={() => setIsModalOpen(false)}
+      />
     </>
   )
 }
