@@ -43,7 +43,7 @@ export const votingApi = createApi({
     generateIpfsLink: builder.mutation<string, IGenerateIpfsLinkRequest>({
       query: (args) => {
         return {
-          url: 'voting/generate-link',
+          url: 'voting/generate-ipfs',
           method: 'POST',
           body: { ...args },
         }

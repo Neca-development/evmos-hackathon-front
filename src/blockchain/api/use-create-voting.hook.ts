@@ -1,4 +1,5 @@
 import { useEthers } from '@usedapp/core'
+import type { BigNumber } from 'ethers'
 import * as React from 'react'
 
 import type { TransactionStatus } from '../lib'
@@ -7,6 +8,7 @@ import { DaoAbi__factory } from '../typechain'
 export const useCreateVoting = () => {
   const [txStatus, setTxStatus] = React.useState<TransactionStatus>('none')
   const [txMessage, setTxMessage] = React.useState('')
+  const [votingId, setVotingId] = React.useState<number | null>(null)
 
   const { library, account } = useEthers()
 
@@ -32,6 +34,13 @@ export const useCreateVoting = () => {
       setTxMessage('Waiting for voting creation...')
       console.log('pending: waiting for voting creation')
 
+      daoContract.on('VoteCreated', (newVotingId: BigNumber, dao: string) => {
+        if (daoAddress === dao) {
+          setVotingId(+newVotingId)
+          daoContract.removeAllListeners('VoteCreated')
+        }
+      })
+
       await createVotingTransaction.wait()
 
       setTxStatus('success')
@@ -44,5 +53,5 @@ export const useCreateVoting = () => {
     }
   }
 
-  return { txStatus, txMessage, createVoting }
+  return { votingId, txStatus, txMessage, createVoting }
 }
