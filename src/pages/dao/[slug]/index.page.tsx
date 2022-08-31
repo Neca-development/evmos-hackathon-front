@@ -1,5 +1,6 @@
 import { DaoApi } from '@entities/dao'
 import { MintRequestApi } from '@entities/mint-request'
+import { CreateVotingForm } from '@features/create-voting/ui/create-voting-form.component'
 import { List, ListItem, Paper } from '@mui/material'
 import {
   Header,
@@ -123,6 +124,8 @@ export default function DaoPage() {
           </div>
           {/* /DAO info */}
         </Paper>
+
+        <CreateVotingForm daoAddress={slug} onCancel={() => null} />
 
         <div className="mb-5 flex justify-between items-center">
           <HeadingTwo>Current votes</HeadingTwo>

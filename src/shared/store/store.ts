@@ -1,6 +1,7 @@
 import { daoApi } from '@entities/dao/dao.api'
 import { mintRequestApi } from '@entities/mint-request/mint-request.api'
 import { userApi } from '@entities/user/user.api'
+import { votingApi } from '@entities/voting/voting.api'
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query/react'
 import type { TypedUseSelectorHook } from 'react-redux'
@@ -11,12 +12,14 @@ export const store = configureStore({
     [daoApi.reducerPath]: daoApi.reducer,
     [mintRequestApi.reducerPath]: mintRequestApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
+    [votingApi.reducerPath]: votingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       daoApi.middleware,
       mintRequestApi.middleware,
-      userApi.middleware
+      userApi.middleware,
+      votingApi.middleware
     ),
 })
 
