@@ -190,12 +190,6 @@ const _abi = [
         name: "startTimestamp",
         type: "uint256",
       },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "voteLink",
-        type: "string",
-      },
     ],
     name: "VoteCreated",
     type: "event",
@@ -288,13 +282,7 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "string",
-        name: "_voteLink",
-        type: "string",
-      },
-    ],
+    inputs: [],
     name: "createVoting",
     outputs: [],
     stateMutability: "nonpayable",
@@ -650,11 +638,6 @@ const _abi = [
     ],
     name: "votes",
     outputs: [
-      {
-        internalType: "string",
-        name: "voteLink",
-        type: "string",
-      },
       {
         internalType: "uint256",
         name: "votingStart",
