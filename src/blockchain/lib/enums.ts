@@ -4,3 +4,14 @@ export enum TokenTypeEnum {
   MEDIUM,
   HIGH,
 }
+
+export enum VoteTypeEnum {
+  ABSTAIN,
+  POSITIVE,
+  NEGATIVE,
+}
+
+export enum VotingStatusEnum {
+  INACTIVE,
+  ACTIVE,
+}

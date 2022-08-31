@@ -108,7 +108,7 @@ export default function DaoPage() {
           <MButton>Create vote</MButton>
         </div>
 
-        <VotingList votings={dao?.votings} />
+        <VotingList daoAddress={dao?.contractAddress} votings={dao?.votings} />
       </MainContainer>
     </>
   )

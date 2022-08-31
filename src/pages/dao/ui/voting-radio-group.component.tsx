@@ -1,24 +1,37 @@
 import { FormControl, FormControlLabel, RadioGroup } from '@mui/material'
 import { MDivider } from '@shared/ui'
+import * as React from 'react'
+import { VoteTypeEnum } from 'src/blockchain'
 
 import { VotingRadio } from './voting-radio.component'
 
-export function VotingRadioGroup() {
+interface IVotingRadioGroupProperties {
+  onChange: (value: string) => void
+}
+
+export function VotingRadioGroup({ onChange }: IVotingRadioGroupProperties) {
+  const onRadioChange = (event: React.SyntheticEvent) => {
+    const { value } = event.target as HTMLInputElement
+    onChange(value)
+  }
+
   return (
     <FormControl className="w-full">
-      <RadioGroup name="vote" className="space-y-1">
+      <RadioGroup className="space-y-1">
         <FormControlLabel
-          value="yes"
+          value={VoteTypeEnum.POSITIVE}
           control={<VotingRadio />}
           label="Yes"
           componentsProps={{ typography: { className: 'text-xs' } }}
+          onChange={onRadioChange}
         />
         <MDivider />
         <FormControlLabel
-          value="no"
+          value={VoteTypeEnum.NEGATIVE}
           control={<VotingRadio />}
           label="No"
           componentsProps={{ typography: { className: 'text-xs' } }}
+          onChange={onRadioChange}
         />
       </RadioGroup>
     </FormControl>

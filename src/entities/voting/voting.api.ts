@@ -3,13 +3,13 @@ import { baseQuery } from '@shared/api'
 import type { IBaseResponse } from '@shared/types'
 
 import type {
+  ICreateVotingRequest,
   IGenerateIpfsLinkRequest,
   IGetInfoFromIpfsRequest,
   IGetInfoFromIpfsResponse,
   IGetVotingsRequest,
   IGetVotingsResponse,
 } from './model'
-import type { IVotingEntity } from './voting.entity'
 
 export const votingApi = createApi({
   reducerPath: 'votingApi',
@@ -29,7 +29,7 @@ export const votingApi = createApi({
       },
     }),
 
-    createVoting: builder.mutation<void, IVotingEntity>({
+    createVoting: builder.mutation<void, ICreateVotingRequest>({
       query: (args) => {
         return {
           url: 'voting/create',
