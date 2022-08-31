@@ -10,6 +10,7 @@ import {
 } from '@shared/ui'
 import { useRouter } from 'next/router'
 import * as React from 'react'
+import { useUserToken } from 'src/blockchain/api/use-user-token.hook'
 
 interface IDaoCardProperties {
   dao: IDaoEntity
@@ -17,6 +18,7 @@ interface IDaoCardProperties {
 
 export function DaoCard({ dao }: IDaoCardProperties) {
   const { data } = DaoApi.useGetInfoFromIpfsQuery({ ipfsUrl: dao.ipfsUrl })
+  const { tokenIpfsUrl } = useUserToken(dao.contractAddress)
 
   const router = useRouter()
 
@@ -40,7 +42,7 @@ export function DaoCard({ dao }: IDaoCardProperties) {
       <HeadingFour>You have an NFT with a 1 vote weight in this DAO</HeadingFour>
       <div className="flex justify-between items-end">
         <div className="h-14 w-14 flex justify-center items-center bg-gray-400">
-          <img src={data?.lowImg} alt="" className="w-full" />
+          <img src={tokenIpfsUrl} alt="" className="w-full" />
         </div>
 
         <MButton onClick={() => router.push(`/dao/${dao.contractAddress}`)}>
