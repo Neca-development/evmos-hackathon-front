@@ -1,11 +1,13 @@
 import { useEthers } from '@usedapp/core'
 import * as React from 'react'
 
+import type { VoteTypeEnum } from '../lib'
 import { DaoAbi__factory } from '../typechain'
 
 interface IVotingInfo {
   status: number | null
   isUserVoted: boolean
+  userVoteType: VoteTypeEnum
   positiveVotesAmount: number
   negativeVotesAmount: number
 }
@@ -13,6 +15,7 @@ interface IVotingInfo {
 const initialVotingInfo: IVotingInfo = {
   status: null,
   isUserVoted: false,
+  userVoteType: 0,
   positiveVotesAmount: 0,
   negativeVotesAmount: 0,
 }
@@ -35,11 +38,13 @@ export const useVotingInfo = (daoAddress: string | undefined, votingId: number) 
       try {
         const { status } = await daoContract.votes(votingId)
         const isUserVoted = await daoContract.hasVote(account, votingId)
+        const userVoteType = await daoContract.voteTypes(account, votingId)
         const { positiveVote, negativeVote } = await daoContract.votesInfo(votingId)
 
         setVotingInfo({
           status,
           isUserVoted,
+          userVoteType,
           positiveVotesAmount: +positiveVote,
           negativeVotesAmount: +negativeVote,
         })

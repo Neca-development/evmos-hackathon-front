@@ -2,7 +2,7 @@ import type { IVotingEntity } from '@entities/voting'
 import { VotingApi } from '@entities/voting'
 import { HeadingThree, MButton, MPaper, Paragraph } from '@shared/ui'
 import * as React from 'react'
-import { useVotingProcess, VotingStatusEnum } from 'src/blockchain'
+import { useVotingProcess, VoteTypeEnum, VotingStatusEnum } from 'src/blockchain'
 import { useVotingInfo } from 'src/blockchain/api/use-voting-info.hook'
 
 import { VotingRadioGroup } from './voting-radio-group.component'
@@ -22,7 +22,8 @@ export function VotingCard(props: IVotingCardProperties) {
 
   const { data } = VotingApi.useGetInfoFromIpfsQuery({ ipfsUrl })
   const { votingInfo } = useVotingInfo(daoAddress, smartContractId)
-  const { status, isUserVoted, positiveVotesAmount, negativeVotesAmount } = votingInfo
+  const { status, isUserVoted, userVoteType, positiveVotesAmount, negativeVotesAmount } =
+    votingInfo
 
   const totalVotes = positiveVotesAmount + negativeVotesAmount
   const positiveVotesPercents = totalVotes ? (positiveVotesAmount / totalVotes) * 100 : 0
@@ -46,10 +47,18 @@ export function VotingCard(props: IVotingCardProperties) {
       <Paragraph>{data?.descr}</Paragraph>
 
       {isUserVoted || status === VotingStatusEnum.INACTIVE ? (
-        <VotingResults
-          positiveVotesPercents={positiveVotesPercents}
-          negativeVotesPercents={negativeVotesPercents}
-        />
+        <>
+          <VotingResults
+            label="Yes"
+            percents={positiveVotesPercents}
+            isUserVoted={isUserVoted && userVoteType === VoteTypeEnum.POSITIVE}
+          />
+          <VotingResults
+            label="No"
+            percents={negativeVotesPercents}
+            isUserVoted={isUserVoted && userVoteType === VoteTypeEnum.NEGATIVE}
+          />
+        </>
       ) : (
         <VotingRadioGroup onChange={handleRadioChange} />
       )}
