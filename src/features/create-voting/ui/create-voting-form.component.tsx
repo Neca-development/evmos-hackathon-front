@@ -5,6 +5,7 @@ import { useCreateVoting } from 'src/blockchain'
 
 interface ICreateVotingFormProperties {
   daoAddress: string | string[] | undefined
+  onCreate: () => void
   onCancel: () => void
 }
 
@@ -19,7 +20,7 @@ const votingFormInitialState: IVotingFormProperties = {
 }
 
 export function CreateVotingForm(props: ICreateVotingFormProperties) {
-  const { daoAddress, onCancel } = props
+  const { daoAddress, onCreate, onCancel } = props
 
   const [votingForm, setVotingForm] =
     React.useState<IVotingFormProperties>(votingFormInitialState)
@@ -77,6 +78,7 @@ export function CreateVotingForm(props: ICreateVotingFormProperties) {
           ipfsUrl: votingInfoLink,
           smartContractId: votingId,
         })
+        onCreate()
         setIsDaoCreated(true)
       }
     }
@@ -85,7 +87,7 @@ export function CreateVotingForm(props: ICreateVotingFormProperties) {
 
   return (
     <>
-      <MPaper className="flex flex-col justify-between space-y-5">
+      <MPaper className="space-y-5 flex flex-col justify-between bg-dark-grayish-blue">
         <MTextField name="question" label="Voting question" onChange={handleInput} />
 
         <MTextField
@@ -97,7 +99,9 @@ export function CreateVotingForm(props: ICreateVotingFormProperties) {
         />
 
         <div className="flex justify-between items-center">
-          <MButton onClick={onCancel}>Cancel</MButton>
+          <MButton variant="secondary" onClick={onCancel}>
+            Cancel
+          </MButton>
           <MButton onClick={handleClickOnCreateButton}>Create voting</MButton>
         </div>
       </MPaper>

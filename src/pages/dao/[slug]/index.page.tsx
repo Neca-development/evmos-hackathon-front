@@ -65,6 +65,17 @@ export default function DaoPage() {
     await postMintRequestList({ daoAddress: slug, csv: csvFileFormData })
   }
 
+  const [isVotingFromOpen, setIsVotingFormOpen] = React.useState(false)
+
+  const handleVotingFormOpen = () => {
+    setIsVotingFormOpen(true)
+  }
+
+  const handleVotingFormClose = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setIsVotingFormOpen(false)
+  }
+
   return (
     <>
       <Header />
@@ -101,11 +112,22 @@ export default function DaoPage() {
           {/* /DAO info */}
         </Paper>
 
-        <CreateVoting.CreateVotingForm daoAddress={slug} onCancel={() => null} />
+        {isVotingFromOpen && (
+          <div className="mb-10">
+            <HeadingTwo className="mb-5">Voting creation</HeadingTwo>
+            <CreateVoting.CreateVotingForm
+              daoAddress={slug}
+              onCreate={refetchDao}
+              onCancel={handleVotingFormClose}
+            />
+          </div>
+        )}
 
         <div className="mb-5 flex justify-between items-center">
           <HeadingTwo>Current votes</HeadingTwo>
-          <MButton>Create vote</MButton>
+          {!isVotingFromOpen && (
+            <MButton onClick={handleVotingFormOpen}>Create vote</MButton>
+          )}
         </div>
 
         <VotingList daoAddress={dao?.contractAddress} votings={dao?.votings} />

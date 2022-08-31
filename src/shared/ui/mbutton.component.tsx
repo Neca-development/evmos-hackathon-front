@@ -17,9 +17,9 @@ export function MButton(props: IMButtonProperties) {
       className={classNames(
         'py-1 px-4 normal-case text-[0.7rem] text-white',
         variant === 'primary' &&
-          'bg-orange disabled:bg-dark-orange disabled:pointer-events-auto disabled:cursor-not-allowed',
+          'bg-orange hover:bg-dark-orange disabled:bg-dark-orange disabled:pointer-events-auto disabled:cursor-not-allowed',
         variant === 'secondary' &&
-          'bg-transparent hover:bg-transparent hover:ring-2 hover:ring-orange',
+          'bg-transparent ring-2 ring-light-gray hover:bg-transparent hover:ring-2 hover:ring-orange',
         className
       )}
       {...otherProperties}
