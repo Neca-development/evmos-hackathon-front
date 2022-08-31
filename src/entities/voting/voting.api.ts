@@ -62,9 +62,6 @@ export const votingApi = createApi({
         }
       },
       providesTags: ['VOTING'],
-      transformResponse: (res: IBaseResponse<IGetInfoFromIpfsResponse>) => {
-        return res.data
-      },
     }),
   }),
 })

@@ -1,11 +1,11 @@
 import { Paper } from '@mui/material'
 import classNames from 'classnames'
 
-interface IVoteStatusProperties {
+interface IVotingStatusProperties {
   status: string
 }
 
-export function VoteStatus({ status }: IVoteStatusProperties) {
+export function VotingStatus({ status }: IVotingStatusProperties) {
   return (
     <Paper
       className={classNames(

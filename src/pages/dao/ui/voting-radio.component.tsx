@@ -1,7 +1,7 @@
 import type { RadioProps } from '@mui/material'
 import { Radio } from '@mui/material'
 
-export function VoteRadio(props: RadioProps) {
+export function VotingRadio(props: RadioProps) {
   return (
     <Radio
       sx={{

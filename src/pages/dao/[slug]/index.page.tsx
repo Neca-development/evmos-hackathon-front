@@ -1,7 +1,7 @@
 import { DaoApi } from '@entities/dao'
 import { MintRequestApi } from '@entities/mint-request'
-import { CreateVotingForm } from '@features/create-voting/ui/create-voting-form.component'
-import { List, ListItem, Paper } from '@mui/material'
+import { CreateVoting } from '@features/create-voting'
+import { Paper } from '@mui/material'
 import {
   Header,
   HeadingOne,
@@ -14,31 +14,7 @@ import { WebIcon } from '@shared/ui/icons/web.icon'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
-import { VoteCard } from '../ui/vote-card.component'
-
-const votesList = [
-  {
-    id: 0,
-    question: 'Voting question',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    status: 'active',
-  },
-  {
-    id: 1,
-    question: 'Voting question',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    status: 'active',
-  },
-  {
-    id: 2,
-    question: 'Voting question',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    status: 'inactive',
-  },
-]
+import { VotingList } from '../ui/voting-list.component'
 
 export default function DaoPage() {
   const router = useRouter()
@@ -125,20 +101,14 @@ export default function DaoPage() {
           {/* /DAO info */}
         </Paper>
 
-        <CreateVotingForm daoAddress={slug} onCancel={() => null} />
+        <CreateVoting.CreateVotingForm daoAddress={slug} onCancel={() => null} />
 
         <div className="mb-5 flex justify-between items-center">
           <HeadingTwo>Current votes</HeadingTwo>
           <MButton>Create vote</MButton>
         </div>
 
-        <List className="space-y-5">
-          {votesList.map((vote) => (
-            <ListItem key={vote.id} className="p-0">
-              <VoteCard vote={vote} />
-            </ListItem>
-          ))}
-        </List>
+        <VotingList votings={dao?.votings} />
       </MainContainer>
     </>
   )
