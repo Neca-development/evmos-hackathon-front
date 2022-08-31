@@ -7,6 +7,7 @@ import type {
   IGetMintRequestsForUserRequest,
   IGetMintRequestsForUserResponse,
   IPostMintRequestListRequest,
+  IPostMintRequestRequest,
   ISuccessMintRequest,
 } from './model'
 
@@ -29,6 +30,17 @@ export const mintRequestApi = createApi({
       transformResponse: (res: IBaseResponse<IGetMintRequestsForUserResponse>) => {
         return res.data
       },
+    }),
+
+    postMintRequest: builder.mutation<void, IPostMintRequestRequest>({
+      query: (args) => {
+        return {
+          url: '/mint-request',
+          method: 'POST',
+          body: { ...args },
+        }
+      },
+      invalidatesTags: ['MINT_REQUEST'],
     }),
 
     postMintRequestList: builder.mutation<void, IPostMintRequestListRequest>({
@@ -71,6 +83,7 @@ export const mintRequestApi = createApi({
 
 export const {
   useGetMintRequestsForUserQuery,
+  usePostMintRequestMutation,
   usePostMintRequestListMutation,
   useGenerateMintSignatureMutation,
   useSuccessMintRequestMutation,

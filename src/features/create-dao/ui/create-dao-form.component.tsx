@@ -1,4 +1,5 @@
 import { DaoApi } from '@entities/dao'
+import { MintRequestApi } from '@entities/mint-request'
 import {
   FileInput,
   HeadingTwo,
@@ -10,7 +11,7 @@ import {
 import { useEthers } from '@usedapp/core'
 import { useRouter } from 'next/router'
 import * as React from 'react'
-import { useCreateDao } from 'src/blockchain'
+import { TokenTypeEnum, useCreateDao } from 'src/blockchain'
 
 import { useGenerateDaoInfoLink, useUploadNfts } from '../model'
 
@@ -44,7 +45,12 @@ export function CreateDaoForm() {
   const { account } = useEthers()
   const router = useRouter()
 
+  React.useEffect(() => {
+    router.prefetch('/profile')
+  }, [])
+
   const [createDaoOnBackend] = DaoApi.useCreateDaoMutation()
+  const [postMintRequest] = MintRequestApi.usePostMintRequestMutation()
 
   const { getImageLinks } = useUploadNfts()
   const { daoInfoLink, getDaoInfoLink } = useGenerateDaoInfoLink()
@@ -91,20 +97,29 @@ export function CreateDaoForm() {
 
   const handleModalClose = () => {
     if (isDaoCreated) {
-      setIsRequestInProgress(true)
-      setModalText('Redirecting to DAO page...')
-      router.push(`/dao/${daoContractAddress}`)
+      setIsModalOpen(false)
+      router.push('/profile')
     }
   }
 
   React.useEffect(() => {
     async function finishDaoCreation() {
       if (account && daoInfoLink && daoContractAddress) {
+        setIsRequestInProgress(true)
+        setModalText('Almost done...')
+
         await createDaoOnBackend({
           contractAddress: daoContractAddress,
           ipfsUrl: daoInfoLink,
           userAddress: account,
         })
+        await postMintRequest({
+          daoAddress: daoContractAddress,
+          tokenType: TokenTypeEnum.HIGH,
+          userAddress: account,
+        })
+
+        setIsRequestInProgress(false)
         setIsDaoCreated(true)
       }
     }
