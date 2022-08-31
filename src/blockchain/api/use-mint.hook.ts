@@ -1,8 +1,7 @@
 import { useEthers } from '@usedapp/core'
 import * as React from 'react'
 
-import { DAO_FACTORY_ADDRESS } from '../constants'
-import type { TransactionStatus } from '../lib'
+import type { TokenTypeEnum, TransactionStatus } from '../lib'
 import { DaoAbi__factory } from '../typechain'
 
 export const useMint = () => {
@@ -11,7 +10,11 @@ export const useMint = () => {
 
   const { library, account } = useEthers()
 
-  const mintNft = async (tokenRarity: number, signature: string) => {
+  const mintNft = async (
+    daoAddress: string,
+    tokenRarity: TokenTypeEnum,
+    signature: string
+  ) => {
     if (!library || !account) {
       setTxStatus('error')
       setTxMessage('Wallet is not connected')
@@ -21,19 +24,19 @@ export const useMint = () => {
 
     const signer = library.getSigner()
 
-    const daoContract = DaoAbi__factory.connect(DAO_FACTORY_ADDRESS, signer)
+    const daoContract = DaoAbi__factory.connect(daoAddress, signer)
 
     try {
       setTxStatus('pending')
       setTxMessage('Waiting for wallet confirmation...')
       console.log('pending: waiting for wallet confirmation')
 
-      const createVotingTransaction = await daoContract.mintNft(tokenRarity, signature)
+      const mintNftTransaction = await daoContract.mintNft(tokenRarity, signature)
 
       setTxMessage('Waiting for mint...')
       console.log('pending: waiting for mint')
 
-      await createVotingTransaction.wait()
+      await mintNftTransaction.wait()
 
       setTxStatus('success')
       setTxMessage('You successfully minted NFT')

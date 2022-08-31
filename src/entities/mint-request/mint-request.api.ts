@@ -47,7 +47,7 @@ export const mintRequestApi = createApi({
         return {
           url: `/mint-request/generate-signature/${args.mintRequestId}`,
           method: 'POST',
-          body: { mintRequestId: args.mintRequestId },
+          body: { ...args },
         }
       },
       invalidatesTags: ['MINT_REQUEST'],

@@ -30,8 +30,8 @@ export function MintRequestCard({ mintRequest }: IMintRequestCardProperties) {
       const signature = await generateMintSignature({
         mintRequestId: mintRequest.id,
       }).unwrap()
-      console.log('signature for mint:', signature)
-      await mintNft(mintRequest.tokenType, signature)
+
+      await mintNft(mintRequest.daoAddress, mintRequest.tokenType, signature)
       await successMintRequest({ mintRequestId: mintRequest.id })
     } catch (error: any) {
       console.error(error)
