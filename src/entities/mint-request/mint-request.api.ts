@@ -3,12 +3,12 @@ import { baseQuery } from '@shared/api'
 import type { IBaseResponse } from '@shared/types'
 
 import type {
+  IDeleteMintRequest,
   IGenerateMintSignature,
   IGetMintRequestsForUserRequest,
   IGetMintRequestsForUserResponse,
   IPostMintRequestListRequest,
   IPostMintRequestRequest,
-  ISuccessMintRequest,
 } from './model'
 
 export const mintRequestApi = createApi({
@@ -68,12 +68,11 @@ export const mintRequestApi = createApi({
       },
     }),
 
-    successMintRequest: builder.mutation<void, ISuccessMintRequest>({
+    deleteMintRequest: builder.mutation<void, IDeleteMintRequest>({
       query: (args) => {
         return {
           url: `/mint-request/success/${args.mintRequestId}`,
-          method: 'POST',
-          body: {},
+          method: 'DELETE',
         }
       },
       invalidatesTags: ['MINT_REQUEST'],
@@ -86,5 +85,5 @@ export const {
   usePostMintRequestMutation,
   usePostMintRequestListMutation,
   useGenerateMintSignatureMutation,
-  useSuccessMintRequestMutation,
+  useDeleteMintRequestMutation,
 } = mintRequestApi

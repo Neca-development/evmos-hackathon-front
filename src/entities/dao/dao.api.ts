@@ -3,6 +3,7 @@ import { baseQuery } from '@shared/api'
 import type { IBaseResponse } from '@shared/types'
 
 import type { IDaoEntity } from '.'
+import type { IAddUserRequest } from './model/add-user.dto'
 import type { ICreateDaoRequest } from './model/create-dao.dto'
 import type { IGenerateDaoInfoLinkRequest } from './model/generate-dao-info-link.dto'
 import type { IGetDaoRequest } from './model/get-dao.dto'
@@ -34,6 +35,17 @@ export const daoApi = createApi({
       query: (args) => {
         return {
           url: 'dao/create',
+          method: 'POST',
+          body: { ...args },
+        }
+      },
+      invalidatesTags: ['DAO'],
+    }),
+
+    addUser: builder.mutation<void, IAddUserRequest>({
+      query: (args) => {
+        return {
+          url: 'dao/add-user',
           method: 'POST',
           body: { ...args },
         }
