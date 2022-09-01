@@ -6,7 +6,7 @@ export default function CreateDaoPage() {
     <div className="h-screen flex flex-col">
       <Header />
 
-      <MainContainer className="max-w-[1400px]">
+      <MainContainer className="max-w-[1536px]">
         <HeadingOne className="mb-7">DAO creation</HeadingOne>
         <CreateDao.CreateDaoForm />
       </MainContainer>

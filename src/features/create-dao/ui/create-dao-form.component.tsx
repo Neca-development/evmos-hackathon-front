@@ -148,12 +148,18 @@ export function CreateDaoForm() {
         {/* /Dao image */}
 
         {/* Dao form */}
-        <div className="col-span-3 w-[70%] flex flex-col justify-between space-y-4">
-          <MTextField name="name" label="DAO Name" onChange={handleTextChange} />
+        <div className="col-span-3 flex flex-col justify-between space-y-4">
+          <MTextField
+            name="name"
+            label="DAO Name"
+            className="w-3/4"
+            onChange={handleTextChange}
+          />
 
           <MTextField
             name="description"
             label="DAO Description"
+            className="w-3/4"
             multiline
             minRows={6}
             onChange={handleTextChange}
