@@ -20,6 +20,7 @@ export const useUserToken = (daoAddress: string | undefined) => {
 
       try {
         const tokenId = await daoContract.tokenForOwner(account)
+        console.log('token id:', +tokenId)
         const ipfsUrl = await daoContract.tokenURI(tokenId)
         setTokenIpfsUrl(ipfsUrl)
       } catch (error: any) {

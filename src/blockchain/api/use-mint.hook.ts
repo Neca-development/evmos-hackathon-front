@@ -18,8 +18,7 @@ export const useMint = () => {
     if (!library || !account) {
       setTxStatus('error')
       setTxMessage('Wallet is not connected')
-      console.log('error: wallet is not connected')
-      return
+      throw new Error('error: wallet is not connected')
     }
 
     const signer = library.getSigner()
@@ -29,22 +28,19 @@ export const useMint = () => {
     try {
       setTxStatus('pending')
       setTxMessage('Waiting for wallet confirmation...')
-      console.log('pending: waiting for wallet confirmation')
 
       const mintNftTransaction = await daoContract.mintNft(tokenRarity, signature)
 
       setTxMessage('Waiting for mint...')
-      console.log('pending: waiting for mint')
 
       await mintNftTransaction.wait()
 
       setTxStatus('success')
       setTxMessage('You successfully minted NFT')
-      console.log('success: minted nft')
     } catch (error: any) {
       setTxStatus('error')
       setTxMessage(error.message)
-      console.log('error:', error.message)
+      throw new Error(error.message)
     }
   }
 

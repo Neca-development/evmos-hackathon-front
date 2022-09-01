@@ -1,6 +1,7 @@
 import { DaoApi } from '@entities/dao'
 import { MintRequestApi } from '@entities/mint-request'
 import type { IMintRequestEntity } from '@entities/mint-request/mint-request.entity'
+import { UserApi } from '@entities/user'
 import {
   HeadingFour,
   HeadingThree,
@@ -10,27 +11,37 @@ import {
   Paragraph,
   ProcessingModal,
 } from '@shared/ui'
+import { useEthers } from '@usedapp/core'
 import * as React from 'react'
 import { useMint } from 'src/blockchain'
 
 interface IMintRequestCardProperties {
   mintRequest: IMintRequestEntity
+  onMint: () => void
 }
 
-export function MintRequestCard({ mintRequest }: IMintRequestCardProperties) {
+export function MintRequestCard(props: IMintRequestCardProperties) {
+  const { mintRequest, onMint } = props
+
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const [modalText, setModalText] = React.useState('')
   const [isRequestInProgress, setIsRequestInProgress] = React.useState(false)
+
+  const { account } = useEthers()
 
   const { data: dao } = DaoApi.useGetDaoQuery({ daoAddress: mintRequest.daoAddress })
   const { data: daoInfo } = DaoApi.useGetInfoFromIpfsQuery({ ipfsUrl: dao?.ipfsUrl })
 
   const [generateMintSignature] = MintRequestApi.useGenerateMintSignatureMutation()
-  const [successMintRequest] = MintRequestApi.useSuccessMintRequestMutation()
+  const [createUser] = UserApi.useCreateUserMutation()
+  const [addUserToDao] = DaoApi.useAddUserMutation()
+  const [deleteMintRequest] = MintRequestApi.useDeleteMintRequestMutation()
 
   const { txStatus, txMessage, mintNft } = useMint()
 
   const handleClickOnMintButton = async () => {
+    if (!account) return
+
     try {
       setIsModalOpen(true)
       setIsRequestInProgress(true)
@@ -43,7 +54,16 @@ export function MintRequestCard({ mintRequest }: IMintRequestCardProperties) {
       setIsRequestInProgress(false)
 
       await mintNft(mintRequest.daoAddress, mintRequest.tokenType, signature)
-      await successMintRequest({ mintRequestId: mintRequest.id })
+
+      setIsRequestInProgress(true)
+      setModalText('Almost done...')
+
+      await createUser({ daoAddress: mintRequest.daoAddress, userAddress: account })
+      await addUserToDao({ daoAddress: mintRequest.daoAddress, userAddress: account })
+      await deleteMintRequest({ mintRequestId: mintRequest.id })
+      onMint()
+
+      setIsRequestInProgress(false)
     } catch (error: any) {
       console.error(error)
     }
@@ -82,6 +102,7 @@ export function MintRequestCard({ mintRequest }: IMintRequestCardProperties) {
         isOpen={isModalOpen}
         isProcessing={isRequestInProgress || txStatus === 'pending'}
         isSuccess={!isRequestInProgress && txStatus === 'success'}
+        isError={txStatus === 'error'}
         onClose={handleModalClose}
       >
         {isRequestInProgress ? modalText : txMessage}

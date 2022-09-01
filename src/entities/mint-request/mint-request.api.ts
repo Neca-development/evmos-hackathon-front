@@ -71,7 +71,7 @@ export const mintRequestApi = createApi({
     deleteMintRequest: builder.mutation<void, IDeleteMintRequest>({
       query: (args) => {
         return {
-          url: `/mint-request/success/${args.mintRequestId}`,
+          url: `/mint-request/${args.mintRequestId}`,
           method: 'DELETE',
         }
       },

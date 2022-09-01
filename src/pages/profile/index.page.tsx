@@ -11,10 +11,18 @@ import { ProfileHero } from './ui/profile-hero.component'
 
 export default function UserPage() {
   const { account } = useEthers()
-  const { data: user } = UserApi.useGetUserQuery({ userAddress: account })
-  const { data: mintRequests } = MintRequestApi.useGetMintRequestsForUserQuery({
+  const { data: user, refetch: refetchUser } = UserApi.useGetUserQuery({
     userAddress: account,
   })
+  const { data: mintRequests, refetch: refetchMintRequests } =
+    MintRequestApi.useGetMintRequestsForUserQuery({
+      userAddress: account,
+    })
+
+  const handleMint = () => {
+    refetchUser()
+    refetchMintRequests()
+  }
 
   const router = useRouter()
 
@@ -37,7 +45,9 @@ export default function UserPage() {
         </div>
 
         {user && <DaoList daos={user.daos} />}
-        {mintRequests && <MintRequestList mintRequests={mintRequests} />}
+        {mintRequests && (
+          <MintRequestList mintRequests={mintRequests} onMint={handleMint} />
+        )}
       </MainContainer>
     </>
   )

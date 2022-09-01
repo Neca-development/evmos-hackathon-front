@@ -111,7 +111,6 @@ export function CreateDaoForm() {
         await createDaoOnBackend({
           contractAddress: daoContractAddress,
           ipfsUrl: daoInfoLink,
-          userAddress: account,
         })
         await postMintRequest({
           daoAddress: daoContractAddress,

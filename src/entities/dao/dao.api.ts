@@ -96,6 +96,7 @@ export const daoApi = createApi({
 export const {
   useGetDaoQuery,
   useCreateDaoMutation,
+  useAddUserMutation,
   useGenerateDaoInfoLinkMutation,
   useUploadNftsMutation,
   useGetInfoFromIpfsQuery,
