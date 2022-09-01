@@ -1,5 +1,29 @@
 @font-face {
-  font-family: "Avenir Next Cyr Medium";
-  src: url("../../../public/assets/fonts/Avenir Next Cyr Medium.ttf")
-    format("ttf");
+  font-family: "AvenirNextCyr-Medium";
+  src: url("../../../public/assets/fonts/avenirnextcyr-medium/avenirnextcyr-medium.eot");
+  src: url("../../../public/assets/fonts/avenirnextcyr-medium/avenirnextcyr-medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("../../../public/assets/fonts/avenirnextcyr-medium/avenirnextcyr-medium.woff2")
+      format("woff2"),
+    url("../../../public/assets/fonts/avenirnextcyr-medium/avenirnextcyr-medium.woff")
+      format("woff"),
+    url("../../../public/assets/fonts/avenirnextcyr-medium/avenirnextcyr-medium.ttf")
+      format("truetype"),
+    url("../../../public/assets/fonts/avenirnextcyr-medium/avenirnextcyr-medium.svg#avenirnextcyr-medium")
+      format("svg");
+}
+
+@font-face {
+  font-family: "AvenirNextCyr-Bold";
+  src: url("../../../public/assets/fonts/avenirnextcyr-bold/avenirnextcyr-bold.eot");
+  src: url("../../../public/assets/fonts/avenirnextcyr-bold/avenirnextcyr-bold.eot?#iefix")
+      format("embedded-opentype"),
+    url("../../../public/assets/fonts/avenirnextcyr-bold/avenirnextcyr-bold.woff2")
+      format("woff2"),
+    url("../../../public/assets/fonts/avenirnextcyr-bold/avenirnextcyr-bold.woff")
+      format("woff"),
+    url("../../../public/assets/fonts/avenirnextcyr-bold/avenirnextcyr-bold.ttf")
+      format("truetype"),
+    url("../../../public/assets/fonts/avenirnextcyr-bold/avenirnextcyr-bold.svg#avenirnextcyr-bold")
+      format("svg");
 }
