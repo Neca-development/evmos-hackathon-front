@@ -10,7 +10,7 @@ import {
 } from '@shared/ui'
 import { useRouter } from 'next/router'
 import * as React from 'react'
-import { useUserToken } from 'src/blockchain/api/use-user-token.hook'
+import { useUserToken } from 'src/blockchain'
 
 interface IDaoCardProperties {
   dao: IDaoEntity
@@ -25,12 +25,12 @@ export function DaoCard({ dao }: IDaoCardProperties) {
   return (
     <MPaper className="w-full space-y-3">
       {/* DAO info */}
-      <div className="space-x-5 flex">
+      <div className="space-x-4 flex">
         <div className="h-[6rem] w-[6rem] flex justify-center items-center bg-[#D9D9D9]">
           <img src={data?.ava} alt="" className="w-full" />
         </div>
-        <div className="flex flex-col justify-end">
-          <HeadingThree className="mb-4 text-orange">{data?.name}</HeadingThree>
+        <div className="py-2 flex flex-col">
+          <HeadingThree className="mb-3 text-orange">{data?.name}</HeadingThree>
           <Paragraph>{data?.descr}</Paragraph>
         </div>
       </div>
