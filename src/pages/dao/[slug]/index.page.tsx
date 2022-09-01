@@ -1,19 +1,11 @@
 import { DaoApi } from '@entities/dao'
 import { MintRequestApi } from '@entities/mint-request'
 import { CreateVoting } from '@features/create-voting'
-import { Paper } from '@mui/material'
-import {
-  Header,
-  HeadingOne,
-  HeadingTwo,
-  MainContainer,
-  MButton,
-  Paragraph,
-} from '@shared/ui'
-import { WebIcon } from '@shared/ui/icons/web.icon'
+import { Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
+import { DaoHero } from '../ui/dao-hero.component'
 import { VotingList } from '../ui/voting-list.component'
 
 export default function DaoPage() {
@@ -81,36 +73,12 @@ export default function DaoPage() {
       <Header />
 
       <MainContainer>
-        <Paper className="mb-10 p-9 space-x-14 flex text-white bg-dao-hero">
-          {/* DAO image */}
-          <div>
-            <div className="h-[7rem] w-[7rem] bg-white">
-              <img src={daoInfo?.ava} alt="" />
-            </div>
-          </div>
-          {/* /DAO image */}
-
-          {/* DAO info */}
-          <div className="w-full">
-            <div className="flex justify-between">
-              <HeadingOne className="mb-1">{daoInfo?.name}</HeadingOne>
-              <MButton>
-                <label className="cursor-pointer">
-                  Invite users
-                  <input hidden type={'file'} onChange={inviteUsers} />
-                </label>
-              </MButton>
-            </div>
-
-            <Paragraph className="mb-10 space-x-1 flex items-center">
-              <WebIcon />
-              <span className="text-orange">SC address</span>
-            </Paragraph>
-
-            <Paragraph>{daoInfo?.descr}</Paragraph>
-          </div>
-          {/* /DAO info */}
-        </Paper>
+        <DaoHero
+          image={daoInfo?.ava}
+          name={daoInfo?.name}
+          description={daoInfo?.descr}
+          onInvite={inviteUsers}
+        />
 
         {isVotingFromOpen && (
           <div className="mb-10">
@@ -124,7 +92,7 @@ export default function DaoPage() {
         )}
 
         <div className="mb-5 flex justify-between items-center">
-          <HeadingTwo>Current votes</HeadingTwo>
+          <HeadingTwo>Current votings</HeadingTwo>
           {!isVotingFromOpen && (
             <MButton onClick={handleVotingFormOpen}>Create vote</MButton>
           )}
