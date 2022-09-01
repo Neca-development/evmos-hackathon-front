@@ -29,7 +29,7 @@ export const useCreateVoting = () => {
       setTxMessage('Waiting for wallet confirmation...')
       console.log('pending: waiting for wallet confirmation')
 
-      const createVotingTransaction = await daoContract.createVoting('testlink')
+      const createVotingTransaction = await daoContract.createVoting()
 
       setTxMessage('Waiting for voting creation...')
       console.log('pending: waiting for voting creation')
