@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material'
 import classNames from 'classnames'
 import * as React from 'react'
 
@@ -11,12 +10,8 @@ interface IHeadingOneProperties {
 export function HeadingOne(props: IHeadingOneProperties) {
   const { className, children, ...otherProperties } = props
   return (
-    <Typography
-      className={classNames('text-xl', className)}
-      component="h1"
-      {...otherProperties}
-    >
+    <h1 className={classNames('text-xl', className)} {...otherProperties}>
       {children}
-    </Typography>
+    </h1>
   )
 }

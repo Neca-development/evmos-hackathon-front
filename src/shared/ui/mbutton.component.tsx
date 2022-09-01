@@ -15,7 +15,7 @@ export function MButton(props: IMButtonProperties) {
     <Button
       variant="contained"
       className={classNames(
-        'py-1 px-4 normal-case text-[0.7rem] text-white',
+        'py-[0.4rem] px-5 normal-case text-[0.55rem] text-white',
         variant === 'primary' &&
           'bg-orange hover:bg-dark-orange disabled:bg-dark-orange disabled:pointer-events-auto disabled:cursor-not-allowed',
         variant === 'secondary' &&
@@ -24,7 +24,7 @@ export function MButton(props: IMButtonProperties) {
       )}
       {...otherProperties}
     >
-      {children}
+      <p className="font-bold">{children}</p>
     </Button>
   )
 }

@@ -1,2 +1,2 @@
 export * from './file-to-blob'
-export * from './format-phone'
+export * from './format-address'
