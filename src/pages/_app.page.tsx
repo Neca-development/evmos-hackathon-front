@@ -1,5 +1,6 @@
 import '@shared/styles/global.scss'
 
+import { ModalProvider } from '@shared/lib'
 import { store } from '@shared/store'
 import type { Config } from '@usedapp/core'
 import { DAppProvider } from '@usedapp/core'
@@ -26,7 +27,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <DAppProvider config={config}>
       <Provider store={store}>
-        <Component {...pageProps} />
+        <ModalProvider>
+          <Component {...pageProps} />
+        </ModalProvider>
       </Provider>
     </DAppProvider>
   )

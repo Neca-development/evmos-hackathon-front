@@ -2,4 +2,4 @@ export interface IUploadNftsRequest {
   formData: FormData
 }
 
-export type IUploadNftsDto = string[]
+export type IUploadNftsResponse = string[]

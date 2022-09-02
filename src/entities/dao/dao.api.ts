@@ -11,8 +11,8 @@ import type {
   IGetDaoRequest,
   IGetInfoFromIpfsRequest,
   IGetInfoFromIpfsResponse,
-  IUploadNftsDto,
   IUploadNftsRequest,
+  IUploadNftsResponse,
 } from './model'
 
 export const daoApi = createApi({
@@ -55,7 +55,7 @@ export const daoApi = createApi({
       invalidatesTags: ['DAO'],
     }),
 
-    uploadNfts: builder.mutation<IUploadNftsDto, IUploadNftsRequest>({
+    uploadNfts: builder.mutation<IUploadNftsResponse, IUploadNftsRequest>({
       query: (args) => {
         return {
           url: 'dao/upload-nfts',
@@ -64,7 +64,7 @@ export const daoApi = createApi({
         }
       },
       invalidatesTags: ['DAO'],
-      transformResponse: (res: IBaseResponse<IUploadNftsDto>) => {
+      transformResponse: (res: IBaseResponse<IUploadNftsResponse>) => {
         return res.data
       },
     }),
