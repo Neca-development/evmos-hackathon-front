@@ -6,5 +6,5 @@ export interface IDaoEntity {
   ipfsUrl: string
   contractAddress: string
   users: IUserEntity[]
-  votings: IVotingEntity[]
+  __votings__: IVotingEntity[]
 }

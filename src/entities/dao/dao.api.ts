@@ -3,15 +3,17 @@ import { baseQuery } from '@shared/api'
 import type { IBaseResponse } from '@shared/types'
 
 import type { IDaoEntity } from '.'
-import type { IAddUserRequest } from './model/add-user.dto'
-import type { ICreateDaoRequest } from './model/create-dao.dto'
-import type { IGenerateDaoInfoLinkRequest } from './model/generate-dao-info-link.dto'
-import type { IGetDaoRequest } from './model/get-dao.dto'
 import type {
+  IAddUserRequest,
+  ICreateDaoRequest,
+  IGenerateDaoLinksRequest,
+  IGenerateDaoLinksResponse,
+  IGetDaoRequest,
   IGetInfoFromIpfsRequest,
   IGetInfoFromIpfsResponse,
-} from './model/get-info-from-ipfs.dto'
-import type { IUploadNftsDto, IUploadNftsRequest } from './model/upload-nfts.dto'
+  IUploadNftsDto,
+  IUploadNftsRequest,
+} from './model'
 
 export const daoApi = createApi({
   reducerPath: 'daoApi',
@@ -67,7 +69,10 @@ export const daoApi = createApi({
       },
     }),
 
-    generateDaoInfoLink: builder.mutation<any, IGenerateDaoInfoLinkRequest>({
+    generateDaoLinks: builder.mutation<
+      IGenerateDaoLinksResponse,
+      IGenerateDaoLinksRequest
+    >({
       query: (args) => {
         return {
           url: 'dao/generate-link',
@@ -76,7 +81,7 @@ export const daoApi = createApi({
         }
       },
       invalidatesTags: ['DAO'],
-      transformResponse: (res: any) => {
+      transformResponse: (res: IBaseResponse<IGenerateDaoLinksResponse>) => {
         return res.data
       },
     }),
@@ -97,7 +102,7 @@ export const {
   useGetDaoQuery,
   useCreateDaoMutation,
   useAddUserMutation,
-  useGenerateDaoInfoLinkMutation,
+  useGenerateDaoLinksMutation,
   useUploadNftsMutation,
   useGetInfoFromIpfsQuery,
 } = daoApi

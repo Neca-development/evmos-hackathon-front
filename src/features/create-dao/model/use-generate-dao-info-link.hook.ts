@@ -5,14 +5,20 @@ import * as React from 'react'
 interface IDaoInfo {
   name: string
   description: string
+  symbol: string
   imageLinks: IUploadNftsDto | undefined
 }
 export const useGenerateDaoInfoLink = () => {
-  const [daoInfoLink, setDaoInfoLink] = React.useState('')
+  const [daoLinks, setDaoLinks] = React.useState({
+    dao: '',
+    lowToken: '',
+    mediumToken: '',
+    highToken: '',
+  })
 
-  const [generateDaoInfoLink] = DaoApi.useGenerateDaoInfoLinkMutation()
+  const [generateDaoLinks] = DaoApi.useGenerateDaoLinksMutation()
 
-  const getDaoInfoLink = async (daoInfo: IDaoInfo) => {
+  const getDaoLinks = async (daoInfo: IDaoInfo) => {
     if (!daoInfo.imageLinks) return
 
     try {
@@ -24,20 +30,26 @@ export const useGenerateDaoInfoLink = () => {
       if (!secondNftImageUri) return
       if (!thirdNftImageUri) return
 
-      const infoLink = await generateDaoInfoLink({
+      const { dao, lowToken, mediumToken, highToken } = await generateDaoLinks({
         name: daoInfo.name,
         descr: daoInfo.description,
+        symbol: daoInfo.symbol,
         ava: daoImageUri,
         lowImg: firstNftImageUri,
         mediumImg: secondNftImageUri,
         highImg: thirdNftImageUri,
       }).unwrap()
 
-      setDaoInfoLink(infoLink)
+      setDaoLinks({
+        dao,
+        lowToken,
+        mediumToken,
+        highToken,
+      })
     } catch (error: any) {
       throw new Error(error)
     }
   }
 
-  return { daoInfoLink, getDaoInfoLink }
+  return { daoLinks, getDaoLinks }
 }

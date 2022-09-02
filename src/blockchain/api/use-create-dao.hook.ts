@@ -41,9 +41,6 @@ export const useCreateDao = () => {
       daoFactoryContract.on(
         'DAOCreated',
         (contractAddress: string, creatorAddress: string) => {
-          console.log('contract address:', contractAddress)
-          console.log('creator address:', creatorAddress)
-          console.log('user address:', account)
           if (account === creatorAddress) {
             setDaoContractAddress(contractAddress)
             daoFactoryContract.removeAllListeners('DAOCreated')

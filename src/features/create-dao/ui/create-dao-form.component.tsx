@@ -53,7 +53,7 @@ export function CreateDaoForm() {
   const [postMintRequest] = MintRequestApi.usePostMintRequestMutation()
 
   const { getImageLinks } = useUploadNfts()
-  const { daoInfoLink, getDaoInfoLink } = useGenerateDaoInfoLink()
+  const { daoLinks, getDaoLinks } = useGenerateDaoInfoLink()
 
   const { txStatus, txMessage, daoContractAddress, createDao } = useCreateDao()
 
@@ -83,13 +83,14 @@ export function CreateDaoForm() {
       const daoInfo = {
         name: daoForm.name,
         description: daoForm.description,
+        symbol: daoForm.tokenSymbol,
         imageLinks,
       }
-      await getDaoInfoLink(daoInfo)
+      await getDaoLinks(daoInfo)
 
       setIsRequestInProgress(false)
 
-      await createDao(daoForm.name, daoForm.tokenSymbol, daoInfoLink)
+      await createDao(daoForm.name, daoForm.tokenSymbol, daoLinks.dao)
     } catch (error: any) {
       console.error(error)
     }
@@ -104,13 +105,13 @@ export function CreateDaoForm() {
 
   React.useEffect(() => {
     async function finishDaoCreation() {
-      if (account && daoInfoLink && daoContractAddress) {
+      if (account && daoLinks.dao && daoContractAddress) {
         setIsRequestInProgress(true)
         setModalText('Almost done...')
 
         await createDaoOnBackend({
           contractAddress: daoContractAddress,
-          ipfsUrl: daoInfoLink,
+          ipfsUrl: daoLinks.dao,
         })
         await postMintRequest({
           daoAddress: daoContractAddress,
@@ -123,7 +124,7 @@ export function CreateDaoForm() {
       }
     }
     finishDaoCreation()
-  }, [account, daoInfoLink, daoContractAddress])
+  }, [account, daoLinks.dao, daoContractAddress])
 
   const isCreateButtonDisabled =
     !daoForm.name ||
