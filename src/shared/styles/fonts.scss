@@ -27,3 +27,16 @@
     url("../../../public/assets/fonts/avenirnextcyr-light/avenirnextcyr-light.svg#avenirnextcyr-light")
       format("svg");
 }
+
+@font-face {
+  font-family: "RedHatDisplay-Regular";
+  src: url("../../../public/assets/fonts/redhatdisplay-regular/redhatdisplay-regular.eot");
+  src: url("../../../public/assets/fonts/redhatdisplay-regular/redhatdisplay-regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("../../../public/assets/fonts/redhatdisplay-regular/redhatdisplay-regular.woff2")
+      format("woff2"),
+    url("../../../public/assets/fonts/redhatdisplay-regular/redhatdisplay-regular.woff")
+      format("woff"),
+    url("../../../public/assets/fonts/redhatdisplay-regular/redhatdisplay-regular.ttf")
+      format("truetype");
+}
