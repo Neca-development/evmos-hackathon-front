@@ -98,7 +98,7 @@ export default function DaoPage() {
           )}
         </div>
 
-        <VotingList daoAddress={dao?.contractAddress} votings={dao?.votings} />
+        <VotingList daoAddress={dao?.contractAddress} votings={dao?.__votings__} />
       </MainContainer>
     </>
   )

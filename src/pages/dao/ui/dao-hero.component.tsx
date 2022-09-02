@@ -33,13 +33,13 @@ export function DaoHero(props: IDaoHeroProperties) {
           </MButton>
         </div>
 
-        <Paragraph className="mb-10 space-x-1 flex items-center cursor-pointer">
+        <div className="mb-10 space-x-1 flex items-center cursor-pointer">
           <WebIcon />
-          <span className="font-bold text-orange">
-            Smart contract
+          <div className="font-bold text-orange">
+            <Paragraph>Smart contract</Paragraph>
             <div className="h-[1px] w-full bg-orange" />
-          </span>
-        </Paragraph>
+          </div>
+        </div>
 
         <Paragraph>{description}</Paragraph>
       </div>

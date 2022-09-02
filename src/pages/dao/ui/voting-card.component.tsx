@@ -22,7 +22,7 @@ export function VotingCard(props: IVotingCardProperties) {
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 
   const { data } = VotingApi.useGetInfoFromIpfsQuery({ ipfsUrl })
-  const { votingInfo } = useVotingInfo(daoAddress, smartContractId)
+  const { votingInfo, refetch } = useVotingInfo(daoAddress, smartContractId)
   const { status, isUserVoted, userVoteType, positiveVotesAmount, negativeVotesAmount } =
     votingInfo
 
@@ -32,12 +32,17 @@ export function VotingCard(props: IVotingCardProperties) {
 
   const { txStatus, txMessage, votingProcess } = useVotingProcess()
 
-  const handleClickOnVoteButton = () => {
+  const handleClickOnVoteButton = async () => {
     setIsModalOpen(true)
-    votingProcess(daoAddress, smartContractId, +selectedVote)
+    await votingProcess(daoAddress, smartContractId, +selectedVote)
+    refetch()
   }
 
   const handleRadioChange = (value: string) => setSelectedVote(value)
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+  }
 
   return (
     <>
@@ -68,7 +73,10 @@ export function VotingCard(props: IVotingCardProperties) {
 
         <div className="flex justify-between items-center">
           <Paragraph>{totalVotes} votes</Paragraph>
-          <MButton disabled={!selectedVote} onClick={handleClickOnVoteButton}>
+          <MButton
+            disabled={!selectedVote || isUserVoted}
+            onClick={handleClickOnVoteButton}
+          >
             Vote
           </MButton>
         </div>
@@ -78,7 +86,7 @@ export function VotingCard(props: IVotingCardProperties) {
         isOpen={isModalOpen}
         isProcessing={txStatus === 'pending'}
         isSuccess={txStatus === 'success'}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleModalClose}
       >
         {txMessage}
       </ProcessingModal>

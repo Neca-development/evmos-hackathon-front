@@ -25,35 +25,36 @@ export const useVotingInfo = (daoAddress: string | undefined, votingId: number) 
 
   const { library, account } = useEthers()
 
-  React.useEffect(() => {
-    async function getVotingInfo() {
-      if (!library || !account || !daoAddress) {
-        console.log('error: wallet is not connected')
-        return
-      }
-
-      const signer = library.getSigner()
-      const daoContract = DaoAbi__factory.connect(daoAddress, signer)
-
-      try {
-        const { status } = await daoContract.votes(votingId)
-        const isUserVoted = await daoContract.hasVote(account, votingId)
-        const userVoteType = await daoContract.voteTypes(account, votingId)
-        const { positiveVote, negativeVote } = await daoContract.votesInfo(votingId)
-
-        setVotingInfo({
-          status,
-          isUserVoted,
-          userVoteType,
-          positiveVotesAmount: +positiveVote,
-          negativeVotesAmount: +negativeVote,
-        })
-      } catch (error: any) {
-        console.error(error)
-      }
+  const fetchVotingInfo = async () => {
+    if (!library || !account || !daoAddress) {
+      console.log('error: wallet is not connected')
+      return
     }
-    getVotingInfo()
+
+    const signer = library.getSigner()
+    const daoContract = DaoAbi__factory.connect(daoAddress, signer)
+
+    try {
+      const { status } = await daoContract.votes(votingId)
+      const isUserVoted = await daoContract.hasVote(account, votingId)
+      const userVoteType = await daoContract.voteTypes(account, votingId)
+      const { positiveVote, negativeVote } = await daoContract.votesInfo(votingId)
+
+      setVotingInfo({
+        status,
+        isUserVoted,
+        userVoteType,
+        positiveVotesAmount: +positiveVote,
+        negativeVotesAmount: +negativeVote,
+      })
+    } catch (error: any) {
+      console.error(error)
+    }
+  }
+
+  React.useEffect(() => {
+    fetchVotingInfo()
   }, [daoAddress, votingId, account])
 
-  return { votingInfo }
+  return { votingInfo, refetch: fetchVotingInfo }
 }
