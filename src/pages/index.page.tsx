@@ -1,4 +1,4 @@
-import { HeadingOne, MButton } from '@shared/ui'
+import { MButton } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
@@ -28,7 +28,7 @@ export default function HomePage() {
       )}
     >
       <div className="w-[30rem]">
-        <HeadingOne
+        <h1
           className={classNames(
             'mb-6',
             'font-red-hat-display text-5xl leading-snug uppercase text-transparent',
@@ -36,7 +36,7 @@ export default function HomePage() {
           )}
         >
           BECOME THE PART OF VOTERS POWER
-        </HeadingOne>
+        </h1>
 
         <p className="w-[20rem] mb-12 text-xs">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
