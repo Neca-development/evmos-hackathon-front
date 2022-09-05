@@ -1,64 +1,25 @@
-import { DaoApi } from '@entities/dao'
-import { MintRequestApi } from '@entities/mint-request'
 import { CreateVotingUiService } from '@features/create-voting'
-import { Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
-import { useRouter } from 'next/router'
+import { useInviteUsers } from '@features/invite-users'
+import {
+  Header,
+  HeadingTwo,
+  MainContainer,
+  MButton,
+  VotingCardSkeleton,
+} from '@shared/ui'
 import * as React from 'react'
 
+import { useDao, useDaoInfo } from '../lib'
 import { DaoHero } from '../ui/dao-hero.component'
 import { VotingList } from '../ui/voting-list.component'
 
 export default function DaoPage() {
-  const router = useRouter()
-  const { slug: daoAddress } = router.query
-  const { data: dao, refetch: refetchDao } = DaoApi.useGetDaoQuery({ daoAddress })
-  const { data: daoInfo, refetch: refetchDaoInfo } = DaoApi.useGetInfoFromIpfsQuery({
-    ipfsUrl: dao?.ipfsUrl,
-  })
+  const { daoAddress, dao, refetchDao } = useDao()
+  const isLoading = !daoAddress || !dao || dao.__votings__ == undefined
 
-  React.useEffect(() => {
-    router.prefetch('/profile')
-  }, [])
+  const { daoInfo } = useDaoInfo(dao)
 
-  const isDaoAddressValid =
-    daoAddress && typeof daoAddress === 'string' && daoAddress !== 'undefined'
-
-  React.useEffect(() => {
-    if (isDaoAddressValid) {
-      refetchDao()
-    } else if (daoAddress) {
-      router.push('/profile')
-    }
-  }, [daoAddress])
-
-  React.useEffect(() => {
-    if (dao) {
-      refetchDaoInfo()
-    }
-  }, [dao])
-
-  const [postMintRequestList] = MintRequestApi.usePostMintRequestListMutation()
-
-  const inviteUsers = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.target
-    if (!files) {
-      return
-    }
-
-    const csvFile = files[0]
-    if (!csvFile) {
-      return
-    }
-
-    const csvFileFormData = new FormData()
-    csvFileFormData.append('file', csvFile)
-
-    if (!isDaoAddressValid) {
-      return
-    }
-
-    await postMintRequestList({ daoAddress, csv: csvFileFormData })
-  }
+  const { inviteUsers } = useInviteUsers(daoAddress)
 
   const [isVotingFormOpen, setIsVotingFormOpen] = React.useState(false)
 
@@ -83,7 +44,7 @@ export default function DaoPage() {
           onInvite={inviteUsers}
         />
 
-        {isVotingFormOpen && isDaoAddressValid && (
+        {isVotingFormOpen && (
           <div className="mb-10">
             <HeadingTwo className="mb-5">Voting creation</HeadingTwo>
             <CreateVotingUiService.CreateVotingForm
@@ -97,13 +58,17 @@ export default function DaoPage() {
         <div className="mb-5 flex justify-between items-center">
           <HeadingTwo>Current votings</HeadingTwo>
           {!isVotingFormOpen && (
-            <MButton disabled={!isDaoAddressValid} onClick={handleVotingFormOpen}>
+            <MButton disabled={isLoading} onClick={handleVotingFormOpen}>
               Create voting
             </MButton>
           )}
         </div>
 
-        <VotingList daoAddress={dao?.contractAddress} votings={dao?.__votings__} />
+        {isLoading ? (
+          <VotingCardSkeleton />
+        ) : (
+          <VotingList daoAddress={daoAddress} votings={dao.__votings__} />
+        )}
       </MainContainer>
     </>
   )

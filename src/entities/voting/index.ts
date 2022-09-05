@@ -1,2 +1,3 @@
-export * as VotingApi from './voting.api'
-export * from './voting.entity'
+export * as VotingApiService from './api'
+export * as VotingModelService from './model'
+export * as VotingUiService from './ui'

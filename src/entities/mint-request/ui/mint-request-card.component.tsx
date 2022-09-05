@@ -10,7 +10,7 @@ import {
 } from '@shared/ui'
 import * as React from 'react'
 
-import type { IMintRequestEntity } from '../model/mint-request.entity'
+import type { IMintRequestEntity } from '../model'
 
 export interface IMintRequestCardProperties {
   mintRequest: IMintRequestEntity

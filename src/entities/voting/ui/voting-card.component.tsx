@@ -1,11 +1,14 @@
-import type { IVotingEntity } from '@entities/voting'
-import { VotingApi } from '@entities/voting'
-import { HeadingThree, MButton, MPaper, Paragraph, ProcessingModal } from '@shared/ui'
+import { HeadingThree, MButton, MPaper, Paragraph, VotingCardSkeleton } from '@shared/ui'
 import * as React from 'react'
-import { useVotingProcess, VoteTypeEnum, VotingStatusEnum } from 'src/blockchain'
-import { useVotingInfo } from 'src/blockchain/api/use-voting-info.hook'
+import {
+  useVotingInfo,
+  useVotingProcess,
+  VoteTypeEnum,
+  VotingStatusEnum,
+} from 'src/blockchain'
 
-import { VotingCardSkeleton } from './voting-card-skeleton.component'
+import { useGetInfoFromIpfsQuery } from '../api'
+import type { IVotingEntity } from '../model'
 import { VotingRadioGroup } from './voting-radio-group.component'
 import { VotingResults } from './voting-results.component'
 import { VotingStatus } from './voting-status.component'
@@ -20,9 +23,8 @@ export function VotingCard(props: IVotingCardProperties) {
   const { ipfsUrl, smartContractId } = voting
 
   const [selectedVote, setSelectedVote] = React.useState('')
-  const [isModalOpen, setIsModalOpen] = React.useState(false)
 
-  const { data } = VotingApi.useGetInfoFromIpfsQuery({ ipfsUrl })
+  const { data } = useGetInfoFromIpfsQuery({ ipfsUrl })
   const { votingInfo, refetch } = useVotingInfo(daoAddress, smartContractId)
   const { status, isUserVoted, userVoteType, positiveVotesAmount, negativeVotesAmount } =
     votingInfo
@@ -36,16 +38,11 @@ export function VotingCard(props: IVotingCardProperties) {
   const { votingProcess } = useVotingProcess()
 
   const handleClickOnVoteButton = async () => {
-    setIsModalOpen(true)
     await votingProcess(daoAddress, smartContractId, +selectedVote)
     refetch()
   }
 
   const handleRadioChange = (value: string) => setSelectedVote(value)
-
-  const handleModalClose = () => {
-    setIsModalOpen(false)
-  }
 
   return (
     <>
@@ -90,8 +87,6 @@ export function VotingCard(props: IVotingCardProperties) {
           </div>
         </MPaper>
       )}
-
-      <ProcessingModal onClose={handleModalClose} />
     </>
   )
 }

@@ -2,14 +2,13 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@shared/api'
 import type { IBaseResponse } from '@shared/types'
 
+import type { ICreateVotingRequest } from './create-voting.dto'
+import type { IGenerateIpfsLinkRequest } from './generate-ipfs-link.dto'
 import type {
-  ICreateVotingRequest,
-  IGenerateIpfsLinkRequest,
   IGetInfoFromIpfsRequest,
   IGetInfoFromIpfsResponse,
-  IGetVotingsRequest,
-  IGetVotingsResponse,
-} from './model'
+} from './get-info-from-ipfs.dto'
+import type { IGetVotingsRequest, IGetVotingsResponse } from './get-votings.dto'
 
 export const votingApi = createApi({
   reducerPath: 'votingApi',

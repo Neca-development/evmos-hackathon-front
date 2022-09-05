@@ -1,4 +1,5 @@
-import { MPaper, MSkeleton } from '@shared/ui'
+import { MPaper } from './mpaper.component'
+import { MSkeleton } from './mskeleton.component'
 
 export function VotingCardSkeleton() {
   return (

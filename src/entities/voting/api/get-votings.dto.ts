@@ -1,4 +1,4 @@
-import type { IVotingEntity } from '../voting.entity'
+import type { IVotingEntity } from '../model/voting.entity'
 
 export interface IGetVotingsRequest {
   daoAddress: string
