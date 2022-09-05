@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import * as React from 'react'
 
-import { AddIcon } from './icons'
+import { AddIcon } from '../icons'
 
 export interface IFileInputProperties {
   inputName: string

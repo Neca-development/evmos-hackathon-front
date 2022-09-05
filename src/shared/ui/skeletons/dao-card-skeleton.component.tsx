@@ -1,5 +1,5 @@
-import { MDivider } from './mdivider.component'
-import { MPaper } from './mpaper.component'
+import { MPaper } from '../containers/mpaper.component'
+import { MDivider } from '../mdivider.component'
 import { MSkeleton } from './mskeleton.component'
 
 export function DaoCardSkeleton() {

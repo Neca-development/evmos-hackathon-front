@@ -2,8 +2,8 @@ import { CircularProgress, Modal } from '@mui/material'
 import { useModal } from '@shared/lib'
 import * as React from 'react'
 
+import { MPaper } from '../containers/mpaper.component'
 import { CheckIcon, ErrorIcon } from '../icons'
-import { MPaper } from '../mpaper.component'
 
 export function ProcessingModal() {
   const { isModalOpen, setIsModalOpen, modalState, modalText } = useModal()
