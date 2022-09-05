@@ -2,6 +2,7 @@ import type { IVotingEntity } from '@entities/voting'
 import { List, ListItem } from '@mui/material'
 
 import { VotingCard } from './voting-card.component'
+import { VotingCardSkeleton } from './voting-card-skeleton.component'
 
 interface IVotingListProperties {
   daoAddress: string | undefined
@@ -13,6 +14,8 @@ export function VotingList(props: IVotingListProperties) {
 
   return (
     <>
+      {!daoAddress && <VotingCardSkeleton />}
+
       {daoAddress && votings != null && (
         <List className="space-y-5">
           {votings.map((voting) => (

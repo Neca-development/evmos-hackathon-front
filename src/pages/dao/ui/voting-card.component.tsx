@@ -5,6 +5,7 @@ import * as React from 'react'
 import { useVotingProcess, VoteTypeEnum, VotingStatusEnum } from 'src/blockchain'
 import { useVotingInfo } from 'src/blockchain/api/use-voting-info.hook'
 
+import { VotingCardSkeleton } from './voting-card-skeleton.component'
 import { VotingRadioGroup } from './voting-radio-group.component'
 import { VotingResults } from './voting-results.component'
 import { VotingStatus } from './voting-status.component'
@@ -26,11 +27,13 @@ export function VotingCard(props: IVotingCardProperties) {
   const { status, isUserVoted, userVoteType, positiveVotesAmount, negativeVotesAmount } =
     votingInfo
 
+  const isLoading = !data || status == null
+
   const totalVotes = positiveVotesAmount + negativeVotesAmount
   const positiveVotesPercents = totalVotes ? (positiveVotesAmount / totalVotes) * 100 : 0
   const negativeVotesPercents = totalVotes ? (negativeVotesAmount / totalVotes) * 100 : 0
 
-  const { txStatus, txMessage, votingProcess } = useVotingProcess()
+  const { votingProcess } = useVotingProcess()
 
   const handleClickOnVoteButton = async () => {
     setIsModalOpen(true)
@@ -46,50 +49,49 @@ export function VotingCard(props: IVotingCardProperties) {
 
   return (
     <>
-      <MPaper className="w-full space-y-3">
-        <div className="flex justify-between items-center">
-          <HeadingThree className="text-orange">{data?.question}</HeadingThree>
-          <VotingStatus status={status} />
-        </div>
+      {isLoading ? (
+        <VotingCardSkeleton />
+      ) : (
+        <MPaper className="w-full space-y-3">
+          <div className="space-x-14 flex justify-between items-center">
+            <HeadingThree className="text-orange">{data.question}</HeadingThree>
+            <div>
+              <VotingStatus status={status} />
+            </div>
+          </div>
 
-        <Paragraph>{data?.descr}</Paragraph>
+          <Paragraph>{data.descr}</Paragraph>
 
-        {isUserVoted || status === VotingStatusEnum.INACTIVE ? (
-          <>
-            <VotingResults
-              label="Yes"
-              percents={positiveVotesPercents}
-              isUserVoted={isUserVoted && userVoteType === VoteTypeEnum.POSITIVE}
-            />
-            <VotingResults
-              label="No"
-              percents={negativeVotesPercents}
-              isUserVoted={isUserVoted && userVoteType === VoteTypeEnum.NEGATIVE}
-            />
-          </>
-        ) : (
-          <VotingRadioGroup onChange={handleRadioChange} />
-        )}
+          {isUserVoted || status === VotingStatusEnum.INACTIVE ? (
+            <>
+              <VotingResults
+                label="Yes"
+                percents={positiveVotesPercents}
+                isUserVoted={isUserVoted && userVoteType === VoteTypeEnum.POSITIVE}
+              />
+              <VotingResults
+                label="No"
+                percents={negativeVotesPercents}
+                isUserVoted={isUserVoted && userVoteType === VoteTypeEnum.NEGATIVE}
+              />
+            </>
+          ) : (
+            <VotingRadioGroup onChange={handleRadioChange} />
+          )}
 
-        <div className="flex justify-between items-center">
-          <Paragraph>{totalVotes} votes</Paragraph>
-          <MButton
-            disabled={!selectedVote || isUserVoted}
-            onClick={handleClickOnVoteButton}
-          >
-            Vote
-          </MButton>
-        </div>
-      </MPaper>
+          <div className="flex justify-between items-center">
+            <Paragraph>{totalVotes} votes</Paragraph>
+            <MButton
+              disabled={!selectedVote || isUserVoted}
+              onClick={handleClickOnVoteButton}
+            >
+              Vote
+            </MButton>
+          </div>
+        </MPaper>
+      )}
 
-      <ProcessingModal
-        isOpen={isModalOpen}
-        isProcessing={txStatus === 'pending'}
-        isSuccess={txStatus === 'success'}
-        onClose={handleModalClose}
-      >
-        {txMessage}
-      </ProcessingModal>
+      <ProcessingModal onClose={handleModalClose} />
     </>
   )
 }

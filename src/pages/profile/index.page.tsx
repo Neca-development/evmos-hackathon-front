@@ -5,24 +5,29 @@ import { useEthers } from '@usedapp/core'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
+import { DaoCardSkeleton } from './ui/dao-card-skeleton.component'
 import { DaoList } from './ui/dao-list.component'
 import { MintRequestList } from './ui/mint-request-list.component'
 import { ProfileHero } from './ui/profile-hero.component'
 
 export default function UserPage() {
-  const { account } = useEthers()
-  const { data: user, refetch: refetchUser } = UserApi.useGetUserQuery({
+  const { account, isLoading: isAccountLoading } = useEthers()
+  const {
+    data: user,
+    refetch: refetchUser,
+    isLoading: isUserLoading,
+  } = UserApi.useGetUserQuery({
     userAddress: account,
   })
-  const { data: mintRequests, refetch: refetchMintRequests } =
-    MintRequestApi.useGetMintRequestsForUserQuery({
-      userAddress: account,
-    })
+  const {
+    data: mintRequests,
+    refetch: refetchMintRequests,
+    isLoading: isMintRequestsLoading,
+  } = MintRequestApi.useGetMintRequestsForUserQuery({
+    userAddress: account,
+  })
 
-  const handleMint = () => {
-    refetchUser()
-    refetchMintRequests()
-  }
+  const isDataLoading = isAccountLoading || isUserLoading || isMintRequestsLoading
 
   const router = useRouter()
 
@@ -31,6 +36,11 @@ export default function UserPage() {
   }, [])
 
   const handleCreateButtonClick = () => router.push('/create-dao')
+
+  const handleMint = () => {
+    refetchUser()
+    refetchMintRequests()
+  }
 
   return (
     <>
@@ -44,9 +54,15 @@ export default function UserPage() {
           <MButton onClick={handleCreateButtonClick}>Create DAO</MButton>
         </div>
 
-        {user && <DaoList daos={user.daos} />}
-        {mintRequests && (
-          <MintRequestList mintRequests={mintRequests} onMint={handleMint} />
+        {isDataLoading ? (
+          <DaoCardSkeleton />
+        ) : (
+          <>
+            {user && <DaoList daos={user.daos} />}
+            {mintRequests && (
+              <MintRequestList mintRequests={mintRequests} onMint={handleMint} />
+            )}
+          </>
         )}
       </MainContainer>
     </>

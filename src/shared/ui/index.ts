@@ -7,5 +7,6 @@ export * from './mbutton.component';
 export * from './mdivider.component';
 export * from './modal';
 export * from './mpaper.component';
+export * from './mskeleton.component';
 export * from './mtext-field.component';
 export * from './typography';
