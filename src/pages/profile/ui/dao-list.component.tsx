@@ -1,10 +1,9 @@
-import type { IDaoEntity } from '@entities/dao'
+import type { DaoModelService } from '@entities/dao'
+import { DaoUiService } from '@entities/dao'
 import { List, ListItem } from '@mui/material'
 
-import { DaoCard } from './dao-card.component'
-
 interface IDaoListProperties {
-  daos: IDaoEntity[]
+  daos: DaoModelService.IDaoEntity[]
 }
 
 export function DaoList({ daos }: IDaoListProperties) {
@@ -12,7 +11,7 @@ export function DaoList({ daos }: IDaoListProperties) {
     <List className="space-y-5">
       {daos.map((dao) => (
         <ListItem key={dao.id} className="p-0">
-          <DaoCard dao={dao} />
+          <DaoUiService.DaoCard dao={dao} />
         </ListItem>
       ))}
     </List>

@@ -1,4 +1,4 @@
-import { DaoApi } from '@entities/dao'
+import { DaoApiService } from '@entities/dao'
 import type { MintRequestModelService } from '@entities/mint-request'
 import { MintRequestApiService } from '@entities/mint-request'
 import { UserApi } from '@entities/user'
@@ -12,7 +12,7 @@ export const useMint = () => {
 
   const [generateMintSignature] = MintRequestApiService.useGenerateMintSignatureMutation()
   const [createUser] = UserApi.useCreateUserMutation()
-  const [addUserToDao] = DaoApi.useAddUserMutation()
+  const [addUserToDao] = DaoApiService.useAddUserMutation()
   const [deleteMintRequest] = MintRequestApiService.useDeleteMintRequestMutation()
 
   const { mintNft } = useMintNft()

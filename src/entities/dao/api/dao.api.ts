@@ -2,18 +2,19 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@shared/api'
 import type { IBaseResponse } from '@shared/types'
 
-import type { IDaoEntity } from '.'
+import type { IDaoEntity } from '../model'
+import type { IAddUserRequest } from './add-user.dto'
+import type { ICreateDaoRequest } from './create-dao.dto'
 import type {
-  IAddUserRequest,
-  ICreateDaoRequest,
   IGenerateDaoLinksRequest,
   IGenerateDaoLinksResponse,
-  IGetDaoRequest,
+} from './generate-dao-links.dto'
+import type { IGetDaoRequest } from './get-dao.dto'
+import type {
   IGetInfoFromIpfsRequest,
   IGetInfoFromIpfsResponse,
-  IUploadNftsRequest,
-  IUploadNftsResponse,
-} from './model'
+} from './get-info-from-ipfs.dto'
+import type { IUploadNftsRequest, IUploadNftsResponse } from './upload-nfts.dto'
 
 export const daoApi = createApi({
   reducerPath: 'daoApi',

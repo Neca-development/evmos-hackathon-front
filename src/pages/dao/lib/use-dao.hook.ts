@@ -1,4 +1,4 @@
-import { DaoApi } from '@entities/dao'
+import { DaoApiService } from '@entities/dao'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -14,7 +14,9 @@ export const useDao = () => {
   const { slug } = router.query
   const isDaoAddressValid = slug && typeof slug === 'string' && slug !== 'undefined'
 
-  const { data: dao, refetch: refetchDao } = DaoApi.useGetDaoQuery({ daoAddress: slug })
+  const { data: dao, refetch: refetchDao } = DaoApiService.useGetDaoQuery({
+    daoAddress: slug,
+  })
 
   useEffect(() => {
     if (isDaoAddressValid) {

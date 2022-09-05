@@ -1,4 +1,4 @@
-import { DaoApi } from '@entities/dao'
+import { DaoApiService } from '@entities/dao'
 import {
   DaoCardSkeleton,
   HeadingFour,
@@ -20,8 +20,8 @@ export interface IMintRequestCardProperties {
 export function MintRequestCard(props: IMintRequestCardProperties) {
   const { mintRequest, onMint } = props
 
-  const { data: dao } = DaoApi.useGetDaoQuery({ daoAddress: mintRequest.daoAddress })
-  const { data: daoInfo } = DaoApi.useGetInfoFromIpfsQuery({ ipfsUrl: dao?.ipfsUrl })
+  const { data: dao } = DaoApiService.useGetDaoQuery({ daoAddress: mintRequest.daoAddress })
+  const { data: daoInfo } = DaoApiService.useGetInfoFromIpfsQuery({ ipfsUrl: dao?.ipfsUrl })
 
   return (
     <>

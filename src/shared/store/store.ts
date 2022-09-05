@@ -1,4 +1,4 @@
-import { daoApi } from '@entities/dao/dao.api'
+import { daoApi } from '@entities/dao/api/dao.api'
 import { mintRequestApi } from '@entities/mint-request/api/mint-request.api'
 import { userApi } from '@entities/user/user.api'
 import { votingApi } from '@entities/voting/api/voting.api'

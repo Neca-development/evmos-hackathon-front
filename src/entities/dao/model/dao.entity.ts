@@ -1,10 +1,10 @@
 import type { IUserEntity } from '@entities/user'
-import type { IVotingEntity } from '@entities/voting'
+import type { VotingModelService } from '@entities/voting'
 
 export interface IDaoEntity {
   id: number
   ipfsUrl: string
   contractAddress: string
   users: IUserEntity[]
-  __votings__: IVotingEntity[]
+  __votings__: VotingModelService.IVotingEntity[]
 }

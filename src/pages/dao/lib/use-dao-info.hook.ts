@@ -1,11 +1,12 @@
-import type { IDaoEntity } from '@entities/dao'
-import { DaoApi } from '@entities/dao'
+import type { DaoModelService } from '@entities/dao'
+import { DaoApiService } from '@entities/dao'
 import { useEffect } from 'react'
 
-export const useDaoInfo = (dao: IDaoEntity | undefined) => {
-  const { data: daoInfo, refetch: refetchDaoInfo } = DaoApi.useGetInfoFromIpfsQuery({
-    ipfsUrl: dao?.ipfsUrl,
-  })
+export const useDaoInfo = (dao: DaoModelService.IDaoEntity | undefined) => {
+  const { data: daoInfo, refetch: refetchDaoInfo } =
+    DaoApiService.useGetInfoFromIpfsQuery({
+      ipfsUrl: dao?.ipfsUrl,
+    })
 
   useEffect(() => {
     if (dao) {

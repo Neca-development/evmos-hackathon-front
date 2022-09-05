@@ -9,7 +9,8 @@ import {
 } from '@shared/ui'
 import * as React from 'react'
 
-import { useDao, useDaoInfo } from '../lib'
+import { useDao } from '../lib/use-dao.hook'
+import { useDaoInfo } from '../lib/use-dao-info.hook'
 import { DaoHero } from '../ui/dao-hero.component'
 import { VotingList } from '../ui/voting-list.component'
 

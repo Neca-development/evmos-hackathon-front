@@ -1,6 +1,5 @@
-import type { IDaoEntity } from '@entities/dao'
-import { DaoApi } from '@entities/dao'
 import {
+  DaoCardSkeleton,
   HeadingFour,
   HeadingThree,
   MButton,
@@ -12,14 +11,15 @@ import { useRouter } from 'next/router'
 import * as React from 'react'
 import { useUserToken } from 'src/blockchain'
 
-import { DaoCardSkeleton } from '../../../shared/ui/dao-card-skeleton.component'
+import { useGetInfoFromIpfsQuery } from '../api'
+import type { IDaoEntity } from '../model'
 
 interface IDaoCardProperties {
   dao: IDaoEntity
 }
 
 export function DaoCard({ dao }: IDaoCardProperties) {
-  const { data } = DaoApi.useGetInfoFromIpfsQuery({ ipfsUrl: dao.ipfsUrl })
+  const { data } = useGetInfoFromIpfsQuery({ ipfsUrl: dao.ipfsUrl })
   const { tokenIpfsUrl } = useUserToken(dao.contractAddress)
 
   const isLoading = !data || !tokenIpfsUrl

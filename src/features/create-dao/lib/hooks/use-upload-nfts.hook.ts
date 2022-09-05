@@ -1,8 +1,8 @@
-import { DaoApi } from '@entities/dao'
+import { DaoApiService } from '@entities/dao'
 import type { IFile, IImageFiles } from '@features/create-dao/model'
 
 export const useUploadNfts = () => {
-  const [uploadNfts] = DaoApi.useUploadNftsMutation()
+  const [uploadNfts] = DaoApiService.useUploadNftsMutation()
 
   const getImageLinks = async (imageFiles: IImageFiles) => {
     const imageFilesValues: IFile[] = Object.values(imageFiles)

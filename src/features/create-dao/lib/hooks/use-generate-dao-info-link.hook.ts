@@ -1,4 +1,4 @@
-import { DaoApi } from '@entities/dao'
+import { DaoApiService } from '@entities/dao'
 import type { IDaoMetadata } from '@features/create-dao/model'
 import * as React from 'react'
 
@@ -10,7 +10,7 @@ export const useGenerateDaoInfoLink = () => {
     highToken: '',
   })
 
-  const [generateDaoLinks] = DaoApi.useGenerateDaoLinksMutation()
+  const [generateDaoLinks] = DaoApiService.useGenerateDaoLinksMutation()
 
   const getDaoLinks = async (daoInfo: IDaoMetadata) => {
     const { name, description, symbol, imageLinks } = daoInfo
