@@ -1,89 +1,41 @@
-import { VotingApi } from '@entities/voting'
+import { useModal } from '@shared/lib'
 import { MButton, MPaper, MTextField, ProcessingModal } from '@shared/ui'
 import * as React from 'react'
-import { useCreateVoting } from 'src/blockchain'
+
+import { useCreateVoting, useVotingForm } from '../lib'
 
 interface ICreateVotingFormProperties {
-  daoAddress: string | string[] | undefined
+  daoAddress: string
   onCreate: () => void
   onCancel: () => void
-}
-
-interface IVotingFormProperties {
-  question: string
-  description: string
-}
-
-const votingFormInitialState: IVotingFormProperties = {
-  question: '',
-  description: '',
 }
 
 export function CreateVotingForm(props: ICreateVotingFormProperties) {
   const { daoAddress, onCreate, onCancel } = props
 
-  const [votingForm, setVotingForm] =
-    React.useState<IVotingFormProperties>(votingFormInitialState)
-  const [votingInfoLink, setVotingInfoLink] = React.useState('')
+  const { votingForm, handleInput } = useVotingForm()
 
-  const [isModalOpen, setIsModalOpen] = React.useState(false)
-  const [modalText, setModalText] = React.useState('')
-  const [isRequestInProgress, setIsRequestInProgress] = React.useState(false)
-  const [isDaoCreated, setIsDaoCreated] = React.useState(false)
+  const { createVoting, isVotingCreated } = useCreateVoting(votingForm, daoAddress)
+  const { setIsModalOpen } = useModal()
 
-  const [generateIpfsLink] = VotingApi.useGenerateIpfsLinkMutation()
-  const [createVotingOnBackend] = VotingApi.useCreateVotingMutation()
-
-  const { votingId, txStatus, txMessage, createVoting } = useCreateVoting()
-
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-    setVotingForm((previous) => ({ ...previous, [name]: value }))
+  const handleClickOnCreateButton = () => {
+    setIsModalOpen(true)
+    createVoting()
   }
 
-  const handleClickOnCreateButton = async () => {
-    if (typeof daoAddress !== 'string') return
-
-    try {
-      setIsModalOpen(true)
-      setIsRequestInProgress(true)
-      setModalText('Uploading voting info to IPFS...')
-
-      const ipfsLink = await generateIpfsLink({
-        question: votingForm.question,
-        descr: votingForm.description,
-      }).unwrap()
-      console.log('voting ipfs link:', ipfsLink)
-      setVotingInfoLink(ipfsLink)
-
-      setIsRequestInProgress(false)
-
-      await createVoting(daoAddress)
-    } catch (error: any) {
-      console.error(error)
-    }
+  const handleClickOnCancelButton = () => {
+    onCancel()
   }
 
   const handleModalClose = () => {
-    if (isDaoCreated) {
-      setIsModalOpen(false)
-    }
+    setIsModalOpen(false)
   }
 
   React.useEffect(() => {
-    async function finishVotingCreation() {
-      if (typeof daoAddress === 'string' && votingId != null && votingInfoLink) {
-        await createVotingOnBackend({
-          daoAddress,
-          ipfsUrl: votingInfoLink,
-          smartContractId: votingId,
-        })
-        onCreate()
-        setIsDaoCreated(true)
-      }
+    if (isVotingCreated) {
+      onCreate()
     }
-    finishVotingCreation()
-  }, [daoAddress, votingId, votingInfoLink])
+  }, [isVotingCreated])
 
   return (
     <>
@@ -99,21 +51,14 @@ export function CreateVotingForm(props: ICreateVotingFormProperties) {
         />
 
         <div className="flex justify-between items-center">
-          <MButton variant="secondary" onClick={onCancel}>
+          <MButton variant="secondary" onClick={handleClickOnCancelButton}>
             Cancel
           </MButton>
           <MButton onClick={handleClickOnCreateButton}>Create voting</MButton>
         </div>
       </MPaper>
 
-      <ProcessingModal
-        isOpen={isModalOpen}
-        isProcessing={isRequestInProgress || txStatus === 'pending'}
-        isSuccess={!isRequestInProgress && txStatus === 'success'}
-        onClose={handleModalClose}
-      >
-        {isRequestInProgress ? modalText : txMessage}
-      </ProcessingModal>
+      <ProcessingModal onClose={handleModalClose} />
     </>
   )
 }

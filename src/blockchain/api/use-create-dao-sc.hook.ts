@@ -52,16 +52,6 @@ export const useCreateDaoSc = () => {
 
       setModalText('Waiting for DAO creation...')
 
-      daoFactoryContract.on(
-        'DAOCreated',
-        (contractAddress: string, creatorAddress: string) => {
-          if (account === creatorAddress) {
-            setDaoAddress(contractAddress)
-            daoFactoryContract.removeAllListeners('DAOCreated')
-          }
-        }
-      )
-
       await createDaoTransaction.wait()
     } catch (error: any) {
       daoFactoryContract.removeAllListeners('DAOCreated')

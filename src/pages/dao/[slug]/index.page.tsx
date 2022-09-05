@@ -1,6 +1,6 @@
 import { DaoApi } from '@entities/dao'
 import { MintRequestApi } from '@entities/mint-request'
-import { CreateVoting } from '@features/create-voting'
+import { CreateVotingUiService } from '@features/create-voting'
 import { Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
 import { useRouter } from 'next/router'
 import * as React from 'react'
@@ -10,8 +10,8 @@ import { VotingList } from '../ui/voting-list.component'
 
 export default function DaoPage() {
   const router = useRouter()
-  const { slug } = router.query
-  const { data: dao, refetch: refetchDao } = DaoApi.useGetDaoQuery({ daoAddress: slug })
+  const { slug: daoAddress } = router.query
+  const { data: dao, refetch: refetchDao } = DaoApi.useGetDaoQuery({ daoAddress })
   const { data: daoInfo, refetch: refetchDaoInfo } = DaoApi.useGetInfoFromIpfsQuery({
     ipfsUrl: dao?.ipfsUrl,
   })
@@ -20,13 +20,16 @@ export default function DaoPage() {
     router.prefetch('/profile')
   }, [])
 
+  const isDaoAddressValid =
+    daoAddress && typeof daoAddress === 'string' && daoAddress !== 'undefined'
+
   React.useEffect(() => {
-    if (slug && typeof slug !== 'string') {
-      router.push('/profile')
-    } else if (slug) {
+    if (isDaoAddressValid) {
       refetchDao()
+    } else if (daoAddress) {
+      router.push('/profile')
     }
-  }, [slug])
+  }, [daoAddress])
 
   React.useEffect(() => {
     if (dao) {
@@ -50,14 +53,14 @@ export default function DaoPage() {
     const csvFileFormData = new FormData()
     csvFileFormData.append('file', csvFile)
 
-    if (!slug || typeof slug !== 'string') {
+    if (!isDaoAddressValid) {
       return
     }
 
-    await postMintRequestList({ daoAddress: slug, csv: csvFileFormData })
+    await postMintRequestList({ daoAddress, csv: csvFileFormData })
   }
 
-  const [isVotingFromOpen, setIsVotingFormOpen] = React.useState(false)
+  const [isVotingFormOpen, setIsVotingFormOpen] = React.useState(false)
 
   const handleVotingFormOpen = () => {
     setIsVotingFormOpen(true)
@@ -80,11 +83,11 @@ export default function DaoPage() {
           onInvite={inviteUsers}
         />
 
-        {isVotingFromOpen && (
+        {isVotingFormOpen && isDaoAddressValid && (
           <div className="mb-10">
             <HeadingTwo className="mb-5">Voting creation</HeadingTwo>
-            <CreateVoting.CreateVotingForm
-              daoAddress={slug}
+            <CreateVotingUiService.CreateVotingForm
+              daoAddress={daoAddress}
               onCreate={refetchDao}
               onCancel={handleVotingFormClose}
             />
@@ -93,8 +96,10 @@ export default function DaoPage() {
 
         <div className="mb-5 flex justify-between items-center">
           <HeadingTwo>Current votings</HeadingTwo>
-          {!isVotingFromOpen && (
-            <MButton onClick={handleVotingFormOpen}>Create vote</MButton>
+          {!isVotingFormOpen && (
+            <MButton disabled={!isDaoAddressValid} onClick={handleVotingFormOpen}>
+              Create voting
+            </MButton>
           )}
         </div>
 

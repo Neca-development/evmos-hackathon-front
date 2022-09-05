@@ -2,7 +2,7 @@ import { CircularProgress, Modal } from '@mui/material'
 import { useModal } from '@shared/lib'
 import * as React from 'react'
 
-import { CheckIcon } from '../icons'
+import { CheckIcon, ErrorIcon } from '../icons'
 import { MPaper } from '../mpaper.component'
 
 interface IProcessingModalProperties {
@@ -18,7 +18,7 @@ export function ProcessingModal({ onClose }: IProcessingModalProperties) {
       open={isModalOpen}
       onClose={modalState !== 'pending' ? onClose : () => null}
     >
-      <MPaper className="w-96 px-14 space-x-5 grid grid-cols-12 bg-grayish-blue">
+      <MPaper className="w-[29rem] px-14 space-x-5 grid grid-cols-12 bg-grayish-blue">
         <div className="flex items-center">
           {modalState === 'pending' && (
             <CircularProgress disableShrink className="text-white" />
@@ -30,7 +30,11 @@ export function ProcessingModal({ onClose }: IProcessingModalProperties) {
             </div>
           )}
 
-          {modalState === 'error' && 'Error'}
+          {modalState === 'error' && (
+            <div className="aspect-square w-10 rounded-full bg-red-500">
+              <ErrorIcon />
+            </div>
+          )}
         </div>
 
         <div className="col-span-11 flex items-center text-sm">{modalText}</div>

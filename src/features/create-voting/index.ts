@@ -1,1 +1,1 @@
-export * as CreateVoting from './ui'
+export * as CreateVotingUiService from './ui'
