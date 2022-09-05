@@ -5,18 +5,16 @@ import * as React from 'react'
 import { CheckIcon, ErrorIcon } from '../icons'
 import { MPaper } from '../mpaper.component'
 
-interface IProcessingModalProperties {
-  onClose: () => void
-}
+export function ProcessingModal() {
+  const { isModalOpen, setIsModalOpen, modalState, modalText } = useModal()
 
-export function ProcessingModal({ onClose }: IProcessingModalProperties) {
-  const { isModalOpen, modalState, modalText } = useModal()
+  const handleClose = () => setIsModalOpen(false)
 
   return (
     <Modal
       className="flex justify-center items-center"
       open={isModalOpen}
-      onClose={modalState !== 'pending' ? onClose : () => null}
+      onClose={modalState !== 'pending' ? handleClose : () => null}
     >
       <MPaper className="w-[29rem] px-14 space-x-5 grid grid-cols-12 bg-grayish-blue">
         <div className="flex items-center">
