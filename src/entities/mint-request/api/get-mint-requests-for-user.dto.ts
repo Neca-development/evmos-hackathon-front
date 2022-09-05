@@ -1,4 +1,4 @@
-import type { IMintRequestEntity } from '../mint-request.entity'
+import type { IMintRequestEntity } from '../model/mint-request.entity'
 
 export interface IGetMintRequestsForUserRequest {
   userAddress: string | undefined

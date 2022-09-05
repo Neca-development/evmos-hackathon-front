@@ -2,14 +2,14 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@shared/api'
 import type { IBaseResponse } from '@shared/types'
 
+import type { IDeleteMintRequestRequest } from './delete-mint-request.dto'
+import type { IGenerateMintSignatureRequest } from './generate-mint-signature.dto'
 import type {
-  IDeleteMintRequest,
-  IGenerateMintSignature,
   IGetMintRequestsForUserRequest,
   IGetMintRequestsForUserResponse,
-  IPostMintRequestListRequest,
-  IPostMintRequestRequest,
-} from './model'
+} from './get-mint-requests-for-user.dto'
+import type { IPostMintRequestListRequest } from './post-mint-request.dto'
+import type { IPostMintRequestRequest } from './post-mintrequest.dto'
 
 export const mintRequestApi = createApi({
   reducerPath: 'mintRequestApi',
@@ -54,7 +54,7 @@ export const mintRequestApi = createApi({
       invalidatesTags: ['MINT_REQUEST'],
     }),
 
-    generateMintSignature: builder.mutation<string, IGenerateMintSignature>({
+    generateMintSignature: builder.mutation<string, IGenerateMintSignatureRequest>({
       query: (args) => {
         return {
           url: `/mint-request/generate-signature/${args.mintRequestId}`,
@@ -68,7 +68,7 @@ export const mintRequestApi = createApi({
       },
     }),
 
-    deleteMintRequest: builder.mutation<void, IDeleteMintRequest>({
+    deleteMintRequest: builder.mutation<void, IDeleteMintRequestRequest>({
       query: (args) => {
         return {
           url: `/mint-request/${args.mintRequestId}`,
