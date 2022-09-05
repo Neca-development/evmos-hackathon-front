@@ -54,7 +54,6 @@ export const useCreateDaoSc = () => {
 
       await createDaoTransaction.wait()
     } catch (error: any) {
-      daoFactoryContract.removeAllListeners('DAOCreated')
       setModalState('error')
       setModalText('An error occurred while executing transaction')
       console.error('error:', error.message)

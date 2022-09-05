@@ -1,5 +1,5 @@
 import { daoApi } from '@entities/dao/dao.api'
-import { mintRequestApi } from '@entities/mint-request/mint-request.api'
+import { mintRequestApi } from '@entities/mint-request/api/mint-request.api'
 import { userApi } from '@entities/user/user.api'
 import { votingApi } from '@entities/voting/voting.api'
 import { configureStore } from '@reduxjs/toolkit'

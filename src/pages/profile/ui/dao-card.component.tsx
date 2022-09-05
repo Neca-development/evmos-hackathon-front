@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 import * as React from 'react'
 import { useUserToken } from 'src/blockchain'
 
-import { DaoCardSkeleton } from './dao-card-skeleton.component'
+import { DaoCardSkeleton } from '../../../shared/ui/dao-card-skeleton.component'
 
 interface IDaoCardProperties {
   dao: IDaoEntity

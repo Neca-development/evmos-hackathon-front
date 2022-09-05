@@ -1,10 +1,9 @@
-import type { IMintRequestEntity } from '@entities/mint-request/mint-request.entity'
+import type { MintRequestModelService } from '@entities/mint-request'
+import { MintUiService } from '@features/mint'
 import { List, ListItem } from '@mui/material'
 
-import { MintRequestCard } from './mint-request-card.component'
-
 interface IMintRequestListProperties {
-  mintRequests: IMintRequestEntity[]
+  mintRequests: MintRequestModelService.IMintRequestEntity[]
   onMint: () => void
 }
 
@@ -15,7 +14,7 @@ export function MintRequestList(props: IMintRequestListProperties) {
     <List className="space-y-5">
       {mintRequests.map((mintRequest) => (
         <ListItem key={mintRequest.id} className="p-0">
-          <MintRequestCard mintRequest={mintRequest} onMint={onMint} />
+          <MintUiService.MintCard mintRequest={mintRequest} onMint={onMint} />
         </ListItem>
       ))}
     </List>

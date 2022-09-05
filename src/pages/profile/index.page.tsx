@@ -1,11 +1,11 @@
-import { MintRequestApi } from '@entities/mint-request'
+import { MintRequestApiService } from '@entities/mint-request'
 import { UserApi } from '@entities/user'
 import { Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
-import { DaoCardSkeleton } from './ui/dao-card-skeleton.component'
+import { DaoCardSkeleton } from '../../shared/ui/dao-card-skeleton.component'
 import { DaoList } from './ui/dao-list.component'
 import { MintRequestList } from './ui/mint-request-list.component'
 import { ProfileHero } from './ui/profile-hero.component'
@@ -23,7 +23,7 @@ export default function UserPage() {
     data: mintRequests,
     refetch: refetchMintRequests,
     isLoading: isMintRequestsLoading,
-  } = MintRequestApi.useGetMintRequestsForUserQuery({
+  } = MintRequestApiService.useGetMintRequestsForUserQuery({
     userAddress: account,
   })
 

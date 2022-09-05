@@ -1,4 +1,6 @@
-import { MDivider, MPaper, MSkeleton } from '@shared/ui'
+import { MDivider } from './mdivider.component'
+import { MPaper } from './mpaper.component'
+import { MSkeleton } from './mskeleton.component'
 
 export function DaoCardSkeleton() {
   return (
