@@ -1,5 +1,5 @@
 import { DaoApi } from '@entities/dao'
-import { MintRequestApi } from '@entities/mint-request'
+import { MintRequestApiService } from '@entities/mint-request'
 import type { IDaoForm, IDaoMetadata, IImageFiles } from '@features/create-dao/model'
 import { useModal } from '@shared/lib'
 import * as React from 'react'
@@ -35,7 +35,7 @@ export const useCreateDao = (daoForm: IDaoForm, userAddress: string | undefined)
   }
 
   const [createDaoOnBackend] = DaoApi.useCreateDaoMutation()
-  const [postMintRequest] = MintRequestApi.usePostMintRequestMutation()
+  const [postMintRequest] = MintRequestApiService.usePostMintRequestMutation()
 
   React.useEffect(() => {
     async function finishDaoCreation() {
