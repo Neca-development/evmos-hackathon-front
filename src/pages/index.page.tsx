@@ -17,8 +17,8 @@ export default function HomePage() {
 
   const connectWallet = async () => {
     try {
-      await activateBrowserWallet()
       await switchToEvmosNetwork()
+      await activateBrowserWallet()
       router.push('/profile')
     } catch (error: any) {
       console.error(error)
