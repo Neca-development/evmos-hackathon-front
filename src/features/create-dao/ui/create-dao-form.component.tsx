@@ -1,6 +1,7 @@
 import { useModal } from '@shared/lib'
 import { FileInput, HeadingTwo, MButton, MTextField, Paragraph } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
+import classNames from 'classnames'
 import * as React from 'react'
 
 import { useCreateDao, useDaoForm } from '../lib'
@@ -23,7 +24,12 @@ export function CreateDaoForm() {
 
   return (
     <>
-      <div className="mb-7 grid grid-cols-5 gap-x-10">
+      <div
+        className={classNames(
+          'mb-7 lg:space-y-0 lg:grid grid-cols-5 gap-x-10',
+          'space-y-10 flex flex-col justify-start items-center'
+        )}
+      >
         {/* Dao image */}
         <div className="col-span-2">
           <FileInput
@@ -39,14 +45,14 @@ export function CreateDaoForm() {
           <MTextField
             name="name"
             label="DAO Name"
-            className="w-3/4"
+            className="lg:w-3/4"
             onChange={handleTextChange}
           />
 
           <MTextField
             name="description"
             label="DAO Description"
-            className="w-3/4"
+            className="lg:w-3/4"
             multiline
             minRows={6}
             onChange={handleTextChange}
@@ -56,7 +62,7 @@ export function CreateDaoForm() {
           <div>
             <HeadingTwo className="mb-2 text-base">Add tokens</HeadingTwo>
 
-            <div className="grid grid-cols-5 gap-x-5">
+            <div className="lg:space-y-0 space-y-10 lg:grid grid-cols-5 gap-x-5">
               <div className="space-y-1 flex flex-col justify-center items-center">
                 <FileInput
                   inputName="firstNftImage"
