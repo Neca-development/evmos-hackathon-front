@@ -3,6 +3,7 @@ import { useEthers } from '@usedapp/core'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import * as React from 'react'
+import { switchToEvmosNetwork } from 'src/blockchain/lib/helpers'
 
 import styles from './index.module.scss'
 
@@ -15,8 +16,13 @@ export default function HomePage() {
   }, [])
 
   const connectWallet = async () => {
-    await activateBrowserWallet()
-    router.push('/profile')
+    try {
+      await activateBrowserWallet()
+      await switchToEvmosNetwork()
+      router.push('/profile')
+    } catch (error: any) {
+      console.error(error)
+    }
   }
 
   return (
