@@ -1,15 +1,15 @@
-import { CreateDao } from '@features/create-dao'
-import { Header, HeadingOne, MainContainer } from '@shared/ui'
+import { CreateDaoUiService } from '@features/create-dao'
+import { Header, HeadingOne } from '@shared/ui'
 
 export default function CreateDaoPage() {
   return (
     <div className="h-screen flex flex-col">
       <Header />
 
-      <MainContainer className="max-w-[1536px]">
+      <main className="max-w-[1536px] mx-auto py-5">
         <HeadingOne className="mb-7">DAO creation</HeadingOne>
-        <CreateDao.CreateDaoForm />
-      </MainContainer>
+        <CreateDaoUiService.CreateDaoForm />
+      </main>
     </div>
   )
 }

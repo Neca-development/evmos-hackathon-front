@@ -1,6 +1,7 @@
 export * from './add.icon'
 export * from './check.icon'
 export * from './close.icon'
+export * from './error.icon'
 export * from './ethereum.icon'
 export * from './metamask.icon'
 export * from './web.icon'

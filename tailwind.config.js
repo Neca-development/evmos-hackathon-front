@@ -9,7 +9,7 @@ module.exports = {
         'sans-serif']
       },
       backgroundImage:{
-        'homepage': "url('/assets/images/homepage.svg')",
+        'homepage': "url('/assets/images/homepage.png')",
         'dao-hero': 'linear-gradient(to bottom, #262747 0%, #262747 45%, #1C1D34 45%, #1C1D34 100%)',
         'profile-hero': 'linear-gradient(to bottom, #262747 0%, #262747 56%, transparent 56%, transparent 100%)',
       },

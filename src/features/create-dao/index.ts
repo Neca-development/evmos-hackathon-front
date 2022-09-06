@@ -1,1 +1,1 @@
-export * as CreateDao from './ui'
+export * as CreateDaoUiService from './ui'

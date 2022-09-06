@@ -1,139 +1,25 @@
-import { DaoApi } from '@entities/dao'
-import { MintRequestApi } from '@entities/mint-request'
-import {
-  FileInput,
-  HeadingTwo,
-  MButton,
-  MTextField,
-  Paragraph,
-  ProcessingModal,
-} from '@shared/ui'
+import { useModal } from '@shared/lib'
+import { FileInput, HeadingTwo, MButton, MTextField, Paragraph } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
-import { useRouter } from 'next/router'
 import * as React from 'react'
-import { TokenTypeEnum, useCreateDao } from 'src/blockchain'
 
-import { useGenerateDaoInfoLink, useUploadNfts } from '../model'
-
-interface IDaoFormProperties {
-  name: string
-  description: string
-  tokenSymbol: string
-  daoImage: File | null | undefined
-  firstNftImage: File | null | undefined
-  secondNftImage: File | null | undefined
-  thirdNftImage: File | null | undefined
-}
-
-const daoFormInitialState: IDaoFormProperties = {
-  name: '',
-  description: '',
-  tokenSymbol: 'TEST',
-  daoImage: null,
-  firstNftImage: null,
-  secondNftImage: null,
-  thirdNftImage: null,
-}
+import { useCreateDao, useDaoForm } from '../lib'
 
 export function CreateDaoForm() {
-  const [daoForm, setDaoForm] = React.useState<IDaoFormProperties>(daoFormInitialState)
-  const [isModalOpen, setIsModalOpen] = React.useState(false)
-  const [modalText, setModalText] = React.useState('')
-  const [isRequestInProgress, setIsRequestInProgress] = React.useState(false)
-  const [isDaoCreated, setIsDaoCreated] = React.useState(false)
-
   const { account } = useEthers()
-  const router = useRouter()
+  const { daoForm, handleImageChange, handleTextChange } = useDaoForm()
 
-  React.useEffect(() => {
-    router.prefetch('/profile')
-  }, [])
+  const daoFormFieldsValues = Object.values(daoForm)
+  const isCreateButtonDisabled = daoFormFieldsValues.some((fieldValue) => !fieldValue)
 
-  const [createDaoOnBackend] = DaoApi.useCreateDaoMutation()
-  const [postMintRequest] = MintRequestApi.usePostMintRequestMutation()
+  const { createDao } = useCreateDao(daoForm, account)
 
-  const { getImageLinks } = useUploadNfts()
-  const { daoLinks, getDaoLinks } = useGenerateDaoInfoLink()
+  const { setIsModalOpen } = useModal()
 
-  const { txStatus, txMessage, daoContractAddress, createDao } = useCreateDao()
-
-  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-    setDaoForm((previous) => ({ ...previous, [name]: value }))
+  const handleClickOnCreateButton = () => {
+    setIsModalOpen(true)
+    createDao()
   }
-
-  const handleImageChange = (name: string, newImage: File | null | undefined) => {
-    setDaoForm((previous) => ({ ...previous, [name]: newImage }))
-  }
-
-  const handleClickOnCreateButton = async () => {
-    try {
-      setIsModalOpen(true)
-      setIsRequestInProgress(true)
-      setModalText('Uploading DAO info to IPFS...')
-
-      const imagesFiles = {
-        daoImage: daoForm.daoImage,
-        firstNftImage: daoForm.firstNftImage,
-        secondNftImage: daoForm.secondNftImage,
-        thirdNftImage: daoForm.thirdNftImage,
-      }
-      const imageLinks = await getImageLinks(imagesFiles)
-
-      const daoInfo = {
-        name: daoForm.name,
-        description: daoForm.description,
-        symbol: daoForm.tokenSymbol,
-        imageLinks,
-      }
-      await getDaoLinks(daoInfo)
-
-      setIsRequestInProgress(false)
-
-      await createDao(daoForm.name, daoForm.tokenSymbol, daoLinks.dao)
-    } catch (error: any) {
-      console.error(error)
-    }
-  }
-
-  const handleModalClose = () => {
-    if (isDaoCreated) {
-      setIsModalOpen(false)
-      router.push('/profile')
-    }
-  }
-
-  React.useEffect(() => {
-    async function finishDaoCreation() {
-      if (account && daoLinks.dao && daoContractAddress) {
-        setIsRequestInProgress(true)
-        setModalText('Almost done...')
-
-        await createDaoOnBackend({
-          contractAddress: daoContractAddress,
-          ipfsUrl: daoLinks.dao,
-        })
-        await postMintRequest({
-          daoAddress: daoContractAddress,
-          tokenType: TokenTypeEnum.HIGH,
-          userAddress: account,
-        })
-
-        setIsRequestInProgress(false)
-        setIsDaoCreated(true)
-      }
-    }
-    finishDaoCreation()
-  }, [account, daoLinks.dao, daoContractAddress])
-
-  const isCreateButtonDisabled =
-    !daoForm.name ||
-    !daoForm.description ||
-    !daoForm.tokenSymbol ||
-    !daoForm.daoImage ||
-    !daoForm.firstNftImage ||
-    !daoForm.secondNftImage ||
-    !daoForm.thirdNftImage
 
   return (
     <>
@@ -211,15 +97,6 @@ export function CreateDaoForm() {
         </MButton>
       </div>
       {/* /Create button */}
-
-      <ProcessingModal
-        isOpen={isModalOpen}
-        isProcessing={isRequestInProgress || txStatus === 'pending'}
-        isSuccess={!isRequestInProgress && txStatus === 'success'}
-        onClose={handleModalClose}
-      >
-        {isRequestInProgress ? modalText : txMessage}
-      </ProcessingModal>
     </>
   )
 }

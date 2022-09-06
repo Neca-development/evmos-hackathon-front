@@ -1,63 +1,28 @@
-import { DaoApi } from '@entities/dao'
-import { MintRequestApi } from '@entities/mint-request'
-import { CreateVoting } from '@features/create-voting'
-import { Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
-import { useRouter } from 'next/router'
+import { CreateVotingUiService } from '@features/create-voting'
+import { useInviteUsers } from '@features/invite-users'
+import {
+  Header,
+  HeadingTwo,
+  MainContainer,
+  MButton,
+  VotingCardSkeleton,
+} from '@shared/ui'
 import * as React from 'react'
 
+import { useDao } from '../lib/use-dao.hook'
+import { useDaoInfo } from '../lib/use-dao-info.hook'
 import { DaoHero } from '../ui/dao-hero.component'
 import { VotingList } from '../ui/voting-list.component'
 
 export default function DaoPage() {
-  const router = useRouter()
-  const { slug } = router.query
-  const { data: dao, refetch: refetchDao } = DaoApi.useGetDaoQuery({ daoAddress: slug })
-  const { data: daoInfo, refetch: refetchDaoInfo } = DaoApi.useGetInfoFromIpfsQuery({
-    ipfsUrl: dao?.ipfsUrl,
-  })
+  const { daoAddress, dao, refetchDao } = useDao()
+  const isLoading = !daoAddress || !dao || dao.__votings__ == undefined
 
-  React.useEffect(() => {
-    router.prefetch('/profile')
-  }, [])
+  const { daoInfo } = useDaoInfo(dao)
 
-  React.useEffect(() => {
-    if (slug && typeof slug !== 'string') {
-      router.push('/profile')
-    } else if (slug) {
-      refetchDao()
-    }
-  }, [slug])
+  const { inviteUsers } = useInviteUsers(daoAddress)
 
-  React.useEffect(() => {
-    if (dao) {
-      refetchDaoInfo()
-    }
-  }, [dao])
-
-  const [postMintRequestList] = MintRequestApi.usePostMintRequestListMutation()
-
-  const inviteUsers = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.target
-    if (!files) {
-      return
-    }
-
-    const csvFile = files[0]
-    if (!csvFile) {
-      return
-    }
-
-    const csvFileFormData = new FormData()
-    csvFileFormData.append('file', csvFile)
-
-    if (!slug || typeof slug !== 'string') {
-      return
-    }
-
-    await postMintRequestList({ daoAddress: slug, csv: csvFileFormData })
-  }
-
-  const [isVotingFromOpen, setIsVotingFormOpen] = React.useState(false)
+  const [isVotingFormOpen, setIsVotingFormOpen] = React.useState(false)
 
   const handleVotingFormOpen = () => {
     setIsVotingFormOpen(true)
@@ -80,11 +45,11 @@ export default function DaoPage() {
           onInvite={inviteUsers}
         />
 
-        {isVotingFromOpen && (
+        {isVotingFormOpen && (
           <div className="mb-10">
             <HeadingTwo className="mb-5">Voting creation</HeadingTwo>
-            <CreateVoting.CreateVotingForm
-              daoAddress={slug}
+            <CreateVotingUiService.CreateVotingForm
+              daoAddress={daoAddress}
               onCreate={refetchDao}
               onCancel={handleVotingFormClose}
             />
@@ -93,12 +58,18 @@ export default function DaoPage() {
 
         <div className="mb-5 flex justify-between items-center">
           <HeadingTwo>Current votings</HeadingTwo>
-          {!isVotingFromOpen && (
-            <MButton onClick={handleVotingFormOpen}>Create vote</MButton>
+          {!isVotingFormOpen && (
+            <MButton disabled={isLoading} onClick={handleVotingFormOpen}>
+              Create voting
+            </MButton>
           )}
         </div>
 
-        <VotingList daoAddress={dao?.contractAddress} votings={dao?.__votings__} />
+        {isLoading ? (
+          <VotingCardSkeleton />
+        ) : (
+          <VotingList daoAddress={daoAddress} votings={dao.__votings__} />
+        )}
       </MainContainer>
     </>
   )

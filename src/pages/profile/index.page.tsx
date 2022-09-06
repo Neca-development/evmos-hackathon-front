@@ -1,6 +1,6 @@
-import { MintRequestApi } from '@entities/mint-request'
-import { UserApi } from '@entities/user'
-import { Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
+import { MintRequestApiService } from '@entities/mint-request'
+import { UserApiService } from '@entities/user'
+import { DaoCardSkeleton, Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
 import { useRouter } from 'next/router'
 import * as React from 'react'
@@ -10,19 +10,23 @@ import { MintRequestList } from './ui/mint-request-list.component'
 import { ProfileHero } from './ui/profile-hero.component'
 
 export default function UserPage() {
-  const { account } = useEthers()
-  const { data: user, refetch: refetchUser } = UserApi.useGetUserQuery({
+  const { account, isLoading: isAccountLoading } = useEthers()
+  const {
+    data: user,
+    refetch: refetchUser,
+    isLoading: isUserLoading,
+  } = UserApiService.useGetUserQuery({
     userAddress: account,
   })
-  const { data: mintRequests, refetch: refetchMintRequests } =
-    MintRequestApi.useGetMintRequestsForUserQuery({
-      userAddress: account,
-    })
+  const {
+    data: mintRequests,
+    refetch: refetchMintRequests,
+    isLoading: isMintRequestsLoading,
+  } = MintRequestApiService.useGetMintRequestsForUserQuery({
+    userAddress: account,
+  })
 
-  const handleMint = () => {
-    refetchUser()
-    refetchMintRequests()
-  }
+  const isDataLoading = isAccountLoading || isUserLoading || isMintRequestsLoading
 
   const router = useRouter()
 
@@ -30,7 +34,12 @@ export default function UserPage() {
     router.prefetch('/create-dao')
   }, [])
 
-  const handleCreateButtonClick = () => router.push('/create-dao')
+  const handleClickOnCreateButton = () => router.push('/create-dao')
+
+  const handleMint = () => {
+    refetchUser()
+    refetchMintRequests()
+  }
 
   return (
     <>
@@ -41,12 +50,18 @@ export default function UserPage() {
       <MainContainer>
         <div className="mb-5 flex justify-between items-center">
           <HeadingTwo>Your DAO&apos;s list</HeadingTwo>
-          <MButton onClick={handleCreateButtonClick}>Create DAO</MButton>
+          <MButton onClick={handleClickOnCreateButton}>Create DAO</MButton>
         </div>
 
-        {user && <DaoList daos={user.daos} />}
-        {mintRequests && (
-          <MintRequestList mintRequests={mintRequests} onMint={handleMint} />
+        {isDataLoading ? (
+          <DaoCardSkeleton />
+        ) : (
+          <>
+            {user && <DaoList daos={user.daos} />}
+            {mintRequests && (
+              <MintRequestList mintRequests={mintRequests} onMint={handleMint} />
+            )}
+          </>
         )}
       </MainContainer>
     </>
