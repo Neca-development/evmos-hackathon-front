@@ -1,4 +1,4 @@
-import type { IUploadNftsResponse } from '@entities/dao/model'
+import type { DaoApiService } from '@entities/dao'
 
 export type IFile = File | null | undefined
 
@@ -19,5 +19,5 @@ export interface IDaoMetadata {
   name: string
   description: string
   symbol: string
-  imageLinks: IUploadNftsResponse
+  imageLinks: DaoApiService.IUploadNftsResponse
 }

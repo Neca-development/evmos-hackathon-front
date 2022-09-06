@@ -1,1 +1,1 @@
-export * from './voting.entity'
+export * from './voting.entity';

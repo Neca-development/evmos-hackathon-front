@@ -2,9 +2,9 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@shared/api'
 import type { IBaseResponse } from '@shared/types'
 
+import type { IUserEntity } from '../model'
 import type { ICreateUserRequest } from './create-user.dto'
 import type { IGetUserRequest } from './get-user.dto'
-import type { IUserEntity } from './user.entity'
 
 export const userApi = createApi({
   reducerPath: 'userApi',

@@ -2,14 +2,19 @@ import { DaoApiService } from '@entities/dao'
 import { MintRequestApiService } from '@entities/mint-request'
 import type { IDaoForm, IDaoMetadata, IImageFiles } from '@features/create-dao/model'
 import { useModal } from '@shared/lib'
-import * as React from 'react'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { TokenTypeEnum, useCreateDaoSc } from 'src/blockchain'
 
 import { useGenerateDaoInfoLink } from './use-generate-dao-info-link.hook'
 import { useUploadNfts } from './use-upload-nfts.hook'
 
 export const useCreateDao = (daoForm: IDaoForm, userAddress: string | undefined) => {
-  const [isDaoCreated, setIsDaoCreated] = React.useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    router.prefetch('/profile')
+  }, [])
 
   const { setModalState, setModalText } = useModal()
 
@@ -37,7 +42,7 @@ export const useCreateDao = (daoForm: IDaoForm, userAddress: string | undefined)
   const [createDaoOnBackend] = DaoApiService.useCreateDaoMutation()
   const [postMintRequest] = MintRequestApiService.usePostMintRequestMutation()
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function finishDaoCreation() {
       if (userAddress && daoLinks.dao && daoAddress) {
         try {
@@ -52,9 +57,10 @@ export const useCreateDao = (daoForm: IDaoForm, userAddress: string | undefined)
             userAddress,
           })
 
-          setIsDaoCreated(true)
           setModalState('success')
           setModalText('You successfully created new DAO')
+
+          router.push('/profile')
         } catch (error: any) {
           setModalState('error')
           setModalText(error.message)
@@ -64,5 +70,5 @@ export const useCreateDao = (daoForm: IDaoForm, userAddress: string | undefined)
     finishDaoCreation()
   }, [userAddress, daoLinks.dao, daoAddress])
 
-  return { isDaoCreated, createDao }
+  return { createDao }
 }

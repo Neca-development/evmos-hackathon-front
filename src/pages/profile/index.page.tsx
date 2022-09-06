@@ -1,11 +1,10 @@
 import { MintRequestApiService } from '@entities/mint-request'
-import { UserApi } from '@entities/user'
-import { Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
+import { UserApiService } from '@entities/user'
+import { DaoCardSkeleton, Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
-import { DaoCardSkeleton } from '../../shared/ui/dao-card-skeleton.component'
 import { DaoList } from './ui/dao-list.component'
 import { MintRequestList } from './ui/mint-request-list.component'
 import { ProfileHero } from './ui/profile-hero.component'
@@ -16,7 +15,7 @@ export default function UserPage() {
     data: user,
     refetch: refetchUser,
     isLoading: isUserLoading,
-  } = UserApi.useGetUserQuery({
+  } = UserApiService.useGetUserQuery({
     userAddress: account,
   })
   const {
@@ -35,7 +34,7 @@ export default function UserPage() {
     router.prefetch('/create-dao')
   }, [])
 
-  const handleCreateButtonClick = () => router.push('/create-dao')
+  const handleClickOnCreateButton = () => router.push('/create-dao')
 
   const handleMint = () => {
     refetchUser()
@@ -51,7 +50,7 @@ export default function UserPage() {
       <MainContainer>
         <div className="mb-5 flex justify-between items-center">
           <HeadingTwo>Your DAO&apos;s list</HeadingTwo>
-          <MButton onClick={handleCreateButtonClick}>Create DAO</MButton>
+          <MButton onClick={handleClickOnCreateButton}>Create DAO</MButton>
         </div>
 
         {isDataLoading ? (

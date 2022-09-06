@@ -1,8 +1,8 @@
-import type { IDaoEntity } from '@entities/dao'
+import type { DaoModelService } from '@entities/dao'
 
 export interface IVotingEntity {
   id: number
   ipfsUrl: string
   smartContractId: number
-  dao: IDaoEntity
+  dao: DaoModelService.IDaoEntity
 }

@@ -26,6 +26,10 @@ export function DaoCard({ dao }: IDaoCardProperties) {
 
   const router = useRouter()
 
+  const handleClickOnEnterButton = () => {
+    router.push(`/dao/${dao.contractAddress}`)
+  }
+
   return (
     <>
       {isLoading ? (
@@ -53,9 +57,7 @@ export function DaoCard({ dao }: IDaoCardProperties) {
               <img src={tokenIpfsUrl} alt="" className="w-full" />
             </div>
 
-            <MButton onClick={() => router.push(`/dao/${dao.contractAddress}`)}>
-              Enter
-            </MButton>
+            <MButton onClick={handleClickOnEnterButton}>Enter</MButton>
           </div>
           {/* /Token info */}
         </MPaper>

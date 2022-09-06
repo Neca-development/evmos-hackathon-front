@@ -1,2 +1,2 @@
-export * as UserApi from './user.api'
-export * from './user.entity'
+export * as UserApiService from './api'
+export * as UserModelService from './model'

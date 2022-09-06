@@ -1,44 +1,25 @@
 import { useModal } from '@shared/lib'
-import {
-  FileInput,
-  HeadingTwo,
-  MButton,
-  MTextField,
-  Paragraph,
-  ProcessingModal,
-} from '@shared/ui'
+import { FileInput, HeadingTwo, MButton, MTextField, Paragraph } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
-import { useRouter } from 'next/router'
 import * as React from 'react'
 
 import { useCreateDao, useDaoForm } from '../lib'
 
 export function CreateDaoForm() {
-  const router = useRouter()
-
-  React.useEffect(() => {
-    router.prefetch('/profile')
-  }, [])
-
   const { account } = useEthers()
   const { daoForm, handleImageChange, handleTextChange } = useDaoForm()
 
-  const { createDao, isDaoCreated } = useCreateDao(daoForm, account)
+  const daoFormFieldsValues = Object.values(daoForm)
+  const isCreateButtonDisabled = daoFormFieldsValues.some((fieldValue) => !fieldValue)
+
+  const { createDao } = useCreateDao(daoForm, account)
+
   const { setIsModalOpen } = useModal()
 
   const handleClickOnCreateButton = () => {
     setIsModalOpen(true)
     createDao()
   }
-
-  const handleModalClose = () => {
-    setIsModalOpen(false)
-    if (isDaoCreated) {
-      router.push('/profile')
-    }
-  }
-  const daoFormFieldsValues = Object.values(daoForm)
-  const isCreateButtonDisabled = daoFormFieldsValues.some((fieldValue) => !fieldValue)
 
   return (
     <>
@@ -116,8 +97,6 @@ export function CreateDaoForm() {
         </MButton>
       </div>
       {/* /Create button */}
-
-      <ProcessingModal onClose={handleModalClose} />
     </>
   )
 }

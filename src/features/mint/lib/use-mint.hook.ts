@@ -1,7 +1,7 @@
 import { DaoApiService } from '@entities/dao'
 import type { MintRequestModelService } from '@entities/mint-request'
 import { MintRequestApiService } from '@entities/mint-request'
-import { UserApi } from '@entities/user'
+import { UserApiService } from '@entities/user'
 import { useModal } from '@shared/lib'
 import { useEthers } from '@usedapp/core'
 import { useMintNft } from 'src/blockchain'
@@ -11,7 +11,7 @@ export const useMint = () => {
   const { setIsModalOpen, setModalState, setModalText } = useModal()
 
   const [generateMintSignature] = MintRequestApiService.useGenerateMintSignatureMutation()
-  const [createUser] = UserApi.useCreateUserMutation()
+  const [createUser] = UserApiService.useCreateUserMutation()
   const [addUserToDao] = DaoApiService.useAddUserMutation()
   const [deleteMintRequest] = MintRequestApiService.useDeleteMintRequestMutation()
 

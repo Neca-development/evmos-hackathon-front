@@ -1,20 +1,21 @@
-import { VotingApi } from '@entities/voting'
+import { VotingApiService } from '@entities/voting'
 import type { IVotingForm } from '@features/create-voting/model'
 import { useModal } from '@shared/lib'
-import * as React from 'react'
+import { useEffect, useState } from 'react'
 import { useCreateVotingSc } from 'src/blockchain'
 
 export const useCreateVoting = (votingForm: IVotingForm, daoAddress: string) => {
-  const [isVotingCreated, setIsVotingCreated] = React.useState(false)
-  const [votingInfoLink, setVotingInfoLink] = React.useState('')
+  const [isVotingCreated, setIsVotingCreated] = useState(false)
+  const [votingInfoLink, setVotingInfoLink] = useState('')
 
-  const { setModalState, setModalText } = useModal()
+  const { setIsModalOpen, setModalState, setModalText } = useModal()
 
-  const [generateIpfsLink] = VotingApi.useGenerateIpfsLinkMutation()
+  const [generateIpfsLink] = VotingApiService.useGenerateIpfsLinkMutation()
   const { votingId, createVotingSc } = useCreateVotingSc(daoAddress)
 
   const createVoting = async () => {
     try {
+      setIsModalOpen(true)
       setModalState('pending')
       setModalText('Uploading voting info to IPFS...')
 
@@ -30,9 +31,9 @@ export const useCreateVoting = (votingForm: IVotingForm, daoAddress: string) => 
     }
   }
 
-  const [createVotingOnBackend] = VotingApi.useCreateVotingMutation()
+  const [createVotingOnBackend] = VotingApiService.useCreateVotingMutation()
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function finishVotingCreation() {
       if (votingId != null && votingInfoLink) {
         try {
@@ -41,6 +42,7 @@ export const useCreateVoting = (votingForm: IVotingForm, daoAddress: string) => 
             ipfsUrl: votingInfoLink,
             smartContractId: votingId,
           })
+
           setIsVotingCreated(true)
           setModalState('success')
           setModalText('You successfully created new voting')
