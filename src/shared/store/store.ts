@@ -1,6 +1,6 @@
 import { daoApi } from '@entities/dao/api/dao.api'
 import { mintRequestApi } from '@entities/mint-request/api/mint-request.api'
-import { userApi } from '@entities/user/user.api'
+import { userApi } from '@entities/user/api/user.api'
 import { votingApi } from '@entities/voting/api/voting.api'
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query/react'
