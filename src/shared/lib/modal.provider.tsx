@@ -1,4 +1,4 @@
-import type { IModalState } from '@shared/types'
+import type { IModalState } from '@shared/lib/types'
 import * as React from 'react'
 
 interface IModalContext {

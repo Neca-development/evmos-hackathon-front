@@ -1,5 +1,5 @@
 import { Avatar, Skeleton } from '@mui/material'
-import { formatAddress } from '@shared/utils'
+import { formatAddress } from '@shared/lib/utils'
 import { useEthers } from '@usedapp/core'
 import Link from 'next/link'
 import * as React from 'react'

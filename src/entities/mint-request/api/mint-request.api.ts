@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from '@shared/api'
-import type { IBaseResponse } from '@shared/types'
+import type { IBaseResponse } from '@shared/lib/types'
 
 import type { IDeleteMintRequestRequest } from './delete-mint-request.dto'
 import type { IGenerateMintSignatureRequest } from './generate-mint-signature.dto'

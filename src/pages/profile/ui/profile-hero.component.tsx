@@ -2,7 +2,7 @@ import { Avatar, Skeleton } from '@mui/material'
 import { HeadingOne, Paragraph } from '@shared/ui'
 import { EthereumIcon } from '@shared/ui/icons/ethereum.icon'
 import { MetamaskIcon } from '@shared/ui/icons/metamask.icon'
-import { formatAddress } from '@shared/utils'
+import { formatAddress } from '@shared/lib/utils'
 import { useEthers } from '@usedapp/core'
 
 export function ProfileHero() {
