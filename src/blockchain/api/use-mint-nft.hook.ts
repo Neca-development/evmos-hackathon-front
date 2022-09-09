@@ -1,11 +1,11 @@
+import { useMetamask } from '@blockchain/lib'
 import { useModal } from '@shared/lib'
-import { useEthers } from '@usedapp/core'
 
 import type { TokenTypeEnum } from '../lib'
 import { DaoAbi__factory } from '../typechain'
 
 export const useMintNft = () => {
-  const { library, account } = useEthers()
+  const { signer } = useMetamask()
   const { setModalState, setModalText } = useModal()
 
   const mintNft = async (
@@ -13,16 +13,15 @@ export const useMintNft = () => {
     tokenRarity: TokenTypeEnum,
     signature: string
   ) => {
-    if (!library || !account) {
+    if (!signer) {
       setModalState('error')
       setModalText('Wallet is not connected')
       return
     }
 
-    const signer = library.getSigner()
-    const daoContract = DaoAbi__factory.connect(daoAddress, signer)
-
     try {
+      const daoContract = DaoAbi__factory.connect(daoAddress, signer)
+
       setModalText('Waiting for wallet confirmation...')
 
       const mintNftTransaction = await daoContract.mintNft(tokenRarity, signature)

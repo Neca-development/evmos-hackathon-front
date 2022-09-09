@@ -1,7 +1,7 @@
+import { useMetamask } from '@blockchain/lib'
 import { MintRequestApiService } from '@entities/mint-request'
 import { UserApiService } from '@entities/user'
 import { DaoCardSkeleton, Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
-import { useEthers } from '@usedapp/core'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
@@ -10,7 +10,7 @@ import { MintRequestList } from './ui/mint-request-list.component'
 import { ProfileHero } from './ui/profile-hero.component'
 
 export default function UserPage() {
-  const { account, isLoading: isAccountLoading } = useEthers()
+  const { account, isLoading: isMetamaskLoading } = useMetamask()
   const {
     data: user,
     refetch: refetchUser,
@@ -26,7 +26,7 @@ export default function UserPage() {
     userAddress: account,
   })
 
-  const isDataLoading = isAccountLoading || isUserLoading || isMintRequestsLoading
+  const isDataLoading = isMetamaskLoading || isUserLoading || isMintRequestsLoading
 
   const router = useRouter()
 

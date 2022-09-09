@@ -1,13 +1,13 @@
+import { useMetamask } from '@blockchain/lib'
 import { useModal } from '@shared/lib'
 import { FileInput, HeadingTwo, MButton, MTextField, Paragraph } from '@shared/ui'
-import { useEthers } from '@usedapp/core'
 import classNames from 'classnames'
 import * as React from 'react'
 
 import { useCreateDao, useDaoForm } from '../lib'
 
 export function CreateDaoForm() {
-  const { account } = useEthers()
+  const { account } = useMetamask()
   const { daoForm, handleImageChange, handleTextChange } = useDaoForm()
 
   const daoFormFieldsValues = Object.values(daoForm)

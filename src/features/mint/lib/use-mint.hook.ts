@@ -1,13 +1,13 @@
 import { useMintNft } from '@blockchain/api'
+import { useMetamask } from '@blockchain/lib'
 import { DaoApiService } from '@entities/dao'
 import type { MintRequestModelService } from '@entities/mint-request'
 import { MintRequestApiService } from '@entities/mint-request'
 import { UserApiService } from '@entities/user'
 import { useModal } from '@shared/lib'
-import { useEthers } from '@usedapp/core'
 
 export const useMint = () => {
-  const { account } = useEthers()
+  const { account } = useMetamask()
   const { setIsModalOpen, setModalState, setModalText } = useModal()
 
   const [generateMintSignature] = MintRequestApiService.useGenerateMintSignatureMutation()
@@ -45,7 +45,8 @@ export const useMint = () => {
       setModalState('success')
       setModalText('NFT successfully minted')
     } catch (error: any) {
-      console.error(error)
+      setModalState('error')
+      setModalText(error.message)
     }
   }
 

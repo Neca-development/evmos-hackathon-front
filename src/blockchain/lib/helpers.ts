@@ -1,10 +1,8 @@
-import type { ExternalProvider } from '@ethersproject/providers'
-
 import { ETH_REQUEST_PARAMS } from '../constants'
 
 declare global {
   interface Window {
-    ethereum?: ExternalProvider
+    ethereum?: any
   }
 }
 

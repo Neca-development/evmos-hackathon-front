@@ -1,6 +1,6 @@
+import { useMetamask } from '@blockchain/lib'
 import { Avatar, Skeleton } from '@mui/material'
 import { formatAddress } from '@shared/lib/utils'
-import { useEthers } from '@usedapp/core'
 import Link from 'next/link'
 import * as React from 'react'
 
@@ -8,7 +8,7 @@ import { MetamaskIcon } from './icons/metamask.icon'
 import { Paragraph } from './typography'
 
 export function Header() {
-  const { account, isLoading } = useEthers()
+  const { account, isLoading } = useMetamask()
 
   return (
     <header className="h-10 px-[7rem] flex justify-end items-center">

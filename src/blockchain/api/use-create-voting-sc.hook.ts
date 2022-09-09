@@ -1,5 +1,5 @@
+import { useMetamask } from '@blockchain/lib'
 import { useModal } from '@shared/lib'
-import { useEthers } from '@usedapp/core'
 import type { BigNumber } from 'ethers'
 import * as React from 'react'
 
@@ -9,11 +9,10 @@ import { DaoAbi__factory } from '../typechain'
 export const useCreateVotingSc = (daoAddress: string) => {
   const [daoContract, setDaoContract] = React.useState<DaoAbi | null>(null)
   const [votingId, setVotingId] = React.useState<number | null>(null)
-  const { library, account } = useEthers()
+  const { signer } = useMetamask()
 
   React.useEffect(() => {
-    if (library && account) {
-      const signer = library.getSigner()
+    if (signer) {
       const contract = DaoAbi__factory.connect(daoAddress, signer)
       setDaoContract(contract)
 
@@ -29,7 +28,7 @@ export const useCreateVotingSc = (daoAddress: string) => {
         daoContract.removeAllListeners('VoteCreated')
       }
     }
-  }, [account])
+  }, [signer])
 
   const { setModalState, setModalText } = useModal()
 

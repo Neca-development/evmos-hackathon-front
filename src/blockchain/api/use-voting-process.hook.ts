@@ -1,11 +1,11 @@
+import { useMetamask } from '@blockchain/lib'
 import { useModal } from '@shared/lib'
-import { useEthers } from '@usedapp/core'
 
 import type { VoteTypeEnum } from '../lib'
 import { DaoAbi__factory } from '../typechain'
 
 export const useVotingProcess = () => {
-  const { library, account } = useEthers()
+  const { signer } = useMetamask()
   const { setIsModalOpen, setModalState, setModalText } = useModal()
 
   const votingProcess = async (
@@ -15,16 +15,15 @@ export const useVotingProcess = () => {
   ) => {
     setIsModalOpen(true)
 
-    if (!library || !account) {
+    if (!signer) {
       setModalState('error')
       setModalText('Wallet is not connected')
       return
     }
 
-    const signer = library.getSigner()
-    const daoContract = DaoAbi__factory.connect(daoAddress, signer)
-
     try {
+      const daoContract = DaoAbi__factory.connect(daoAddress, signer)
+
       setModalState('pending')
       setModalText('Waiting for wallet confirmation...')
 

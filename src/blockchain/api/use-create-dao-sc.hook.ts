@@ -1,5 +1,5 @@
+import { useMetamask } from '@blockchain/lib'
 import { useModal } from '@shared/lib'
-import { useEthers } from '@usedapp/core'
 import React from 'react'
 
 import { DAO_FACTORY_ADDRESS } from '../constants'
@@ -10,11 +10,10 @@ export const useCreateDaoSc = () => {
   const [daoFactoryContract, setDaoFactoryContract] =
     React.useState<DaoFactoryAbi | null>(null)
   const [daoAddress, setDaoAddress] = React.useState('')
-  const { library, account } = useEthers()
+  const { signer, account } = useMetamask()
 
   React.useEffect(() => {
-    if (library && account) {
-      const signer = library.getSigner()
+    if (signer && account) {
       const contract = DaoFactoryAbi__factory.connect(DAO_FACTORY_ADDRESS, signer)
       setDaoFactoryContract(contract)
 
@@ -30,7 +29,7 @@ export const useCreateDaoSc = () => {
         daoFactoryContract.removeAllListeners('DAOCreated')
       }
     }
-  }, [account])
+  }, [signer, account])
 
   const { setModalState, setModalText } = useModal()
 

@@ -1,4 +1,4 @@
-import { useEthers } from '@usedapp/core'
+import { useMetamask } from '@blockchain/lib'
 import * as React from 'react'
 
 import type { VoteTypeEnum } from '../lib'
@@ -23,18 +23,17 @@ const initialVotingInfo: IVotingInfo = {
 export const useVotingInfo = (daoAddress: string | undefined, votingId: number) => {
   const [votingInfo, setVotingInfo] = React.useState(initialVotingInfo)
 
-  const { library, account } = useEthers()
+  const { signer, account } = useMetamask()
 
   const fetchVotingInfo = async () => {
-    if (!library || !account || !daoAddress) {
-      console.log('error: wallet is not connected')
+    if (!signer || !account || !daoAddress) {
+      console.error('wallet is not connected')
       return
     }
 
-    const signer = library.getSigner()
-    const daoContract = DaoAbi__factory.connect(daoAddress, signer)
-
     try {
+      const daoContract = DaoAbi__factory.connect(daoAddress, signer)
+
       const { status } = await daoContract.votes(votingId)
       const isUserVoted = await daoContract.hasVote(account, votingId)
       const userVoteType = await daoContract.voteTypes(account, votingId)

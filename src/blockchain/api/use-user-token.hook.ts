@@ -1,4 +1,4 @@
-import { useEthers } from '@usedapp/core'
+import { useMetamask } from '@blockchain/lib'
 import * as React from 'react'
 
 import { DaoAbi__factory } from '../typechain'
@@ -6,29 +6,27 @@ import { DaoAbi__factory } from '../typechain'
 export const useUserToken = (daoAddress: string | undefined) => {
   const [tokenIpfsUrl, setTokenIpfsUrl] = React.useState('')
 
-  const { library, account } = useEthers()
+  const { signer, account } = useMetamask()
 
   React.useEffect(() => {
-    async function getVotingInfo() {
-      if (!library || !account || !daoAddress) {
-        console.log('error: wallet is not connected')
+    async function fetchUserTokenInfo() {
+      if (!signer || !account || !daoAddress) {
+        console.error('Unable to get token info')
         return
       }
 
-      const signer = library.getSigner()
       const daoContract = DaoAbi__factory.connect(daoAddress, signer)
 
       try {
         const tokenId = await daoContract.tokenForOwner(account)
-        console.log('token id:', +tokenId)
         const ipfsUrl = await daoContract.tokenURI(tokenId)
         setTokenIpfsUrl(ipfsUrl)
       } catch (error: any) {
         console.error(error)
       }
     }
-    getVotingInfo()
-  }, [daoAddress, account])
+    fetchUserTokenInfo()
+  }, [daoAddress, signer, account])
 
   return { tokenIpfsUrl }
 }

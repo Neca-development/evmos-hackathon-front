@@ -1,6 +1,6 @@
-import { switchToEvmosNetwork } from '@blockchain/lib'
+import { switchToEvmosNetwork, useMetamask } from '@blockchain/lib'
+import { useModal } from '@shared/lib'
 import { MButton } from '@shared/ui'
-import { useEthers } from '@usedapp/core'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import * as React from 'react'
@@ -8,20 +8,27 @@ import * as React from 'react'
 import styles from './index.module.scss'
 
 export default function HomePage() {
-  const { activateBrowserWallet } = useEthers()
   const router = useRouter()
 
   React.useEffect(() => {
     router.prefetch('/profile')
   }, [])
 
-  const connectWallet = async () => {
+  const { connectWallet } = useMetamask()
+  const { setIsModalOpen, setModalState, setModalText } = useModal()
+
+  const handleClickOnConnectButton = async () => {
     try {
+      if (!connectWallet) {
+        return
+      }
       await switchToEvmosNetwork()
-      await activateBrowserWallet()
+      await connectWallet()
       router.push('/profile')
     } catch (error: any) {
-      console.error(error)
+      setIsModalOpen(true)
+      setModalState('error')
+      setModalText(error.message)
     }
   }
 
@@ -51,7 +58,7 @@ export default function HomePage() {
         </p>
 
         <div>
-          <MButton onClick={connectWallet}>Connect Metamask</MButton>
+          <MButton onClick={handleClickOnConnectButton}>Connect Metamask</MButton>
         </div>
       </div>
     </main>
