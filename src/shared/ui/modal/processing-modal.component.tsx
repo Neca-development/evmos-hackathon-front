@@ -1,8 +1,7 @@
-import { CircularProgress, Modal } from '@mui/material'
+import { CircularProgress, Dialog } from '@mui/material'
 import { useModal } from '@shared/lib'
-import * as React from 'react'
 
-import { MPaper } from '../containers/mpaper.component'
+import { MPaper } from '../containers'
 import { CheckIcon, ErrorIcon } from '../icons'
 
 export function ProcessingModal() {
@@ -11,32 +10,35 @@ export function ProcessingModal() {
   const handleClose = () => setIsModalOpen(false)
 
   return (
-    <Modal
+    <Dialog
+      maxWidth={false}
+      PaperComponent={MPaper}
+      PaperProps={{
+        className: 'w-[29rem] px-14 space-x-5 grid grid-cols-12 bg-grayish-blue',
+      }}
       className="flex justify-center items-center"
       open={isModalOpen}
       onClose={modalState !== 'pending' ? handleClose : () => null}
     >
-      <MPaper className="w-[29rem] px-14 space-x-5 grid grid-cols-12 bg-grayish-blue">
-        <div className="flex items-center">
-          {modalState === 'pending' && (
-            <CircularProgress disableShrink className="text-white" />
-          )}
+      <div className="flex items-center">
+        {modalState === 'pending' && (
+          <CircularProgress disableShrink className="text-white" />
+        )}
 
-          {modalState === 'success' && (
-            <div className="aspect-square w-10 rounded-full bg-green-500">
-              <CheckIcon />
-            </div>
-          )}
+        {modalState === 'success' && (
+          <div className="aspect-square w-10 rounded-full bg-green-500">
+            <CheckIcon />
+          </div>
+        )}
 
-          {modalState === 'error' && (
-            <div className="aspect-square w-10 rounded-full bg-red-500">
-              <ErrorIcon />
-            </div>
-          )}
-        </div>
+        {modalState === 'error' && (
+          <div className="aspect-square w-10 rounded-full bg-red-500">
+            <ErrorIcon />
+          </div>
+        )}
+      </div>
 
-        <div className="col-span-11 flex items-center text-sm">{modalText}</div>
-      </MPaper>
-    </Modal>
+      <div className="col-span-11 flex items-center text-sm">{modalText}</div>
+    </Dialog>
   )
 }
