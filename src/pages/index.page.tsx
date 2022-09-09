@@ -1,9 +1,9 @@
+import { switchToEvmosNetwork } from '@blockchain/lib'
 import { MButton } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import * as React from 'react'
-import { switchToEvmosNetwork } from 'src/blockchain/lib/helpers'
 
 import styles from './index.module.scss'
 

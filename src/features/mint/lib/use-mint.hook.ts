@@ -1,10 +1,10 @@
+import { useMintNft } from '@blockchain/api'
 import { DaoApiService } from '@entities/dao'
 import type { MintRequestModelService } from '@entities/mint-request'
 import { MintRequestApiService } from '@entities/mint-request'
 import { UserApiService } from '@entities/user'
 import { useModal } from '@shared/lib'
 import { useEthers } from '@usedapp/core'
-import { useMintNft } from 'src/blockchain'
 
 export const useMint = () => {
   const { account } = useEthers()

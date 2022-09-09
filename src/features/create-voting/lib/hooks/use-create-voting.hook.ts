@@ -1,8 +1,8 @@
+import { useCreateVotingSc } from '@blockchain/api'
 import { VotingApiService } from '@entities/voting'
 import type { IVotingForm } from '@features/create-voting/model'
 import { useModal } from '@shared/lib'
 import { useEffect, useState } from 'react'
-import { useCreateVotingSc } from 'src/blockchain'
 
 export const useCreateVoting = (votingForm: IVotingForm, daoAddress: string) => {
   const [isVotingCreated, setIsVotingCreated] = useState(false)

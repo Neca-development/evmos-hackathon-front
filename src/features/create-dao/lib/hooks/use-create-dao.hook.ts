@@ -1,10 +1,11 @@
+import { useCreateDaoSc } from '@blockchain/api'
+import { TokenTypeEnum } from '@blockchain/lib'
 import { DaoApiService } from '@entities/dao'
 import { MintRequestApiService } from '@entities/mint-request'
 import type { IDaoForm, IDaoMetadata, IImageFiles } from '@features/create-dao/model'
 import { useModal } from '@shared/lib'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { TokenTypeEnum, useCreateDaoSc } from 'src/blockchain'
 
 import { useGenerateDaoInfoLink } from './use-generate-dao-info-link.hook'
 import { useUploadNfts } from './use-upload-nfts.hook'

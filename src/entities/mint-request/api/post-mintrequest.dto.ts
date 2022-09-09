@@ -1,4 +1,4 @@
-import type { TokenTypeEnum } from 'src/blockchain'
+import type { TokenTypeEnum } from '@blockchain/lib'
 
 export interface IPostMintRequestRequest {
   userAddress: string

@@ -1,3 +1,4 @@
+import { useUserToken } from '@blockchain/api'
 import {
   DaoCardSkeleton,
   HeadingFour,
@@ -9,7 +10,6 @@ import {
 } from '@shared/ui'
 import { useRouter } from 'next/router'
 import * as React from 'react'
-import { useUserToken } from 'src/blockchain'
 
 import { useGetInfoFromIpfsQuery } from '../api'
 import type { IDaoEntity } from '../model'

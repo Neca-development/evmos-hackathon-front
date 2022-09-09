@@ -34,7 +34,8 @@
       "@shared/*": ["src/shared/*"],
       "@features/*": ["src/features/*"],
       "@widgets/*": ["src/widgets/*"],
-      "@assets/*": ["public/assets/*"]
+      "@assets/*": ["public/assets/*"],
+      "@blockchain/*": ["src/blockchain/*"]
     }
   },
   "exclude": ["./build/**/*", "./node_modules/**/*", "**/*.cy.ts"],

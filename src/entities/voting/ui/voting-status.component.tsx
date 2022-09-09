@@ -1,6 +1,6 @@
+import { VotingStatusEnum } from '@blockchain/lib'
 import { Paper } from '@mui/material'
 import classNames from 'classnames'
-import { VotingStatusEnum } from 'src/blockchain'
 
 interface IVotingStatusProperties {
   status: number | null

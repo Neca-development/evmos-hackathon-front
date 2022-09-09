@@ -1,7 +1,7 @@
+import { VoteTypeEnum } from '@blockchain/lib'
 import { FormControl, FormControlLabel, RadioGroup } from '@mui/material'
 import { MDivider } from '@shared/ui'
 import * as React from 'react'
-import { VoteTypeEnum } from 'src/blockchain'
 
 import { VotingRadio } from './voting-radio.component'
 

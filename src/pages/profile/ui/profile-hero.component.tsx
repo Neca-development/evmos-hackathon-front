@@ -1,8 +1,6 @@
 import { Avatar, Skeleton } from '@mui/material'
-import { HeadingOne, Paragraph } from '@shared/ui'
-import { EthereumIcon } from '@shared/ui/icons/ethereum.icon'
-import { MetamaskIcon } from '@shared/ui/icons/metamask.icon'
 import { formatAddress } from '@shared/lib/utils'
+import { EthereumIcon, HeadingOne, MetamaskIcon, Paragraph } from '@shared/ui'
 import { useEthers } from '@usedapp/core'
 
 export function ProfileHero() {

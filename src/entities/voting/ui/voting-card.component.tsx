@@ -1,11 +1,7 @@
+import { useVotingInfo, useVotingProcess } from '@blockchain/api'
+import { VoteTypeEnum, VotingStatusEnum } from '@blockchain/lib'
 import { HeadingThree, MButton, MPaper, Paragraph, VotingCardSkeleton } from '@shared/ui'
 import * as React from 'react'
-import {
-  useVotingInfo,
-  useVotingProcess,
-  VoteTypeEnum,
-  VotingStatusEnum,
-} from 'src/blockchain'
 
 import { useGetInfoFromIpfsQuery } from '../api'
 import type { IVotingEntity } from '../model'

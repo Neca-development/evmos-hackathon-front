@@ -1,5 +1,10 @@
 import '@shared/styles/global.scss'
 
+import {
+  DAO_FACTORY_ADDRESS,
+  EVMOS_TESTNET_CHAINID,
+  EVMOS_TESTNET_RPC_URL,
+} from '@blockchain/constants'
 import { ModalProvider } from '@shared/lib'
 import { store } from '@shared/store'
 import { ProcessingModal } from '@shared/ui'
@@ -9,11 +14,6 @@ import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Provider } from 'react-redux'
-import {
-  DAO_FACTORY_ADDRESS,
-  EVMOS_TESTNET_CHAINID,
-  EVMOS_TESTNET_RPC_URL,
-} from 'src/blockchain'
 
 /* Evmos Testnet */
 const config: Config = {
