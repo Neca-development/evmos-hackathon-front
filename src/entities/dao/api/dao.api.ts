@@ -14,6 +14,10 @@ import type {
   IGetInfoFromIpfsRequest,
   IGetInfoFromIpfsResponse,
 } from './get-info-from-ipfs.dto'
+import type {
+  IGetTokenFromIpfsRequest,
+  IGetTokenFromIpfsResponse,
+} from './get-token-from-ipfs.dto'
 import type { IUploadNftsRequest, IUploadNftsResponse } from './upload-nfts.dto'
 
 export const daoApi = createApi({
@@ -96,6 +100,16 @@ export const daoApi = createApi({
       },
       providesTags: ['DAO'],
     }),
+
+    getTokenFromIpfs: builder.query<IGetTokenFromIpfsResponse, IGetTokenFromIpfsRequest>({
+      query: (args) => {
+        return {
+          url: `${args.ipfsUrl}`,
+          method: 'GET',
+        }
+      },
+      providesTags: ['DAO'],
+    }),
   }),
 })
 
@@ -106,4 +120,5 @@ export const {
   useGenerateDaoLinksMutation,
   useUploadNftsMutation,
   useGetInfoFromIpfsQuery,
+  useGetTokenFromIpfsQuery,
 } = daoApi

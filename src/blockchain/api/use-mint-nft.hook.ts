@@ -30,9 +30,9 @@ export const useMintNft = () => {
 
       await mintNftTransaction.wait()
     } catch (error: any) {
-      setModalState('error')
-      setModalText('An error occurred while executing transaction')
-      throw new Error(error.message)
+      // setModalState('error')
+      // setModalText('An error occurred while executing transaction')
+      console.log(error)
     }
   }
 

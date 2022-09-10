@@ -23,13 +23,22 @@ export function MintRequestCard(props: IMintRequestCardProperties) {
   const { data: dao } = DaoApiService.useGetDaoQuery({
     daoAddress: mintRequest.daoAddress,
   })
-  const { data: daoInfo } = DaoApiService.useGetInfoFromIpfsQuery({
-    ipfsUrl: dao?.ipfsUrl,
-  })
+  const { data: daoInfo } = DaoApiService.useGetInfoFromIpfsQuery(
+    {
+      ipfsUrl: `${dao?.ipfsUrl}/dao.json`,
+    },
+    { skip: !dao }
+  )
+  const { data: tokenInfo } = DaoApiService.useGetTokenFromIpfsQuery(
+    {
+      ipfsUrl: `${dao?.ipfsUrl}/${mintRequest.tokenType}.json`,
+    },
+    { skip: !dao }
+  )
 
   return (
     <>
-      {!daoInfo ? (
+      {!daoInfo || !dao || !tokenInfo ? (
         <DaoCardSkeleton />
       ) : (
         <MPaper className="w-full space-y-3">
@@ -48,9 +57,13 @@ export function MintRequestCard(props: IMintRequestCardProperties) {
           <MDivider />
 
           {/* Token info */}
-          <HeadingFour>NFT with a 1 vote weight is available for mint</HeadingFour>
+          <HeadingFour>
+            NFT with a {tokenInfo.type} vote weight is available for mint
+          </HeadingFour>
           <div className="flex justify-between items-end">
-            <div className="h-14 w-14 flex justify-center items-center bg-[#D9D9D9]" />
+            <div className="h-14 w-14 flex justify-center items-center text-xs">
+              <img src={tokenInfo.img} alt={`${tokenInfo.type} vote token`} />
+            </div>
 
             <MButton onClick={onMint}>Mint</MButton>
           </div>

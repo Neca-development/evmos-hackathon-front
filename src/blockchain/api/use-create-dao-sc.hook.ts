@@ -33,7 +33,7 @@ export const useCreateDaoSc = () => {
 
   const { setModalState, setModalText } = useModal()
 
-  const createDaoSc = async (name: string, symbol: string, infoUri: string) => {
+  const createDaoSc = async (name: string, symbol: string, metaUri: string) => {
     if (!daoFactoryContract) {
       setModalState('error')
       setModalText('Wallet is not connected')
@@ -46,7 +46,7 @@ export const useCreateDaoSc = () => {
       const createDaoTransaction = await daoFactoryContract.createDAO(
         name,
         symbol,
-        infoUri
+        metaUri
       )
 
       setModalText('Waiting for DAO creation...')

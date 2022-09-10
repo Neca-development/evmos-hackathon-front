@@ -20,7 +20,7 @@ export const useCreateDao = (daoForm: IDaoForm, userAddress: string | undefined)
   const { setModalState, setModalText } = useModal()
 
   const { getImageLinks } = useUploadNfts()
-  const { daoLinks, getDaoLinks } = useGenerateDaoInfoLink()
+  const { baseDaoMetaUri, getDaoLinks } = useGenerateDaoInfoLink()
   const { daoAddress, createDaoSc } = useCreateDaoSc()
 
   const createDao = async () => {
@@ -34,7 +34,7 @@ export const useCreateDao = (daoForm: IDaoForm, userAddress: string | undefined)
       const daoInfo: IDaoMetadata = { ...daoForm, imageLinks }
       await getDaoLinks(daoInfo)
 
-      await createDaoSc(daoForm.name, daoForm.symbol, daoLinks.dao)
+      await createDaoSc(daoForm.name, daoForm.symbol, baseDaoMetaUri)
     } catch (error: any) {
       console.error(error)
     }
@@ -45,11 +45,11 @@ export const useCreateDao = (daoForm: IDaoForm, userAddress: string | undefined)
 
   useEffect(() => {
     async function finishDaoCreation() {
-      if (userAddress && daoLinks.dao && daoAddress) {
+      if (userAddress && baseDaoMetaUri && daoAddress) {
         try {
           await createDaoOnBackend({
             contractAddress: daoAddress,
-            ipfsUrl: daoLinks.dao,
+            ipfsUrl: baseDaoMetaUri,
           })
 
           await postMintRequest({
@@ -69,7 +69,7 @@ export const useCreateDao = (daoForm: IDaoForm, userAddress: string | undefined)
       }
     }
     finishDaoCreation()
-  }, [userAddress, daoLinks.dao, daoAddress])
+  }, [userAddress, baseDaoMetaUri, daoAddress])
 
   return { createDao }
 }

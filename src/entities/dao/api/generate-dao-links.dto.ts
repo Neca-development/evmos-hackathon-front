@@ -9,8 +9,5 @@ export interface IGenerateDaoLinksRequest {
 }
 
 export interface IGenerateDaoLinksResponse {
-  dao: string
-  lowToken: string
-  mediumToken: string
-  highToken: string
+  daoMeta: string
 }

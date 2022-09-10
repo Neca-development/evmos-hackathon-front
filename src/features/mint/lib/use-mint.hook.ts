@@ -38,6 +38,8 @@ export const useMint = () => {
 
       setModalText('Almost done...')
 
+      console.log('account:', account)
+
       await createUser({ daoAddress: mintRequest.daoAddress, userAddress: account })
       await addUserToDao({ daoAddress: mintRequest.daoAddress, userAddress: account })
       await deleteMintRequest({ mintRequestId: mintRequest.id })

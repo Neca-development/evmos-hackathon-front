@@ -1,14 +1,9 @@
 import { DaoApiService } from '@entities/dao'
 import type { IDaoMetadata } from '@features/create-dao/model'
-import * as React from 'react'
+import { useState } from 'react'
 
 export const useGenerateDaoInfoLink = () => {
-  const [daoLinks, setDaoLinks] = React.useState({
-    dao: '',
-    lowToken: '',
-    mediumToken: '',
-    highToken: '',
-  })
+  const [baseDaoMetaUri, setBaseDaoMetaUri] = useState('')
 
   const [generateDaoLinks] = DaoApiService.useGenerateDaoLinksMutation()
 
@@ -27,7 +22,7 @@ export const useGenerateDaoInfoLink = () => {
       imageLinks
 
     try {
-      const generatedLinks = await generateDaoLinks({
+      const generatedLink = await generateDaoLinks({
         name,
         descr: description,
         symbol,
@@ -41,11 +36,13 @@ export const useGenerateDaoInfoLink = () => {
         highImg: highTokenImageUrl,
       }).unwrap()
 
-      setDaoLinks({ ...generatedLinks })
+      console.log('generatedLink:', generatedLink)
+
+      setBaseDaoMetaUri(generatedLink.daoMeta)
     } catch (error: any) {
       throw new Error(error)
     }
   }
 
-  return { daoLinks, getDaoLinks }
+  return { baseDaoMetaUri, getDaoLinks }
 }

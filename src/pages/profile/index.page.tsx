@@ -15,16 +15,22 @@ export default function UserPage() {
     data: user,
     refetch: refetchUser,
     isLoading: isUserLoading,
-  } = UserApiService.useGetUserQuery({
-    userAddress: account,
-  })
+  } = UserApiService.useGetUserQuery(
+    {
+      userAddress: account,
+    },
+    { skip: !account }
+  )
   const {
     data: mintRequests,
     refetch: refetchMintRequests,
     isLoading: isMintRequestsLoading,
-  } = MintRequestApiService.useGetMintRequestsForUserQuery({
-    userAddress: account,
-  })
+  } = MintRequestApiService.useGetMintRequestsForUserQuery(
+    {
+      userAddress: account,
+    },
+    { skip: !account }
+  )
 
   const isDataLoading = isMetamaskLoading || isUserLoading || isMintRequestsLoading
 
