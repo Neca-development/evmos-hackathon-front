@@ -43,13 +43,14 @@ export function MintRequestCard(props: IMintRequestCardProperties) {
       ) : (
         <MPaper className="w-full space-y-3">
           {/* DAO info */}
-          <div className="space-x-4 flex">
-            <div className="h-[6rem] w-[6rem] flex justify-center items-center bg-[#D9D9D9]">
-              <img src={daoInfo.ava} alt="" className="w-full" />
-            </div>
-            <div className="py-2 flex flex-col">
-              <HeadingThree className="mb-3 text-orange">{daoInfo.name}</HeadingThree>
-              <Paragraph>{daoInfo.descr}</Paragraph>
+          <div className="grid grid-cols-4 gap-x-5">
+            <img src={daoInfo.ava} alt="" className="w-full" />
+
+            <div className="col-span-3 py-2 flex flex-col">
+              <HeadingThree className="mb-3 text-orange break-words">
+                {daoInfo.name}
+              </HeadingThree>
+              <Paragraph className="break-words">{daoInfo.descr}</Paragraph>
             </div>
           </div>
           {/* /DAO info */}

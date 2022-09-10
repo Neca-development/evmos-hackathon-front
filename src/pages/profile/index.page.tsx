@@ -1,7 +1,16 @@
 import { useMetamask } from '@blockchain/lib'
 import { MintRequestApiService } from '@entities/mint-request'
 import { UserApiService } from '@entities/user'
-import { DaoCardSkeleton, Header, HeadingTwo, MainContainer, MButton } from '@shared/ui'
+import {
+  DaoCardSkeleton,
+  Header,
+  HeadingFour,
+  HeadingThree,
+  HeadingTwo,
+  MainContainer,
+  MButton,
+  MPaper,
+} from '@shared/ui'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
@@ -47,6 +56,9 @@ export default function UserPage() {
     refetchMintRequests()
   }
 
+  const isDaosExist = user && user.daos.length > 0
+  const isMintRequestsExist = mintRequests && mintRequests.length > 0
+
   return (
     <>
       <Header />
@@ -63,9 +75,22 @@ export default function UserPage() {
           <DaoCardSkeleton />
         ) : (
           <>
-            {user && <DaoList daos={user.daos} />}
-            {mintRequests && (
-              <MintRequestList mintRequests={mintRequests} onMint={handleMint} />
+            {isDaosExist || isMintRequestsExist ? (
+              <>
+                {user && <DaoList daos={user.daos} />}
+                {mintRequests && (
+                  <MintRequestList mintRequests={mintRequests} onMint={handleMint} />
+                )}
+              </>
+            ) : (
+              <MPaper className="space-y-2 text-center bg-grayish-blue">
+                <HeadingThree className="text-orange">
+                  Looks like you don&apos;t have DAOs available yet
+                </HeadingThree>
+                <HeadingFour>
+                  Create one by click on button above, or wait for an invitation
+                </HeadingFour>
+              </MPaper>
             )}
           </>
         )}

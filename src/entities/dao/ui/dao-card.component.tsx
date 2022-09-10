@@ -45,11 +45,10 @@ export function DaoCard({ dao }: IDaoCardProperties) {
       ) : (
         <MPaper className="w-full space-y-3">
           {/* DAO info */}
-          <div className="grid grid-cols-5 gap-x-5">
-            <div className="h-[6rem] w-[6rem] flex justify-center items-center bg-[#D9D9D9]">
-              <img src={daoInfo.ava} alt="" className="w-full" />
-            </div>
-            <div className="col-span-4 py-2 flex flex-col">
+          <div className="grid grid-cols-4 gap-x-5">
+            <img src={daoInfo.ava} alt="" className="w-full" />
+
+            <div className="col-span-3 py-2 flex flex-col">
               <HeadingThree className="mb-3 text-orange break-words">
                 {daoInfo.name}
               </HeadingThree>

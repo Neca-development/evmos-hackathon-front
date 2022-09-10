@@ -45,6 +45,7 @@ export function CreateDaoForm() {
           <MTextField
             name="name"
             label="DAO Name"
+            inputProps={{ maxlength: '40' }}
             className="lg:w-3/4"
             onChange={handleTextChange}
           />
@@ -55,6 +56,7 @@ export function CreateDaoForm() {
             className="lg:w-3/4"
             multiline
             minRows={6}
+            inputProps={{ maxlength: '900' }}
             onChange={handleTextChange}
           />
 

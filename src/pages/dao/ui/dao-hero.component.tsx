@@ -29,15 +29,17 @@ export function DaoHero(props: IDaoHeroProperties) {
 
           {/* DAO info */}
           <div className="w-full">
-            <div className="flex justify-between">
-              <HeadingOne className="mb-1">{name}</HeadingOne>
+            <div className="grid grid-cols-3 gap-x-5">
+              <HeadingOne className="col-span-2 mb-1">{name}</HeadingOne>
 
-              <MButton>
-                <label className="cursor-pointer">
-                  Invite users
-                  <input hidden type={'file'} onChange={onInvite} />
-                </label>
-              </MButton>
+              <div>
+                <MButton>
+                  <label className="cursor-pointer">
+                    Invite users
+                    <input hidden type={'file'} onChange={onInvite} />
+                  </label>
+                </MButton>
+              </div>
             </div>
 
             <div className="mb-10 space-x-1 flex items-center cursor-pointer">
