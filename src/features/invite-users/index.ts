@@ -1,1 +1,1 @@
-export * from './use-invite-users.hook'
+export * as InviteUsersUiService from './ui'

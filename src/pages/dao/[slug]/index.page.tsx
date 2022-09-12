@@ -1,5 +1,4 @@
 import { CreateVotingUiService } from '@features/create-voting'
-import { useInviteUsers } from '@features/invite-users'
 import {
   Header,
   HeadingTwo,
@@ -19,9 +18,6 @@ export default function DaoPage() {
   const isLoading = !daoAddress || !dao || dao.__votings__ == undefined
 
   const { daoInfo } = useDaoInfo(dao)
-
-  const { inviteUsers } = useInviteUsers(daoAddress)
-
   const [isVotingFormOpen, setIsVotingFormOpen] = React.useState(false)
 
   const handleVotingFormOpen = () => {
@@ -38,12 +34,7 @@ export default function DaoPage() {
       <Header />
 
       <MainContainer>
-        <DaoHero
-          image={daoInfo?.ava}
-          name={daoInfo?.name}
-          description={daoInfo?.descr}
-          onInvite={inviteUsers}
-        />
+        <DaoHero daoAddress={daoAddress} daoInfo={daoInfo} />
 
         {isVotingFormOpen && (
           <div className="mb-10">

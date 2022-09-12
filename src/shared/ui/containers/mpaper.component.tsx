@@ -12,8 +12,10 @@ export function MPaper(props: IMPaperProperties) {
   return (
     <Paper
       className={classNames(
-        'p-5 text-white ring-1 ring-light-gray rounded-md bg-transparent',
-        className
+        'text-white ring-1 ring-light-gray rounded-md',
+        className,
+        className && !className.includes('p-') && 'p-5',
+        className && !className.includes('bg-') && 'bg-transparent'
       )}
       {...otherProperties}
     >
