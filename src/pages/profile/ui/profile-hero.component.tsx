@@ -10,7 +10,7 @@ export function ProfileHero() {
     <div className="pt-[6rem] pb-5 px-[7rem] space-y-1 block bg-profile-hero">
       {account ? (
         <>
-          <Avatar className="h-12 w-12 bg-white">
+          <Avatar className="h-12 w-12 p-2 bg-white">
             <MetamaskIcon />
           </Avatar>
 
