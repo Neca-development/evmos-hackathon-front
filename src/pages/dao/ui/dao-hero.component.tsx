@@ -30,36 +30,41 @@ export function DaoHero(props: IDaoHeroProperties) {
       {!daoInfo ? (
         <Skeleton variant="rounded" className="h-[13rem] mb-10 bg-light-gray" />
       ) : (
-        <Paper className="min-h-[13rem] mb-10 p-8 space-x-12 flex text-white bg-dao-hero">
-          {/* DAO image */}
-          <div>
-            <div className="h-[7rem] w-[7rem] flex justify-center items-center">
-              <img src={daoInfo.ava} alt="" className="w-full" />
+        <Paper className="min-h-[13rem] mb-10 text-white bg-transparent">
+          <div className="p-8 pb-0 space-x-10 grid grid-cols-4 bg-grayish-blue">
+            <div className="self-end h-[7rem] w-[7rem] flex justify-center items-end">
+              <img src={daoInfo.ava} alt="" className="w-full translate-y-[50%]" />
+            </div>
+
+            <div className="col-span-3">
+              <div className="grid grid-cols-3 gap-x-5">
+                <HeadingOne className="col-span-2 mb-1">{daoInfo.name}</HeadingOne>
+                <div>
+                  <MButton onClick={handleClickOnInviteButton}>Invite users</MButton>
+                </div>
+              </div>
+
+              <a
+                href={`https://evm.evmos.dev/address/${daoAddress}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-orange"
+              >
+                <div className="space-x-1 flex items-center cursor-pointer">
+                  <WebIcon />
+                  <Paragraph className="underline underline-offset-8 decoration-2">
+                    Smart contract
+                  </Paragraph>
+                </div>
+              </a>
             </div>
           </div>
-          {/* /DAO image */}
 
-          {/* DAO info */}
-          <div className="w-full">
-            <div className="grid grid-cols-3 gap-x-5">
-              <HeadingOne className="col-span-2 mb-1">{daoInfo.name}</HeadingOne>
-
-              <div>
-                <MButton onClick={handleClickOnInviteButton}>Invite users</MButton>
-              </div>
+          <div className="p-8 grid grid-cols-4 bg-dark-grayish-blue">
+            <div className="col-start-2 col-span-3">
+              <Paragraph className="ml-10">{daoInfo.descr}</Paragraph>
             </div>
-
-            <div className="mb-10 space-x-1 flex items-center cursor-pointer">
-              <WebIcon />
-              <div className="font-bold text-orange">
-                <Paragraph>Smart contract</Paragraph>
-                <div className="h-[1px] w-full bg-orange" />
-              </div>
-            </div>
-
-            <Paragraph>{daoInfo.descr}</Paragraph>
           </div>
-          {/* /DAO info */}
         </Paper>
       )}
 
