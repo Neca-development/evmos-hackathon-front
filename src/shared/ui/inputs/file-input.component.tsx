@@ -41,13 +41,11 @@ export function FileInput(props: IFileInputProperties) {
       {imgFile ? (
         <img src={URL.createObjectURL(imgFile)} alt="" className="w-full" />
       ) : (
-        <>
-          <img
-            src="/assets/images/image-placeholder.png"
-            alt="Upload image"
-            className="w-full rounded-md"
-          />
-        </>
+        <img
+          src="/assets/images/image-placeholder.png"
+          alt="Upload image"
+          className="w-full rounded-md"
+        />
       )}
 
       <div
@@ -59,13 +57,7 @@ export function FileInput(props: IFileInputProperties) {
           'bg-[rgba(0,0,0,0.25)]'
         )}
       >
-        <AddIcon
-          className={classNames(
-            // 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-            // 'opacity-0 hover:opacity-100',
-            'h-1/5 w-1/5'
-          )}
-        />
+        <AddIcon className="h-1/5 w-1/5" />
       </div>
     </label>
   )

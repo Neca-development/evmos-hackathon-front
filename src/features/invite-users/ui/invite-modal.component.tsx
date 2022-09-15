@@ -69,7 +69,13 @@ export function InviteModal(props: IInviteModalProperties) {
       <DialogActions className="p-0 justify-start">
         <MButton onClick={() => fileInputReference.current?.click()}>
           Invite users
-          <input ref={fileInputReference} hidden type={'file'} onChange={inviteUsers} />
+          <input
+            ref={fileInputReference}
+            hidden
+            type={'file'}
+            accept=".csv"
+            onChange={inviteUsers}
+          />
         </MButton>
       </DialogActions>
     </Dialog>
