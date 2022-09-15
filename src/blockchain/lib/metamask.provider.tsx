@@ -67,21 +67,26 @@ export const MetamaskProvider = ({ children }: IMetamaskProviderProperties) => {
     })
   }
 
+  /* Authorization guard */
+  const router = useRouter()
+  const { asPath } = router
+  const isHomepage = asPath === '/'
+
   /* Authorize user */
   useEffect(() => {
     async function authorizeUser() {
       if (window.ethereum) {
-        const connectedAccounts = await window.ethereum.request({
+        const connectedAccounts: string[] = await window.ethereum.request({
           method: 'eth_accounts',
         })
-        if (connectedAccounts) {
+        if (!isHomepage && connectedAccounts.length > 0) {
           await connectWallet()
         }
         setIsLoading(false)
       }
     }
     authorizeUser()
-  }, [])
+  }, [isHomepage])
 
   /** Disconnect browser wallet from dapp */
   const disconnectWallet = () => {
@@ -105,7 +110,12 @@ export const MetamaskProvider = ({ children }: IMetamaskProviderProperties) => {
   /* Subscribe on account change event */
   useEffect(() => {
     if (provider) {
-      window.ethereum.on('accountsChanged', async () => {
+      window.ethereum.on('accountsChanged', async (accounts: string[]) => {
+        if (accounts.length === 0) {
+          setMetamask(INITIAL_VALUE)
+          return
+        }
+
         const newSigner = provider.getSigner()
         const newAccount = await newSigner.getAddress()
 
@@ -123,11 +133,6 @@ export const MetamaskProvider = ({ children }: IMetamaskProviderProperties) => {
     window.ethereum.on('disconnect', disconnectWallet)
   }, [provider])
 
-  /* Authorization guard */
-  const router = useRouter()
-  const { asPath } = router
-  const isHomepage = asPath === '/'
-
   useEffect(() => {
     const metamaskValues = Object.values(metamask)
     const isMetamaskValid = metamaskValues.every(Boolean)
@@ -135,7 +140,7 @@ export const MetamaskProvider = ({ children }: IMetamaskProviderProperties) => {
     if (!isLoading && !isMetamaskValid && !isHomepage) {
       router.push('/')
     }
-  }, [metamask])
+  }, [isHomepage, isLoading, router, metamask])
 
   /** Defined values for context provider */
   const providerValues = {

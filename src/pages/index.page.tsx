@@ -3,16 +3,16 @@ import { useModal } from '@shared/lib'
 import { MButton } from '@shared/ui'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
-import * as React from 'react'
+import { useEffect } from 'react'
 
 import styles from './index.module.scss'
 
 export default function HomePage() {
   const router = useRouter()
 
-  React.useEffect(() => {
+  useEffect(() => {
     router.prefetch('/profile')
-  }, [])
+  }, [router])
 
   const { connectWallet } = useMetamask()
   const { setIsModalOpen, setModalState, setModalText } = useModal()
