@@ -31,7 +31,7 @@ export function CreateDaoForm() {
         )}
       >
         {/* Dao image */}
-        <div className="col-span-2">
+        <div className="col-span-2 lg:self-start">
           <FileInput
             inputName="daoImage"
             imgFile={daoForm.daoImage}
