@@ -23,7 +23,6 @@ export function VotingCard(props: IVotingCardProperties) {
 
   const { data } = useGetInfoFromIpfsQuery({ ipfsUrl })
   const { votingInfo, refetch } = useVotingInfo(daoAddress, smartContractId)
-  console.log('votingInfo:', votingInfo)
   const {
     owner,
     status,

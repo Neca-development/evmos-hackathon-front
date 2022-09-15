@@ -24,6 +24,12 @@ export default function DaoPage() {
     setIsVotingFormOpen(true)
   }
 
+  const handleVotingCreate = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setIsVotingFormOpen(false)
+    refetchDao()
+  }
+
   const handleVotingFormClose = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     setIsVotingFormOpen(false)
@@ -41,7 +47,7 @@ export default function DaoPage() {
             <HeadingTwo className="mb-5">Voting creation</HeadingTwo>
             <CreateVotingUiService.CreateVotingForm
               daoAddress={daoAddress}
-              onCreate={refetchDao}
+              onCreate={handleVotingCreate}
               onCancel={handleVotingFormClose}
             />
           </div>
