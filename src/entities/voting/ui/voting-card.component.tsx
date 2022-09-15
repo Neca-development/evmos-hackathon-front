@@ -1,7 +1,8 @@
 import { useVotingInfo, useVotingProcess } from '@blockchain/api'
-import { VoteTypeEnum, VotingStatusEnum } from '@blockchain/lib'
+import { useCloseVoting } from '@blockchain/api/use-close-voting.hook'
+import { useMetamask, VoteTypeEnum, VotingStatusEnum } from '@blockchain/lib'
 import { HeadingThree, MButton, MPaper, Paragraph, VotingCardSkeleton } from '@shared/ui'
-import * as React from 'react'
+import { useState } from 'react'
 
 import { useGetInfoFromIpfsQuery } from '../api'
 import type { IVotingEntity } from '../model'
@@ -18,12 +19,19 @@ export function VotingCard(props: IVotingCardProperties) {
   const { daoAddress, voting } = props
   const { ipfsUrl, smartContractId } = voting
 
-  const [selectedVote, setSelectedVote] = React.useState('')
+  const [selectedVote, setSelectedVote] = useState('')
 
   const { data } = useGetInfoFromIpfsQuery({ ipfsUrl })
   const { votingInfo, refetch } = useVotingInfo(daoAddress, smartContractId)
-  const { status, isUserVoted, userVoteType, positiveVotesAmount, negativeVotesAmount } =
-    votingInfo
+  console.log('votingInfo:', votingInfo)
+  const {
+    owner,
+    status,
+    isUserVoted,
+    userVoteType,
+    positiveVotesAmount,
+    negativeVotesAmount,
+  } = votingInfo
 
   const isLoading = !data || status == null
 
@@ -39,6 +47,14 @@ export function VotingCard(props: IVotingCardProperties) {
   }
 
   const handleRadioChange = (value: string) => setSelectedVote(value)
+
+  const { account } = useMetamask()
+  const { closeVoting } = useCloseVoting()
+
+  const handleCloseVoting = async () => {
+    await closeVoting(daoAddress, smartContractId)
+    refetch()
+  }
 
   return (
     <>
@@ -74,12 +90,20 @@ export function VotingCard(props: IVotingCardProperties) {
 
           <div className="flex justify-between items-center">
             <Paragraph>{totalVotes} votes</Paragraph>
-            <MButton
-              disabled={!selectedVote || isUserVoted}
-              onClick={handleClickOnVoteButton}
-            >
-              Vote
-            </MButton>
+            {status === VotingStatusEnum.ACTIVE && (
+              <>
+                {isUserVoted && owner === account ? (
+                  <MButton onClick={handleCloseVoting}>Close voting</MButton>
+                ) : (
+                  <MButton
+                    disabled={!selectedVote || isUserVoted}
+                    onClick={handleClickOnVoteButton}
+                  >
+                    Vote
+                  </MButton>
+                )}
+              </>
+            )}
           </div>
         </MPaper>
       )}

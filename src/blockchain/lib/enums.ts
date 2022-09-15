@@ -12,6 +12,7 @@ export enum VoteTypeEnum {
 }
 
 export enum VotingStatusEnum {
-  INACTIVE,
+  CREATED,
   ACTIVE,
+  INACTIVE,
 }
