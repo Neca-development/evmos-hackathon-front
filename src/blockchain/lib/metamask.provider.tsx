@@ -80,7 +80,11 @@ export const MetamaskProvider = ({ children }: IMetamaskProviderProperties) => {
           method: 'eth_accounts',
         })
         if (!isHomepage && connectedAccounts.length > 0) {
-          await connectWallet()
+          try {
+            await connectWallet()
+          } catch (error: any) {
+            console.error(error)
+          }
         }
         setIsLoading(false)
       }
@@ -130,10 +134,16 @@ export const MetamaskProvider = ({ children }: IMetamaskProviderProperties) => {
 
   /* Subscribe on disconnect wallet event */
   useEffect(() => {
-    window.ethereum.on('disconnect', disconnectWallet)
+    if (provider) {
+      window.ethereum.on('disconnect', disconnectWallet)
+    }
   }, [provider])
 
   useEffect(() => {
+    if (!window.ethereum) {
+      router.push('/')
+    }
+
     const metamaskValues = Object.values(metamask)
     const isMetamaskValid = metamaskValues.every(Boolean)
 
