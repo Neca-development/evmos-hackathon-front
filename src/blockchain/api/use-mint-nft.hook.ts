@@ -30,9 +30,11 @@ export const useMintNft = () => {
 
       await mintNftTransaction.wait()
     } catch (error: any) {
-      // setModalState('error')
-      // setModalText('An error occurred while executing transaction')
-      console.log(error)
+      const isTokenMinted = error.reason.includes('Token already minted')
+
+      if (!isTokenMinted) {
+        throw new Error(error.reason || 'An error occurred while executing transaction')
+      }
     }
   }
 
