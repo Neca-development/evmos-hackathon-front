@@ -41,21 +41,17 @@ export default function HomePage() {
       )}
     >
       <div className="w-[30rem]">
+        <p className={classNames('mb-4', styles.title)}>CosDAO</p>
+
         <h1
           className={classNames(
-            'mb-6',
-            'font-red-hat-display text-5xl leading-snug uppercase text-transparent',
+            'mb-12',
+            'font-red-hat-display text-3xl leading-snug text-transparent',
             styles.title
           )}
         >
-          BECOME THE PART OF VOTERS POWER
+          The first no-code solution to create a DAO on the Evmos blockchain
         </h1>
-
-        <p className="w-[20rem] mb-12 text-xs">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-          nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
 
         <div>
           <MButton onClick={handleClickOnConnectButton}>Connect Metamask</MButton>
